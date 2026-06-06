@@ -1,0 +1,2371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Varnam — Next-Gen Wedding Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   VARNAM — NEXT-GEN DESIGN SYSTEM
+   Aesthetic: Sacred-Dark Maximalism
+   Dark editorial + Indian geometry + kinetics
+   ============================================ */
+
+:root {
+  --ink:      #080608;
+  --ink2:     #0f0b10;
+  --ink3:     #1a1220;
+  --surface:  #120e18;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.12);
+
+  --gold:     #D4A843;
+  --gold2:    #F0C96A;
+  --gold3:    #8A6A20;
+  --ember:    #E85D30;
+  --rose:     #C43060;
+  --marigold: #F07020;
+
+  --text:     #F0EAE2;
+  --text2:    #A89888;
+  --text3:    #6A5A50;
+
+  --r4:  4px;
+  --r8:  8px;
+  --r16: 16px;
+  --r24: 24px;
+
+  --glow-gold: 0 0 60px rgba(212,168,67,0.18);
+  --glow-rose: 0 0 60px rgba(196,48,96,0.18);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html {
+  scroll-behavior: smooth;
+  cursor: none;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--ink);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── CUSTOM CURSOR ─── */
+#cursor {
+  width: 12px; height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed; top:0; left:0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, background 0.2s;
+  mix-blend-mode: difference;
+}
+#cursor-ring {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(212,168,67,0.5);
+  border-radius: 50%;
+  position: fixed; top:0; left:0;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
+}
+
+/* ─── NOISE OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 1000;
+  mix-blend-mode: overlay;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--gold3); }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 500;
+  height: 68px;
+  display: flex; align-items: center;
+  padding: 0 3rem;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,6,8,0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  display: flex; align-items: center; gap: 0.4rem;
+  text-decoration: none;
+}
+.nav-logo sup {
+  font-size: 0.5rem;
+  font-family: 'DM Mono', monospace;
+  font-weight: 400;
+  color: var(--text3);
+  letter-spacing: 0.15em;
+  vertical-align: super;
+  text-transform: uppercase;
+}
+.nav-links {
+  display: flex; gap: 2.5rem; list-style: none;
+}
+.nav-links a {
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+.btn-pill {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.55rem 1.5rem;
+  border-radius: 100px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: none;
+  transition: all 0.25s;
+  text-decoration: none;
+  border: none;
+}
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.btn-primary {
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: 0 0 30px rgba(212,168,67,0.25);
+}
+.btn-primary:hover {
+  background: var(--gold2);
+  box-shadow: 0 0 50px rgba(212,168,67,0.45);
+  transform: translateY(-1px);
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding: 100px 3rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Orb backgrounds */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.orb1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(212,168,67,0.15) 0%, transparent 70%);
+  top: -10%; right: -10%;
+  animation: orbFloat1 12s ease-in-out infinite;
+}
+.orb2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(196,48,96,0.12) 0%, transparent 70%);
+  bottom: 10%; left: -5%;
+  animation: orbFloat2 15s ease-in-out infinite;
+}
+.orb3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(232,93,48,0.08) 0%, transparent 70%);
+  top: 50%; left: 40%;
+  animation: orbFloat3 10s ease-in-out infinite;
+}
+@keyframes orbFloat1 {
+  0%,100%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(-30px,40px) scale(1.05);}
+  66%{transform:translate(20px,-20px) scale(0.95);}
+}
+@keyframes orbFloat2 {
+  0%,100%{transform:translate(0,0);}
+  50%{transform:translate(40px,-30px);}
+}
+@keyframes orbFloat3 {
+  0%,100%{transform:translate(0,0) scale(1);}
+  50%{transform:translate(-20px,30px) scale(1.1);}
+}
+
+/* Geometric sacred lines */
+.sacred-lines {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.sacred-lines svg {
+  position: absolute;
+  right: 0; top: 0;
+  width: 55%; height: 100%;
+  opacity: 0.08;
+}
+
+/* Hero tag */
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: rgba(212,168,67,0.08);
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  width: fit-content;
+}
+.hero-tag::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: blink 1.5s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+/* Big headline */
+.hero-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2em;
+  position: relative;
+  z-index: 2;
+}
+.hero-headline .line-serif {
+  display: block;
+  color: var(--text);
+}
+.hero-headline .line-gold {
+  display: block;
+  background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 40%, var(--marigold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: italic;
+}
+.hero-headline .line-outline {
+  display: block;
+  -webkit-text-stroke: 1px rgba(212,168,67,0.4);
+  color: transparent;
+  font-style: italic;
+}
+
+/* Sub row */
+.hero-sub-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 4rem;
+  margin-top: 3rem;
+  position: relative; z-index: 2;
+}
+.hero-desc {
+  max-width: 380px;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text2);
+  font-weight: 400;
+}
+.hero-desc em {
+  color: var(--gold);
+  font-style: normal;
+}
+.hero-ctas {
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+.hero-cta-main {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  border-radius: 6px;
+  padding: 1rem 2rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: none;
+  transition: all 0.25s;
+  letter-spacing: 0.04em;
+}
+.hero-cta-main:hover {
+  background: var(--gold2);
+  box-shadow: 0 0 50px rgba(212,168,67,0.4);
+  transform: translateY(-2px);
+}
+.hero-cta-ghost {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 0.9rem 2rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: none;
+  transition: all 0.25s;
+  letter-spacing: 0.04em;
+}
+.hero-cta-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem; left: 3rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  z-index: 2;
+}
+.scroll-line {
+  width: 48px; height: 1px;
+  background: var(--text3);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: '';
+  position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: var(--gold);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%{left:-100%;}100%{left:100%;}
+}
+
+/* Hero stats ticker */
+.hero-stats-row {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 52px;
+  background: rgba(255,255,255,0.03);
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center;
+  overflow: hidden;
+  z-index: 2;
+}
+.ticker-track {
+  display: flex; gap: 0;
+  animation: ticker 30s linear infinite;
+  white-space: nowrap;
+}
+@keyframes ticker {
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+.ticker-item {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 0 2.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  border-right: 1px solid var(--border);
+}
+.ticker-item strong {
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* ─── SECTION BASE ─── */
+section {
+  padding: 7rem 3rem;
+  position: relative;
+}
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.section-label::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--gold);
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.section-title span {
+  display: block;
+}
+.section-body {
+  font-size: 0.95rem;
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 480px;
+}
+
+/* ─── BENTO FEATURES ─── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 80px;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r16);
+  overflow: hidden;
+}
+
+.bento-cell {
+  background: var(--ink2);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+  cursor: none;
+}
+.bento-cell:hover { background: var(--ink3); }
+
+.bento-cell::before {
+  content: attr(data-num);
+  position: absolute;
+  top: 1.25rem; right: 1.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+}
+
+/* size variants */
+.bc-wide  { grid-column: span 5; grid-row: span 4; }
+.bc-tall  { grid-column: span 3; grid-row: span 5; }
+.bc-med   { grid-column: span 4; grid-row: span 3; }
+.bc-small { grid-column: span 3; grid-row: span 2; }
+.bc-sq    { grid-column: span 4; grid-row: span 4; }
+.bc-banner{ grid-column: span 7; grid-row: span 2; }
+.bc-slim  { grid-column: span 5; grid-row: span 2; }
+
+.bento-icon {
+  font-size: 2.5rem;
+  position: absolute;
+  top: 1.75rem; left: 2rem;
+  filter: grayscale(30%);
+}
+.bento-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.bento-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 0.4rem;
+}
+.bento-desc {
+  font-size: 0.78rem;
+  color: var(--text3);
+  line-height: 1.6;
+  max-width: 260px;
+}
+
+/* featured bento */
+.bc-featured {
+  background: linear-gradient(135deg, rgba(212,168,67,0.12) 0%, rgba(196,48,96,0.08) 100%) !important;
+  border: 1px solid rgba(212,168,67,0.2);
+}
+.bc-featured .bento-title { color: var(--gold2); }
+
+/* Bento visual decorations */
+.bento-bg-lines {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+}
+
+/* ─── MARQUEE ─── */
+.marquee-section {
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--surface);
+}
+.marquee-track {
+  display: flex; gap: 3rem;
+  animation: marquee 20s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+@keyframes marquee { 0%{transform:translateX(0);}100%{transform:translateX(-50%);} }
+.marquee-item {
+  display: flex; align-items: center; gap: 1rem;
+  white-space: nowrap;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text3);
+  letter-spacing: 0.02em;
+}
+.marquee-item.gold { color: var(--gold); }
+.marquee-dot {
+  width: 5px; height: 5px;
+  background: var(--gold3);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── THEMES ─── */
+.themes-scroll {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r16);
+  overflow: hidden;
+  margin-top: 3rem;
+}
+.theme-tile {
+  background: var(--ink2);
+  padding: 0;
+  aspect-ratio: 3/4;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+  border: 1px solid var(--border);
+  border-radius: var(--r16);
+  transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+}
+.theme-tile:hover { z-index: 2; transform: scale(1.02); border-color: rgba(212, 168, 67, 0.3); }
+.theme-tile-bg {
+  position: relative; height:65%; width:100%;
+  transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+  overflow: hidden; flex-shrink: 0;
+}
+.theme-tile:hover .theme-tile-bg { transform: scale(1.06); }
+.theme-tile-gradient {
+  position: absolute; top:0; left:0; right:0; height:65%;
+  background: linear-gradient(to top, rgba(15, 11, 16, 0.4) 0%, transparent 100%);
+  pointer-events: none;
+}
+.theme-tile-content {
+  position: relative; height: 35%;
+  padding: 2.1rem 1rem 0.8rem;
+  z-index: 3;
+  background: var(--ink2);
+  display: flex; flex-direction: column;
+  justify-content: center;
+  border-top: 1px solid var(--border);
+  box-sizing: border-box;
+}
+.theme-tile-num {
+  position: absolute;
+  top: calc(65% + 0.8rem);
+  left: 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  z-index: 4;
+}
+.theme-tile-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 0.1rem;
+}
+.theme-tile-sub {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.theme-tile-badge {
+  position: absolute;
+  top: calc(65% + 0.75rem); right: 1rem;
+  background: rgba(212,168,67,0.15);
+  border: 1px solid rgba(212,168,67,0.3);
+  border-radius: 3px;
+  padding: 0.2rem 0.6rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  z-index: 4;
+}
+
+/* ─── VENDORS ─── */
+.vendor-list {
+  margin-top: 3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r16);
+  overflow: hidden;
+}
+.vendor-row {
+  display: grid;
+  grid-template-columns: 64px 1fr 120px 120px 100px;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--ink2);
+  transition: background 0.2s;
+  cursor: none;
+}
+.vendor-row:hover { background: var(--ink3); }
+.vendor-row:last-child { border-bottom: none; }
+.vendor-row-header {
+  display: grid;
+  grid-template-columns: 64px 1fr 120px 120px 100px;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(212,168,67,0.04);
+}
+.vendor-row-header span {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.vendor-avatar {
+  width: 48px; height: 48px;
+  border-radius: var(--r8);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  background: rgba(212,168,67,0.08);
+  border: 1px solid rgba(212,168,67,0.15);
+  flex-shrink: 0;
+}
+.vendor-name-col {}
+.vendor-name {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+.vendor-type {
+  font-size: 0.75rem;
+  color: var(--text3);
+}
+.vendor-location {
+  font-size: 0.8rem;
+  color: var(--text2);
+}
+.vendor-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+.vendor-rating {
+  display: flex; align-items: center; gap: 0.3rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text2);
+}
+.vendor-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  background: rgba(212,168,67,0.08);
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 3px;
+  padding: 0.2rem 0.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─── VENUE CARDS ─── */
+.venues-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r16);
+  overflow: hidden;
+  margin-top: 3rem;
+}
+.venue-card {
+  background: var(--ink2);
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+  group: true;
+}
+.venue-card-inner {
+  padding: 2rem;
+  height: 100%;
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+}
+.venue-emoji-bg {
+  font-size: 6rem;
+  position: absolute;
+  right: -0.5rem; top: -0.5rem;
+  opacity: 0.08;
+  filter: blur(2px);
+  transition: transform 0.4s;
+  pointer-events: none;
+}
+.venue-card:hover .venue-emoji-bg { transform: scale(1.15) rotate(-5deg); }
+.venue-card:hover { background: var(--ink3); }
+.venue-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text3);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+}
+.venue-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+.venue-location {
+  font-size: 0.75rem;
+  color: var(--text3);
+  margin-bottom: 1.5rem;
+}
+.venue-details {
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.venue-detail-row {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.venue-detail-label {
+  font-size: 0.72rem;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.08em;
+}
+.venue-detail-val {
+  font-size: 0.82rem;
+  color: var(--text2);
+  font-weight: 500;
+}
+.venue-price-main {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 1rem;
+}
+.venue-star {
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+/* ─── AI SECTION ─── */
+.ai-section {
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+.ai-bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(212,168,67,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,168,67,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.ai-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.ai-chat-window {
+  background: var(--ink2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r16);
+  overflow: hidden;
+}
+.ai-chat-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 0.75rem;
+  background: rgba(212,168,67,0.04);
+}
+.ai-chat-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.ai-chat-body {
+  padding: 1.5rem;
+  display: flex; flex-direction: column;
+  gap: 1rem;
+  min-height: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.ai-chat-body::-webkit-scrollbar { width: 2px; }
+.ai-chat-body::-webkit-scrollbar-thumb { background: var(--border2); }
+.msg {
+  display: flex; gap: 0.75rem; align-items: flex-start;
+}
+.msg.user { flex-direction: row-reverse; }
+.msg-av {
+  width: 32px; height: 32px; flex-shrink: 0;
+  border-radius: var(--r4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+}
+.msg-av.bot { background: rgba(212,168,67,0.12); border: 1px solid rgba(212,168,67,0.2); color: var(--gold); }
+.msg-av.user { background: rgba(196,48,96,0.12); border: 1px solid rgba(196,48,96,0.2); }
+.msg-bubble {
+  padding: 0.75rem 1rem;
+  border-radius: var(--r8);
+  font-size: 0.825rem;
+  line-height: 1.6;
+  max-width: 280px;
+}
+.msg.bot .msg-bubble {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+.msg.user .msg-bubble {
+  background: linear-gradient(135deg, rgba(212,168,67,0.2), rgba(196,48,96,0.15));
+  border: 1px solid rgba(212,168,67,0.2);
+  color: var(--text);
+}
+.ai-chat-input-row {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 0.5rem;
+}
+.ai-input-field {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r4);
+  padding: 0.6rem 1rem;
+  font-size: 0.825rem;
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  cursor: none;
+}
+.ai-input-field:focus { border-color: rgba(212,168,67,0.4); }
+.ai-input-field::placeholder { color: var(--text3); }
+.ai-send-btn {
+  background: var(--gold);
+  border: none;
+  border-radius: var(--r4);
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+  transition: all 0.2s;
+  color: var(--ink);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.ai-send-btn:hover { background: var(--gold2); }
+
+/* AI features list */
+.ai-features { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0; }
+.ai-feat {
+  display: flex; align-items: center; gap: 1.25rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+  cursor: none;
+  transition: padding-left 0.2s;
+}
+.ai-feat:hover { padding-left: 0.5rem; }
+.ai-feat:last-child { border-bottom: none; }
+.ai-feat-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text3);
+  min-width: 24px;
+}
+.ai-feat-text { font-size: 0.875rem; color: var(--text2); }
+.ai-feat-text strong { color: var(--text); font-weight: 600; }
+
+/* ─── BUDGET ─── */
+.budget-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: center;
+}
+.budget-visual {
+  position: relative;
+}
+.budget-ring-container {
+  width: 280px; height: 280px;
+  position: relative;
+  margin: 0 auto;
+}
+.budget-ring-container svg {
+  transform: rotate(-90deg);
+}
+.budget-center {
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+}
+.budget-total-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.budget-total-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text3);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+.budget-cats { margin-top: 2rem; }
+.budget-cat {
+  display: flex; align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.budget-cat:last-child { border-bottom: none; }
+.budget-cat-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.budget-cat-name {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--text2);
+}
+.budget-cat-pct {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text3);
+  min-width: 40px;
+  text-align: right;
+}
+.budget-cat-amt {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 64px;
+  text-align: right;
+}
+
+/* ─── TESTIMONIALS ─── */
+.testimonials-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r16);
+  overflow: hidden;
+  margin-top: 3rem;
+}
+.testi-card {
+  background: var(--ink2);
+  padding: 2.5rem 2rem;
+  position: relative;
+  cursor: none;
+  transition: background 0.25s;
+}
+.testi-card:hover { background: var(--ink3); }
+.testi-quote-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem;
+  line-height: 0.5;
+  color: rgba(212,168,67,0.15);
+  margin-bottom: 1.25rem;
+  display: block;
+}
+.testi-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text2);
+  line-height: 1.75;
+  margin-bottom: 1.75rem;
+}
+.testi-couple {
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.testi-av {
+  width: 40px; height: 40px;
+  border-radius: var(--r4);
+  background: rgba(212,168,67,0.08);
+  border: 1px solid rgba(212,168,67,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.testi-name {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.testi-loc {
+  font-size: 0.72rem;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+}
+.testi-stars {
+  margin-left: auto;
+  color: var(--gold);
+  font-size: 0.75rem;
+}
+
+/* ─── PRICING ─── */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r16);
+  overflow: hidden;
+  margin-top: 3rem;
+}
+  background: var(--ink2);
+  padding: 3rem 2.5rem;
+  position: relative;
+  display: flex; flex-direction: column;
+  cursor: none;
+}
+  background: linear-gradient(160deg, rgba(212,168,67,0.1) 0%, rgba(196,48,96,0.06) 100%);
+  border-left: 1px solid rgba(212,168,67,0.2);
+  border-right: 1px solid rgba(212,168,67,0.2);
+}
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 1.5rem;
+}
+.price-featured-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(212,168,67,0.12);
+  border: 1px solid rgba(212,168,67,0.25);
+  border-radius: 3px;
+  padding: 0.25rem 0.7rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  width: fit-content;
+}
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4rem;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+.price-amount sup {
+  font-size: 1.5rem;
+  vertical-align: super;
+}
+  font-size: 0.8rem;
+  color: var(--text3);
+  margin-bottom: 2rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+}
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 1.5rem;
+}
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.5rem 0;
+  font-size: 0.82rem;
+  color: var(--text2);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.price-feats li:last-child { border-bottom: none; }
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.5rem;
+  border-radius: var(--r4);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: none;
+  transition: all 0.25s;
+  text-decoration: none;
+  border: none;
+}
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+}
+.price-cta.outline:hover { border-color: var(--gold); color: var(--gold); }
+  background: var(--gold);
+  color: var(--ink);
+}
+.price-cta.solid:hover { background: var(--gold2); box-shadow: 0 0 30px rgba(212,168,67,0.3); }
+
+/* ─── FAQ ─── */
+.faq-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.faq-list { border-top: 1px solid var(--border); }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.5rem 0;
+  cursor: none;
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 500;
+  gap: 1rem;
+  transition: color 0.2s;
+}
+.faq-q:hover { color: var(--gold); }
+.faq-toggle {
+  width: 24px; height: 24px; flex-shrink: 0;
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  color: var(--text3);
+  transition: all 0.3s;
+}
+.faq-item.open .faq-toggle { background: var(--gold); color: var(--ink); border-color: var(--gold); transform: rotate(45deg); }
+.faq-a {
+  font-size: 0.85rem;
+  color: var(--text3);
+  line-height: 1.75;
+  padding-bottom: 1.5rem;
+  display: none;
+}
+.faq-item.open .faq-a { display: block; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--ink);
+  border-top: 1px solid var(--border);
+  padding: 5rem 3rem 2rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+.footer-brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.footer-tagline {
+  font-size: 0.875rem;
+  color: var(--text3);
+  line-height: 1.8;
+  max-width: 280px;
+  margin-bottom: 2rem;
+}
+.footer-newsletter-row {
+  display: flex; gap: 0.5rem;
+}
+.footer-input {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r4);
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  cursor: none;
+}
+.footer-input:focus { border-color: rgba(212,168,67,0.4); }
+.footer-input::placeholder { color: var(--text3); }
+.footer-sub-btn {
+  background: var(--gold3);
+  border: none;
+  border-radius: var(--r4);
+  padding: 0 1rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: none;
+  transition: background 0.2s;
+  letter-spacing: 0.05em;
+}
+.footer-sub-btn:hover { background: var(--gold); color: var(--ink); }
+.footer-col-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 1.5rem;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--text3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+}
+.social-row { display: flex; gap: 0.75rem; }
+.social-btn {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--r4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  color: var(--text3);
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: none;
+}
+.social-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ─── TOAST ─── */
+#toast {
+  position: fixed;
+  bottom: 2rem; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--ink2);
+  border: 1px solid rgba(212,168,67,0.3);
+  border-radius: var(--r4);
+  padding: 0.75rem 1.75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  z-index: 9990;
+  transition: transform 0.3s cubic-bezier(0.23,1,0.32,1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ─── PAGE LOADER ─── */
+#loader {
+  position: fixed; inset: 0;
+  background: var(--ink);
+  z-index: 9997;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.5rem;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+#loader.done { opacity: 0; visibility: hidden; }
+.loader-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+.loader-bar {
+  width: 200px; height: 1px;
+  background: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.loader-bar-fill {
+  height: 100%;
+  background: var(--gold);
+  width: 0%;
+  transition: width 1.5s cubic-bezier(0.23,1,0.32,1);
+}
+.loader-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text3);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .bento-grid { grid-template-columns: repeat(6, 1fr); }
+  .bc-wide { grid-column: span 4; }
+  .bc-tall { grid-column: span 3; }
+  .bc-med  { grid-column: span 3; }
+  .bc-sq   { grid-column: span 3; }
+  .bc-banner { grid-column: span 6; }
+  .bc-slim { grid-column: span 3; }
+  .bc-small { grid-column: span 3; }
+  .ai-layout { grid-template-columns: 1fr; }
+  .budget-layout { grid-template-columns: 1fr; }
+  .venues-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonials-layout { grid-template-columns: 1fr; }
+  .faq-layout { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  section { padding: 5rem 1.5rem; }
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 1.5rem 4rem; }
+  .hero-sub-row { flex-direction: column; gap: 2rem; align-items: flex-start; }
+  .themes-scroll { grid-template-columns: 1fr 1fr; }
+  .vendor-row { grid-template-columns: 48px 1fr; }
+  .vendor-row > *:nth-child(n+3) { display: none; }
+  .vendor-row-header > *:nth-child(n+3) { display: none; }
+  .venues-grid { grid-template-columns: 1fr; }
+  .bento-grid { grid-template-columns: repeat(4, 1fr); }
+  .bc-wide, .bc-tall, .bc-sq, .bc-banner, .bc-slim, .bc-med, .bc-small {
+    grid-column: span 4;
+    grid-row: span 3;
+  }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE LOADER -->
+<div id="loader">
+  <div class="loader-logo">Varnam</div>
+  <div class="loader-bar"><div class="loader-bar-fill" id="loader-bar"></div></div>
+  <div class="loader-text">Weaving your celebration</div>
+</div>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">Varnam<sup>™</sup></a>
+  <ul class="nav-links">
+    <li><a href="venues.html">Venues</a></li>
+    <li><a href="vendors.html">Vendors</a></li>
+    <li><a href="themes.html">Themes</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-pill btn-ghost" onclick="toast('Opening sign in...')">Sign In</button>
+    <button class="btn-pill btn-primary" onclick="toast('Starting your journey...')">Begin Planning →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <!-- Sacred geometry SVG background -->
+  <div class="sacred-lines">
+    <svg viewBox="0 0 600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="300" cy="450" r="280" stroke="#D4A843" stroke-width="0.5"/>
+      <circle cx="300" cy="450" r="200" stroke="#D4A843" stroke-width="0.5"/>
+      <circle cx="300" cy="450" r="140" stroke="#D4A843" stroke-width="0.5"/>
+      <circle cx="300" cy="450" r="80" stroke="#D4A843" stroke-width="0.5"/>
+      <line x1="300" y1="170" x2="300" y2="730" stroke="#D4A843" stroke-width="0.5"/>
+      <line x1="20" y1="450" x2="580" y2="450" stroke="#D4A843" stroke-width="0.5"/>
+      <line x1="60" y1="210" x2="540" y2="690" stroke="#D4A843" stroke-width="0.5"/>
+      <line x1="60" y1="690" x2="540" y2="210" stroke="#D4A843" stroke-width="0.5"/>
+      <polygon points="300,180 520,590 80,590" fill="none" stroke="#D4A843" stroke-width="0.5"/>
+      <polygon points="300,720 80,310 520,310" fill="none" stroke="#D4A843" stroke-width="0.5"/>
+      <polygon points="300,200 490,560 110,560" fill="none" stroke="#D4A843" stroke-width="0.3" opacity="0.6"/>
+    </svg>
+  </div>
+
+  <div class="hero-tag">✦ India's Premier Wedding Platform · Est. 2024</div>
+
+  <h1 class="hero-headline">
+    <span class="line-serif">Where Every</span>
+    <span class="line-gold">Celebration</span>
+    <span class="line-outline">Becomes Legend</span>
+  </h1>
+
+  <div class="hero-sub-row">
+    <p class="hero-desc">
+      Varnam orchestrates your <em>entire wedding universe</em> — from sacred ceremonies to cinematic receptions — with the precision of a master planner and the warmth of family.
+    </p>
+    <div class="hero-ctas">
+      <button class="hero-cta-main" onclick="beginJourney(event)">
+        ✦ Begin Your Journey
+        <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="hero-cta-ghost" onclick="toast('Loading vendor showcase...')">
+        Explore Vendors
+        <svg width="14" height="14" fill="none" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+
+  <!-- Ticker -->
+  <div class="hero-stats-row">
+    <div class="ticker-track" id="ticker">
+      <div class="ticker-item"><strong>50,000+</strong> Weddings Planned</div>
+      <div class="ticker-item"><strong>12,000+</strong> Verified Vendors</div>
+      <div class="ticker-item"><strong>₹500 Cr+</strong> Budgets Managed</div>
+      <div class="ticker-item"><strong>180+</strong> Cities</div>
+      <div class="ticker-item"><strong>4.9★</strong> Average Rating</div>
+      <div class="ticker-item"><strong>2,400+</strong> Venues Listed</div>
+      <div class="ticker-item"><strong>50,000+</strong> Weddings Planned</div>
+      <div class="ticker-item"><strong>12,000+</strong> Verified Vendors</div>
+      <div class="ticker-item"><strong>₹500 Cr+</strong> Budgets Managed</div>
+      <div class="ticker-item"><strong>180+</strong> Cities</div>
+      <div class="ticker-item"><strong>4.9★</strong> Average Rating</div>
+      <div class="ticker-item"><strong>2,400+</strong> Venues Listed</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item gold">Royal Weddings</div><div class="marquee-dot"></div>
+    <div class="marquee-item">Beach Ceremonies</div><div class="marquee-dot"></div>
+    <div class="marquee-item gold">Temple Rituals</div><div class="marquee-dot"></div>
+    <div class="marquee-item">Sangeet Nights</div><div class="marquee-dot"></div>
+    <div class="marquee-item gold">Destination Vows</div><div class="marquee-dot"></div>
+    <div class="marquee-item">Mehndi Evenings</div><div class="marquee-dot"></div>
+    <div class="marquee-item gold">Haldi Mornings</div><div class="marquee-dot"></div>
+    <div class="marquee-item">Grand Receptions</div><div class="marquee-dot"></div>
+    <div class="marquee-item gold">Royal Weddings</div><div class="marquee-dot"></div>
+    <div class="marquee-item">Beach Ceremonies</div><div class="marquee-dot"></div>
+    <div class="marquee-item gold">Temple Rituals</div><div class="marquee-dot"></div>
+    <div class="marquee-item">Sangeet Nights</div><div class="marquee-dot"></div>
+    <div class="marquee-item gold">Destination Vows</div><div class="marquee-dot"></div>
+    <div class="marquee-item">Mehndi Evenings</div><div class="marquee-dot"></div>
+    <div class="marquee-item gold">Haldi Mornings</div><div class="marquee-dot"></div>
+    <div class="marquee-item">Grand Receptions</div><div class="marquee-dot"></div>
+  </div>
+</div>
+
+<!-- FEATURES BENTO -->
+<section id="features">
+  <div class="section-label">Platform Features</div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem;">
+    <h2 class="section-title" style="margin-bottom:0;max-width:520px;">
+      <span>Every tool your</span>
+      <em>dream wedding</em>
+      <span>deserves</span>
+    </h2>
+    <p class="section-body" style="max-width:320px;font-size:0.85rem;">One unified platform replacing twelve different tools — elegant, intelligent, and built for the modern Indian couple.</p>
+  </div>
+
+  <div class="bento-grid">
+    <!-- Wide featured -->
+    <div class="bento-cell bc-wide bc-featured" data-num="01" onclick="toast('Opening Smart Dashboard...')">
+      <div class="bento-icon">📊</div>
+      <svg class="bento-bg-lines" viewBox="0 0 400 320" fill="none"><path d="M0 280 L80 200 L160 240 L240 120 L320 160 L400 60" stroke="#D4A843" stroke-width="1"/><path d="M0 280 L80 200 L160 240 L240 120 L320 160 L400 60 L400 320 L0 320 Z" fill="#D4A843" opacity="0.04"/></svg>
+      <div class="bento-tag">Core Feature</div>
+      <div class="bento-title">Smart Wedding<br>Dashboard</div>
+      <div class="bento-desc">Real-time analytics, budget tracking, guest stats, vendor booking status — all in one cinematic view.</div>
+    </div>
+
+    <!-- Tall -->
+    <div class="bento-cell bc-tall" data-num="02" onclick="toast('Opening AI Planner...')">
+      <div class="bento-icon">🤖</div>
+      <div class="bento-tag">Intelligence</div>
+      <div class="bento-title">AI Wedding<br>Planner</div>
+      <div class="bento-desc">Personalized recommendations for venues, vendors, and timelines — powered by 50K+ weddings.</div>
+    </div>
+
+    <!-- Small x2 -->
+    <div class="bento-cell bc-small" data-num="03" onclick="toast('Opening Guest Manager...')">
+      <div class="bento-icon" style="font-size:1.8rem;">👥</div>
+      <div class="bento-tag">Guests</div>
+      <div class="bento-title" style="font-size:1.2rem;">Guest Manager</div>
+    </div>
+    <div class="bento-cell bc-small" data-num="04" onclick="toast('Opening Budget Tracker...')">
+      <div class="bento-icon" style="font-size:1.8rem;">💰</div>
+      <div class="bento-tag">Finance</div>
+      <div class="bento-title" style="font-size:1.2rem;">Budget Intelligence</div>
+    </div>
+
+    <!-- Banner -->
+    <div class="bento-cell bc-banner" data-num="05" onclick="toast('Opening Vendor Marketplace...')">
+      <div class="bento-icon" style="font-size:2rem;">🏛️</div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;width:100%;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <div class="bento-tag">Marketplace</div>
+          <div class="bento-title" style="font-size:1.4rem;">Vendor Marketplace — 12,000+ Professionals</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--text3);text-align:right;">
+          <div>Photography · Décor · Catering</div>
+          <div>Makeup · Mehndi · Music · More</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Med -->
+    <div class="bento-cell bc-med" data-num="06" onclick="toast('Opening Invitation Studio...')">
+      <div class="bento-icon">💌</div>
+      <div class="bento-tag">Invitations</div>
+      <div class="bento-title">Digital Invite<br>Studio</div>
+      <div class="bento-desc">200+ animated templates, QR RSVPs, WhatsApp sharing.</div>
+    </div>
+
+    <!-- Sq -->
+    <div class="bento-cell bc-sq" data-num="07" onclick="toast('Opening Wedding Website Builder...')">
+      <div class="bento-icon">🌐</div>
+      <div class="bento-tag">Website Builder</div>
+      <div class="bento-title">Your Own<br>Wedding<br>Microsite</div>
+      <div class="bento-desc">Countdown · Gallery · RSVP · Map</div>
+    </div>
+
+    <!-- Slim -->
+    <div class="bento-cell bc-slim" data-num="08" onclick="toast('Opening Live Event tools...')">
+      <div class="bento-icon" style="font-size:2rem;">📱</div>
+      <div class="bento-tag">Live Events</div>
+      <div class="bento-title" style="font-size:1.3rem;">QR Check-ins & Live Photo Wall</div>
+    </div>
+  </div>
+</section>
+
+<!-- THEMES -->
+<section id="themes" style="background:var(--surface);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0;flex-wrap:wrap;gap:1.5rem;">
+    <div>
+      <div class="section-label">Wedding Themes</div>
+      <h2 class="section-title" style="margin-bottom:0;">
+        <span>Find your</span>
+        <em>visual identity</em>
+      </h2>
+    </div>
+    <button class="btn-pill btn-ghost" onclick="toast('Viewing all 24 themes...')">View All Themes →</button>
+  </div>
+
+  <div class="themes-scroll">
+    <div class="theme-tile" onclick="toast('Royal Wedding theme selected!')">
+      <div class="theme-tile-bg" style="background:linear-gradient(135deg,#3A0A15,#8B1A2E,#D4A843);"></div>
+      <div class="theme-tile-gradient"></div>
+      <div class="theme-tile-badge">Trending</div>
+      <div class="theme-tile-content">
+        <span class="theme-tile-num">01 / 06</span>
+        <div class="theme-tile-name">Royal<br>Wedding</div>
+        <div class="theme-tile-sub">Palatial grandeur · Gold accents · Regal mandap</div>
+      </div>
+    </div>
+    <div class="theme-tile" onclick="toast('South Indian Traditional selected!')">
+      <div class="theme-tile-bg" style="background:linear-gradient(135deg,#0A2A1A,#1A5E38,#D4A843);"></div>
+      <div class="theme-tile-gradient"></div>
+      <div class="theme-tile-badge">Classic</div>
+      <div class="theme-tile-content">
+        <span class="theme-tile-num">02 / 06</span>
+        <div class="theme-tile-name">South Indian<br>Traditional</div>
+        <div class="theme-tile-sub">Silk · Jasmine · Vedic rituals · Temple settings</div>
+      </div>
+    </div>
+    <div class="theme-tile" onclick="toast('Beach Wedding selected!')">
+      <div class="theme-tile-bg" style="background:linear-gradient(135deg,#071A2A,#1A4A6B,#4AADCF);"></div>
+      <div class="theme-tile-gradient"></div>
+      <div class="theme-tile-badge">Destination</div>
+      <div class="theme-tile-content">
+        <span class="theme-tile-num">03 / 06</span>
+        <div class="theme-tile-name">Beach<br>Ceremony</div>
+        <div class="theme-tile-sub">Sunset vows · Floral arches · Goa & Kerala</div>
+      </div>
+    </div>
+    <div class="theme-tile" onclick="toast('Floral Garden selected!')">
+      <div class="theme-tile-bg" style="background:linear-gradient(135deg,#0E1A08,#2A5E1A,#8AC84A);"></div>
+      <div class="theme-tile-gradient"></div>
+      <div class="theme-tile-badge">Romantic</div>
+      <div class="theme-tile-content">
+        <span class="theme-tile-num">04 / 06</span>
+        <div class="theme-tile-name">Floral<br>Garden</div>
+        <div class="theme-tile-sub">Lush botanicals · Pastel palette · Garden pavilion</div>
+      </div>
+    </div>
+    <div class="theme-tile" onclick="toast('Luxury Modern selected!')">
+      <div class="theme-tile-bg" style="background:linear-gradient(135deg,#0A0A0A,#2A2A3A,#D4A843);"></div>
+      <div class="theme-tile-gradient"></div>
+      <div class="theme-tile-badge">Premium</div>
+      <div class="theme-tile-content">
+        <span class="theme-tile-num">05 / 06</span>
+        <div class="theme-tile-name">Luxury<br>Modern</div>
+        <div class="theme-tile-sub">Geometric elegance · Crystal · 5-star venues</div>
+      </div>
+    </div>
+    <div class="theme-tile" onclick="toast('Destination Rajasthan selected!')">
+      <div class="theme-tile-bg" style="background:linear-gradient(135deg,#2A1A0A,#6B3A1A,#E8902A);"></div>
+      <div class="theme-tile-gradient"></div>
+      <div class="theme-tile-badge">Heritage</div>
+      <div class="theme-tile-content">
+        <span class="theme-tile-num">06 / 06</span>
+        <div class="theme-tile-name">Rajasthan<br>Heritage</div>
+        <div class="theme-tile-sub">Palace forts · Desert dunes · Elephant processions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VENDORS TABLE -->
+<section id="vendors">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0;flex-wrap:wrap;gap:1.5rem;">
+    <div>
+      <div class="section-label">Top Vendors</div>
+      <h2 class="section-title" style="margin-bottom:0;">
+        <span>India's finest</span>
+        <em>wedding professionals</em>
+      </h2>
+    </div>
+    <button class="btn-pill btn-ghost" onclick="toast('Browsing all 12,000+ vendors...')">Browse Marketplace →</button>
+  </div>
+
+  <div class="vendor-list">
+    <div class="vendor-row-header">
+      <span></span>
+      <span>Vendor</span>
+      <span>Location</span>
+      <span>Starting At</span>
+      <span>Rating</span>
+    </div>
+    <div class="vendor-row" onclick="toast('Viewing Joseph Radhik profile...')">
+      <div class="vendor-avatar">📸</div>
+      <div class="vendor-name-col">
+        <div class="vendor-name">Joseph Radhik <span class="vendor-badge">✦ Premium</span></div>
+        <div class="vendor-type">Wedding Photographer</div>
+      </div>
+      <div class="vendor-location">Mumbai, PAN India</div>
+      <div class="vendor-price">₹1,50,000</div>
+      <div class="vendor-rating">⭐ 4.9 <span style="color:var(--text3);font-size:0.65rem;">(847)</span></div>
+    </div>
+    <div class="vendor-row" onclick="toast('Viewing Ferns N Petals profile...')">
+      <div class="vendor-avatar">🌺</div>
+      <div class="vendor-name-col">
+        <div class="vendor-name">Ferns N Petals <span class="vendor-badge">✦ Verified</span></div>
+        <div class="vendor-type">Wedding Decorator</div>
+      </div>
+      <div class="vendor-location">Delhi, PAN India</div>
+      <div class="vendor-price">₹2,00,000</div>
+      <div class="vendor-rating">⭐ 4.8 <span style="color:var(--text3);font-size:0.65rem;">(2.3K)</span></div>
+    </div>
+    <div class="vendor-row" onclick="toast('Viewing Namrata Soni profile...')">
+      <div class="vendor-avatar">💄</div>
+      <div class="vendor-name-col">
+        <div class="vendor-name">Namrata Soni <span class="vendor-badge">⭐ Top Rated</span></div>
+        <div class="vendor-type">Bridal Makeup Artist</div>
+      </div>
+      <div class="vendor-location">Mumbai</div>
+      <div class="vendor-price">₹75,000</div>
+      <div class="vendor-rating">⭐ 5.0 <span style="color:var(--text3);font-size:0.65rem;">(1.2K)</span></div>
+    </div>
+    <div class="vendor-row" onclick="toast('Viewing Taj Catering profile...')">
+      <div class="vendor-avatar">🍛</div>
+      <div class="vendor-name-col">
+        <div class="vendor-name">Taj Wedding Catering <span class="vendor-badge">✦ Premium</span></div>
+        <div class="vendor-type">Luxury Caterer</div>
+      </div>
+      <div class="vendor-location">Mumbai, Delhi, Bangalore</div>
+      <div class="vendor-price">₹1,200/plate</div>
+      <div class="vendor-rating">⭐ 4.9 <span style="color:var(--text3);font-size:0.65rem;">(3.1K)</span></div>
+    </div>
+    <div class="vendor-row" onclick="toast('Viewing Saurabh Garg Films profile...')">
+      <div class="vendor-avatar">🎬</div>
+      <div class="vendor-name-col">
+        <div class="vendor-name">Saurabh Garg Films <span class="vendor-badge">✦ Verified</span></div>
+        <div class="vendor-type">Cinematic Videographer</div>
+      </div>
+      <div class="vendor-location">Delhi NCR</div>
+      <div class="vendor-price">₹2,50,000</div>
+      <div class="vendor-rating">⭐ 4.8 <span style="color:var(--text3);font-size:0.65rem;">(562)</span></div>
+    </div>
+    <div class="vendor-row" onclick="toast('Viewing DJ Suketu profile...')">
+      <div class="vendor-avatar">🎵</div>
+      <div class="vendor-name-col">
+        <div class="vendor-name">DJ Suketu <span class="vendor-badge">⭐ Top Rated</span></div>
+        <div class="vendor-type">DJ & Entertainment</div>
+      </div>
+      <div class="vendor-location">Mumbai, Goa</div>
+      <div class="vendor-price">₹80,000</div>
+      <div class="vendor-rating">⭐ 4.8 <span style="color:var(--text3);font-size:0.65rem;">(423)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- VENUES -->
+<section id="venues" style="background:var(--surface);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;">
+    <div>
+      <div class="section-label">Venue Collection</div>
+      <h2 class="section-title" style="margin-bottom:0;">
+        <span>Extraordinary spaces</span>
+        <em>for extraordinary love</em>
+      </h2>
+    </div>
+    <button class="btn-pill btn-ghost" onclick="toast('Browsing 5000+ venues...')">All Venues →</button>
+  </div>
+  <div class="venues-grid">
+    <div class="venue-card" onclick="toast('Viewing Umaid Bhawan Palace...')">
+      <div class="venue-emoji-bg">🏰</div>
+      <div class="venue-card-inner">
+        <div>
+          <div class="venue-num">01 · PALACE & FORT</div>
+          <div class="venue-name">Umaid Bhawan<br>Palace</div>
+          <div class="venue-location">📍 Jodhpur, Rajasthan</div>
+        </div>
+        <div class="venue-details">
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Capacity</span>
+            <span class="venue-detail-val">Up to 2,000 guests</span>
+          </div>
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Style</span>
+            <span class="venue-detail-val">Heritage · Indoor+Outdoor</span>
+          </div>
+          <div class="venue-star">★★★★★</div>
+          <div class="venue-price-main">₹8L – ₹25L <span style="font-size:0.8rem;font-weight:300;color:var(--text3);">/day</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="venue-card" onclick="toast('Viewing Taj Lake Palace...')">
+      <div class="venue-emoji-bg">🏯</div>
+      <div class="venue-card-inner">
+        <div>
+          <div class="venue-num">02 · HERITAGE</div>
+          <div class="venue-name">Taj Lake<br>Palace</div>
+          <div class="venue-location">📍 Udaipur, Rajasthan</div>
+        </div>
+        <div class="venue-details">
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Capacity</span>
+            <span class="venue-detail-val">Up to 500 guests</span>
+          </div>
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Style</span>
+            <span class="venue-detail-val">Iconic · Lakeside</span>
+          </div>
+          <div class="venue-star">★★★★★</div>
+          <div class="venue-price-main">₹12L – ₹40L <span style="font-size:0.8rem;font-weight:300;color:var(--text3);">/day</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="venue-card" onclick="toast('Viewing The Leela Goa...')">
+      <div class="venue-emoji-bg">🌊</div>
+      <div class="venue-card-inner">
+        <div>
+          <div class="venue-num">03 · BEACH</div>
+          <div class="venue-name">The Leela<br>Beach Goa</div>
+          <div class="venue-location">📍 Cavelossim, Goa</div>
+        </div>
+        <div class="venue-details">
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Capacity</span>
+            <span class="venue-detail-val">Up to 800 guests</span>
+          </div>
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Style</span>
+            <span class="venue-detail-val">Beachfront · Luxury</span>
+          </div>
+          <div class="venue-star">★★★★★</div>
+          <div class="venue-price-main">₹5L – ₹15L <span style="font-size:0.8rem;font-weight:300;color:var(--text3);">/day</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="venue-card" onclick="toast('Viewing ITC Grand Chola...')">
+      <div class="venue-emoji-bg">🏨</div>
+      <div class="venue-card-inner">
+        <div>
+          <div class="venue-num">04 · LUXURY HOTEL</div>
+          <div class="venue-name">ITC Grand<br>Chola</div>
+          <div class="venue-location">📍 Chennai, Tamil Nadu</div>
+        </div>
+        <div class="venue-details">
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Capacity</span>
+            <span class="venue-detail-val">Up to 1,500 guests</span>
+          </div>
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Style</span>
+            <span class="venue-detail-val">5-Star · South Indian</span>
+          </div>
+          <div class="venue-star">★★★★★</div>
+          <div class="venue-price-main">₹4L – ₹12L <span style="font-size:0.8rem;font-weight:300;color:var(--text3);">/day</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="venue-card" onclick="toast('Viewing Fern Valley Estate...')">
+      <div class="venue-emoji-bg">🌿</div>
+      <div class="venue-card-inner">
+        <div>
+          <div class="venue-num">05 · GARDEN</div>
+          <div class="venue-name">Fern Valley<br>Estate</div>
+          <div class="venue-location">📍 Coorg, Karnataka</div>
+        </div>
+        <div class="venue-details">
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Capacity</span>
+            <span class="venue-detail-val">Up to 400 guests</span>
+          </div>
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Style</span>
+            <span class="venue-detail-val">Garden · Hill Station</span>
+          </div>
+          <div class="venue-star">★★★★☆</div>
+          <div class="venue-price-main">₹2L – ₹6L <span style="font-size:0.8rem;font-weight:300;color:var(--text3);">/day</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="venue-card" onclick="toast('Viewing Oberoi Amarvilas...')">
+      <div class="venue-emoji-bg">✨</div>
+      <div class="venue-card-inner">
+        <div>
+          <div class="venue-num">06 · ULTRA LUXURY</div>
+          <div class="venue-name">Oberoi<br>Amarvilas</div>
+          <div class="venue-location">📍 Agra, Uttar Pradesh</div>
+        </div>
+        <div class="venue-details">
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Capacity</span>
+            <span class="venue-detail-val">Up to 600 guests</span>
+          </div>
+          <div class="venue-detail-row">
+            <span class="venue-detail-label">Style</span>
+            <span class="venue-detail-val">Taj View · Ultra Luxury</span>
+          </div>
+          <div class="venue-star">★★★★★</div>
+          <div class="venue-price-main">₹6L – ₹20L <span style="font-size:0.8rem;font-weight:300;color:var(--text3);">/day</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI ASSISTANT -->
+<section class="ai-section">
+  <div class="ai-bg-grid"></div>
+  <div class="ai-layout">
+    <div>
+      <div class="section-label">AI Intelligence</div>
+      <h2 class="section-title">
+        <span>Your personal</span>
+        <em>wedding mastermind</em>
+      </h2>
+      <p class="section-body">Varnam's AI understands 50,000+ Indian weddings — your traditions, your budget, your vision — and turns it all into a flawless plan.</p>
+      <div class="ai-features">
+        <div class="ai-feat">
+          <span class="ai-feat-num">01</span>
+          <span class="ai-feat-text"><strong>Venue Intelligence</strong> — finds venues matching your style, city, capacity, and budget</span>
+        </div>
+        <div class="ai-feat">
+          <span class="ai-feat-num">02</span>
+          <span class="ai-feat-text"><strong>Vendor Matching</strong> — recommends verified vendors by availability, ratings, and style fit</span>
+        </div>
+        <div class="ai-feat">
+          <span class="ai-feat-num">03</span>
+          <span class="ai-feat-text"><strong>Budget Optimizer</strong> — AI-driven category allocation with cost-saving recommendations</span>
+        </div>
+        <div class="ai-feat">
+          <span class="ai-feat-num">04</span>
+          <span class="ai-feat-text"><strong>Timeline Builder</strong> — generates a minute-by-minute wedding day runsheet automatically</span>
+        </div>
+        <div class="ai-feat">
+          <span class="ai-feat-num">05</span>
+          <span class="ai-feat-text"><strong>Guest Seating AI</strong> — smart seating arrangements based on family & relationship logic</span>
+        </div>
+      </div>
+      <button class="btn-pill btn-primary" style="margin-top:2rem;" onclick="toast('Opening AI Planner...')">Try AI Planner Free →</button>
+    </div>
+    <div>
+      <div class="ai-chat-window">
+        <div class="ai-chat-header">
+          <div class="ai-chat-dot" style="background:#E85D30;"></div>
+          <div class="ai-chat-dot" style="background:#D4A843;"></div>
+          <div class="ai-chat-dot" style="background:#3A9A3A;"></div>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--text3);margin-left:0.5rem;letter-spacing:0.12em;">VARNAM AI — WEDDING PLANNER</span>
+        </div>
+        <div class="ai-chat-body" id="ai-chat-body">
+          <div class="msg bot">
+            <div class="msg-av bot">✦</div>
+            <div class="msg-bubble">Namaste! I'm your Varnam AI. Tell me about your dream — wedding date, city, guest count, and budget — and I'll craft the perfect plan. 🪔</div>
+          </div>
+          <div class="msg user">
+            <div class="msg-av user">👰</div>
+            <div class="msg-bubble">Royal Rajasthan wedding, 400 guests, ₹50 lakhs, February 2026</div>
+          </div>
+          <div class="msg bot">
+            <div class="msg-av bot">✦</div>
+            <div class="msg-bubble">Perfect brief! For a Royal Rajasthan wedding in Feb 2026 — peak season — I recommend Samode Palace or Taj Rambagh. Both fit 400 guests within ₹50L. Shall I check live availability and compare packages? 👑</div>
+          </div>
+        </div>
+        <div class="ai-chat-input-row">
+          <input class="ai-input-field" id="ai-input" placeholder="Ask anything about your wedding..." onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="ai-send-btn" onclick="sendMsg()">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUDGET -->
+<section>
+  <div class="budget-layout">
+    <div>
+      <div class="section-label">Budget Intelligence</div>
+      <h2 class="section-title">
+        <span>Know exactly where</span>
+        <em>every rupee flows</em>
+      </h2>
+      <p class="section-body">AI-powered budget tracking with real-time alerts, category analytics, installment reminders, and downloadable reports.</p>
+      <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r8);padding:1rem 1.5rem;min-width:120px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:0.3rem;">TOTAL BUDGET</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:700;color:var(--gold);">₹40L</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r8);padding:1rem 1.5rem;min-width:120px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:0.3rem;">REMAINING</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:700;color:var(--ember);">₹9.2L</div>
+        </div>
+        <div style="background:rgba(212,168,67,0.05);border:1px solid rgba(212,168,67,0.15);border-radius:var(--r8);padding:1rem 1.5rem;min-width:120px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:0.3rem;">SAVED VS AVG</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:700;color:#3A9A3A;">+₹3.4L</div>
+        </div>
+      </div>
+      <div class="budget-cats" style="margin-top:2rem;">
+        <div class="budget-cat">
+          <div class="budget-cat-dot" style="background:#D4A843;"></div>
+          <div class="budget-cat-name">Venue</div>
+          <div class="budget-cat-pct">35%</div>
+          <div class="budget-cat-amt">₹14L</div>
+        </div>
+        <div class="budget-cat">
+          <div class="budget-cat-dot" style="background:#C43060;"></div>
+          <div class="budget-cat-name">Catering</div>
+          <div class="budget-cat-pct">25%</div>
+          <div class="budget-cat-amt">₹10L</div>
+        </div>
+        <div class="budget-cat">
+          <div class="budget-cat-dot" style="background:#4AADCF;"></div>
+          <div class="budget-cat-name">Photography</div>
+          <div class="budget-cat-pct">15%</div>
+          <div class="budget-cat-amt">₹6L</div>
+        </div>
+        <div class="budget-cat">
+          <div class="budget-cat-dot" style="background:#5A9A3A;"></div>
+          <div class="budget-cat-name">Décor</div>
+          <div class="budget-cat-pct">12%</div>
+          <div class="budget-cat-amt">₹4.8L</div>
+        </div>
+        <div class="budget-cat">
+          <div class="budget-cat-dot" style="background:#9A4ACF;"></div>
+          <div class="budget-cat-name">Outfits & Jewellery</div>
+          <div class="budget-cat-pct">8%</div>
+          <div class="budget-cat-amt">₹3.2L</div>
+        </div>
+        <div class="budget-cat">
+          <div class="budget-cat-dot" style="background:#888;"></div>
+          <div class="budget-cat-name">Others</div>
+          <div class="budget-cat-pct">5%</div>
+          <div class="budget-cat-amt">₹2L</div>
+        </div>
+      </div>
+    </div>
+    <div class="budget-visual">
+      <div class="budget-ring-container">
+        <svg width="280" height="280" viewBox="0 0 280 280">
+          <!-- donut rings -->
+          <circle cx="140" cy="140" r="110" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="28"/>
+          <!-- Venue 35% = 246deg -->
+          <circle cx="140" cy="140" r="110" fill="none" stroke="#D4A843" stroke-width="28"
+            stroke-dasharray="241 449" stroke-dashoffset="0" stroke-linecap="butt" opacity="0.85"/>
+          <!-- Catering 25% = 157deg -->
+          <circle cx="140" cy="140" r="110" fill="none" stroke="#C43060" stroke-width="28"
+            stroke-dasharray="173 517" stroke-dashoffset="-241" stroke-linecap="butt" opacity="0.85"/>
+          <!-- Photo 15% -->
+          <circle cx="140" cy="140" r="110" fill="none" stroke="#4AADCF" stroke-width="28"
+            stroke-dasharray="104 586" stroke-dashoffset="-414" stroke-linecap="butt" opacity="0.85"/>
+          <!-- Decor 12% -->
+          <circle cx="140" cy="140" r="110" fill="none" stroke="#5A9A3A" stroke-width="28"
+            stroke-dasharray="83 607" stroke-dashoffset="-518" stroke-linecap="butt" opacity="0.85"/>
+          <!-- Outfits 8% -->
+          <circle cx="140" cy="140" r="110" fill="none" stroke="#9A4ACF" stroke-width="28"
+            stroke-dasharray="55 635" stroke-dashoffset="-601" stroke-linecap="butt" opacity="0.85"/>
+          <!-- Others 5% -->
+          <circle cx="140" cy="140" r="110" fill="none" stroke="#666" stroke-width="28"
+            stroke-dasharray="35 655" stroke-dashoffset="-656" stroke-linecap="butt" opacity="0.85"/>
+        </svg>
+        <div class="budget-center">
+          <div class="budget-total-num">₹40L</div>
+          <div class="budget-total-label">Total Budget</div>
+        </div>
+      </div>
+      <!-- AI Alert cards -->
+      <div style="margin-top:2rem;display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="background:rgba(212,168,67,0.06);border:1px solid rgba(212,168,67,0.15);border-radius:var(--r8);padding:0.9rem 1.25rem;border-left:3px solid var(--gold);">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gold);letter-spacing:0.12em;margin-bottom:0.3rem;">AI · SAVE ₹80K</div>
+          <div style="font-size:0.8rem;color:var(--text2);">Book photographer 6 months early — 20% early bird discount available now.</div>
+        </div>
+        <div style="background:rgba(232,93,48,0.06);border:1px solid rgba(232,93,48,0.15);border-radius:var(--r8);padding:0.9rem 1.25rem;border-left:3px solid var(--ember);">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--ember);letter-spacing:0.12em;margin-bottom:0.3rem;">AI · ALERT</div>
+          <div style="font-size:0.8rem;color:var(--text2);">Catering may exceed by ₹1.2L based on 342 confirmed guests.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background:var(--surface);">
+  <div class="section-label">Couple Stories</div>
+  <h2 class="section-title">
+    <span>Voices of</span>
+    <em>joyful celebration</em>
+  </h2>
+  <div class="testimonials-layout">
+    <div class="testi-card">
+      <span class="testi-quote-mark">"</span>
+      <p class="testi-text">Varnam transformed our palace wedding dream into reality. The AI suggested Umaid Bhawan before we even knew to ask — and every vendor recommendation was flawless. 500 guests, zero stress.</p>
+      <div class="testi-couple">
+        <div class="testi-av">💍</div>
+        <div>
+          <div class="testi-name">M.S. Dhoni &amp; Sakshi</div>
+          <div class="testi-loc">RANCHI, JHARKHAND · OCT 2024</div>
+        </div>
+        <div class="testi-stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <span class="testi-quote-mark">"</span>
+      <p class="testi-text">The budget intelligence feature literally saved us ₹3 lakhs. The whole ecosystem — invites, guests, vendors, timeline — synchronized perfectly. This is what modern wedding planning should feel like.</p>
+      <div class="testi-couple">
+        <div class="testi-av">🌸</div>
+        <div>
+          <div class="testi-name">Sriram &amp; Sita</div>
+          <div class="testi-loc">COIMBATORE, TAMIL NADU · DEC 2024</div>
+        </div>
+        <div class="testi-stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <span class="testi-quote-mark">"</span>
+      <p class="testi-text">QR check-ins for 800 guests — smooth as silk. The live photo wall had everyone posting and tagging. Varnam is not just a planner, it's a full wedding experience platform. Absolutely breathtaking.</p>
+      <div class="testi-couple">
+        <div class="testi-av">🪔</div>
+        <div>
+          <div class="testi-name">Sharmila &amp; Nithesh</div>
+          <div class="testi-loc">CHENNAI, TAMIL NADU · JAN 2025</div>
+        </div>
+        <div class="testi-stars">★★★★★</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+
+<!-- FAQ -->
+<section style="background:var(--surface);">
+  <div class="faq-layout">
+    <div>
+      <div class="section-label">Questions</div>
+      <h2 class="section-title">
+        <em>Answers</em>
+        <span>to your every</span>
+        <span>question</span>
+      </h2>
+      <p class="section-body">Can't find what you're looking for? Our concierge team is available 24/7.</p>
+      <button class="btn-pill btn-ghost" style="margin-top:2rem;" onclick="toast('Opening support chat...')">Talk to Us →</button>
+    </div>
+    <div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How does the AI Wedding Planner work? <div class="faq-toggle">+</div></div>
+          <div class="faq-a">Our AI is trained on 50,000+ Indian weddings. It learns your traditions, preferences, budget, and guest count to deliver hyper-personalized venue, vendor, and timeline recommendations — getting smarter with every interaction.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Are all vendors verified? <div class="faq-toggle">+</div></div>
+          <div class="faq-a">Every vendor undergoes a 3-stage verification: document authentication, portfolio review, and client reference checks. Badges (Verified, Premium, Top Rated) reflect ongoing performance based on real reviews.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Can I manage multiple events — Mehndi, Sangeet, Reception? <div class="faq-toggle">+</div></div>
+          <div class="faq-a">Absolutely. Varnam supports full multi-event planning — separate guest lists, vendor bookings, budgets, and timelines for Engagement, Haldi, Mehndi, Sangeet, Reception, and the main Wedding ceremony.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How do digital invitations and RSVP work? <div class="faq-toggle">+</div></div>
+          <div class="faq-a">Choose from 200+ animated templates, customize in minutes, and share via WhatsApp, email, or QR. The RSVP dashboard tracks confirmed, pending, and declined responses in real time, with meal preferences and special requests.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Is my payment and personal data secure? <div class="faq-toggle">+</div></div>
+          <div class="faq-a">We use 256-bit SSL encryption for all data and RBI-compliant payment gateways. Your data is never sold. Full account deletion is available anytime — your memories, your control.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Varnam</div>
+      <p class="footer-tagline">India's most elegant wedding platform — weaving traditions, dreams, and celebrations into one breathtaking journey since 2024.</p>
+      <div class="footer-newsletter-row">
+        <input class="footer-input" id="footer-email" placeholder="Your email address">
+        <button class="footer-sub-btn" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Planning</div>
+      <ul class="footer-links">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Guest Manager</a></li>
+        <li><a href="#">Budget Tracker</a></li>
+        <li><a href="#">Checklist & Timeline</a></li>
+        <li><a href="#">Wedding Website</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Discover</div>
+      <ul class="footer-links">
+        <li><a href="#">Wedding Themes</a></li>
+        <li><a href="#">Venues</a></li>
+        <li><a href="#">Photographers</a></li>
+        <li><a href="#">Decorators</a></li>
+        <li><a href="#">All Vendors</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="#">About Varnam</a></li>
+        <li><a href="#">Blog & Stories</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 VARNAM TECHNOLOGIES PVT. LTD. · MADE WITH ❤ IN INDIA</div>
+    <div class="social-row">
+      <a href="#" class="social-btn">𝕏</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">▶</a>
+      <a href="#" class="social-btn">📸</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+});
+function animRing() {
+  rx += (mx - rx - 20) * 0.12;
+  ry += (my - ry - 20) * 0.12;
+  ring.style.transform = `translate(${rx}px, ${ry}px)`;
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('button, a, .bento-cell, .theme-tile, .vendor-row, .venue-card, .testi-card, .faq-q, .ai-feat').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.style.transform += ' scale(2)'; ring.style.transform += ' scale(1.5)'; cur.style.background = '#F0C96A'; });
+  el.addEventListener('mouseleave', () => { cur.style.background = '#D4A843'; });
+});
+
+/* ── LOADER ── */
+window.addEventListener('load', () => {
+  const bar = document.getElementById('loader-bar');
+  bar.style.width = '100%';
+  setTimeout(() => document.getElementById('loader').classList.add('done'), 1700);
+});
+
+/* ── TOAST ── */
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ── FAQ ── */
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const open = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!open) item.classList.add('open');
+}
+
+/* ── AI CHAT ── */
+const aiReplies = [
+  "Wonderful! I found 6 palaces in Rajasthan within ₹50L for February 2026. Samode Palace is still available — shall I send you the detailed package and floor plan? 🏰",
+  "Based on your vision, I recommend a Gold & Crimson color palette — it's perfect for a February evening wedding. Want to see mood boards with matching floral concepts? 🌺",
+  "For 400 guests, your optimal budget split: Venue ₹14L · Catering ₹10L · Photography ₹6L · Décor ₹8L · Outfits ₹5L · Others ₹7L. Shall I lock this in? 💰",
+  "I've matched 12 verified photographers available in Rajasthan for your dates. Joseph Radhik and Saurabh Garg Films are both free — want to compare their portfolios? 📸",
+  "Your wedding day timeline: 7am Baraat · 10am Pheras · 1pm Lunch · 6pm Cocktails · 8pm Reception. I can send this to all vendors automatically. ✦",
+];
+let aiIdx = 0;
+function sendMsg() {
+  const input = document.getElementById('ai-input');
+  const body = document.getElementById('ai-chat-body');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const userEl = document.createElement('div');
+  userEl.className = 'msg user';
+  userEl.innerHTML = `<div class="msg-av user">👰</div><div class="msg-bubble">${msg}</div>`;
+  body.insertBefore(userEl, null);
+  body.appendChild(userEl);
+  input.value = '';
+  setTimeout(() => {
+    const botEl = document.createElement('div');
+    botEl.className = 'msg bot';
+    botEl.innerHTML = `<div class="msg-av bot">✦</div><div class="msg-bubble">${aiReplies[aiIdx % aiReplies.length]}</div>`;
+    body.appendChild(botEl);
+    aiIdx++;
+    body.scrollTop = body.scrollHeight;
+  }, 700);
+  body.scrollTop = body.scrollHeight;
+}
+
+/* ── NEWSLETTER ── */
+function subscribe() {
+  const v = document.getElementById('footer-email').value;
+  if (v) { toast('✦ Subscribed! Welcome to the Varnam family.'); document.getElementById('footer-email').value = ''; }
+  else toast('Please enter your email address.');
+}
+
+/* ── INTERSECTION OBSERVER (fade-in on scroll) ── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('section, .bento-cell, .theme-tile, .venue-card, .testi-card, .vendor-row').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  io.observe(el);
+});
+</script>
+<script src="shared.js"></script>
+</body>
+</html>

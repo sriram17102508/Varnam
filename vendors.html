@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendors — Varnam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#080608;--ink2:#0f0b10;--ink3:#1a1220;--surface:#120e18;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--gold:#D4A843;--gold2:#F0C96A;--gold3:#8A6A20;--text:#F0EAE2;--text2:#A89888;--text3:#6A5A50;--r4:4px;--r8:8px;--r16:16px;--r24:24px;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif;background:var(--ink);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--ink);}::-webkit-scrollbar-thumb{background:var(--gold3);}
+#toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink2);border:1px solid rgba(212,168,67,.3);border-radius:var(--r4);padding:.75rem 1.75rem;font-family:'DM Mono',monospace;font-size:.72rem;color:var(--gold);letter-spacing:.08em;z-index:9990;transition:transform .3s;pointer-events:none;white-space:nowrap;}
+#toast.show{transform:translateX(-50%) translateY(0);}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;display:flex;align-items:center;padding:0 2.5rem;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(8,6,8,.88);backdrop-filter:blur(24px);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--gold);text-decoration:none;}
+.nav-links{display:flex;gap:0;list-style:none;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;padding:.5rem 1rem;border-radius:var(--r4);transition:color .2s,background .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(212,168,67,.07);}
+.nav-right{display:flex;gap:.75rem;}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.4rem;border-radius:var(--r4);font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .25s;text-decoration:none;border:none;}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--text2);}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-gold:hover{background:var(--gold2);}
+/* PAGE HERO */
+.page-hero{padding:110px 2.5rem 4rem;background:linear-gradient(135deg,var(--surface),var(--ink));border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;top:-40%;right:-8%;width:450px;height:450px;background:radial-gradient(circle,rgba(212,168,67,.08) 0%,transparent 70%);border-radius:50%;}
+.ph-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem;}
+.ph-label::before{content:'';width:20px;height:1px;background:var(--gold);}
+.ph-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:300;line-height:.95;letter-spacing:-.02em;margin-bottom:1rem;}
+.ph-title em{font-style:italic;color:var(--gold);}
+.ph-sub{font-size:.95rem;color:var(--text2);max-width:500px;line-height:1.75;}
+/* CATEGORY NAV */
+.cat-nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2.5rem;position:sticky;top:68px;z-index:400;overflow-x:auto;}
+.cat-nav-inner{display:flex;gap:0;max-width:1200px;margin:0 auto;min-width:max-content;}
+.cat-tab{display:flex;align-items:center;gap:.5rem;padding:1rem 1.25rem;font-size:.78rem;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'Manrope',sans-serif;}
+.cat-tab:hover{color:var(--text2);}
+.cat-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+/* FILTER BAR */
+.filter-bar{background:var(--ink2);border-bottom:1px solid var(--border);padding:1.25rem 2.5rem;}
+.filter-inner{max-width:1200px;margin:0 auto;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;}
+.search-box{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:var(--r8);padding:.65rem 1rem;flex:1;min-width:200px;}
+.search-box input{background:none;border:none;outline:none;color:var(--text);font-family:'Manrope',sans-serif;font-size:.875rem;width:100%;}
+.search-box input::placeholder{color:var(--text3);}
+.filter-sel{background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:var(--r8);padding:.65rem 1rem;color:var(--text2);font-family:'Manrope',sans-serif;font-size:.82rem;outline:none;cursor:pointer;}
+.filter-sel option{background:var(--ink2);}
+/* CONTENT */
+.sec{padding:3.5rem 2.5rem;}
+.inner{max-width:1200px;margin:0 auto;}
+/* VENDOR CARDS */
+.vendor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.vendor-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r16);overflow:hidden;cursor:pointer;transition:all .3s;display:flex;flex-direction:column;height:100%;}
+.vendor-card:hover{border-color:rgba(212,168,67,.25);transform:translateY(-4px);box-shadow:0 20px 56px rgba(0,0,0,.4);}
+.vc-top{padding:1.75rem 1.75rem 1.25rem;display:flex;align-items:flex-start;gap:1rem;}
+.vc-avatar{width:64px;height:64px;border-radius:var(--r8);display:flex;align-items:center;justify-content:center;font-size:1.75rem;flex-shrink:0;border:1px solid var(--border2);}
+.vc-info{flex:1;}
+.vc-name{font-family:'Manrope',sans-serif;font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.2rem;}
+.vc-type{font-size:.72rem;color:var(--text3);margin-bottom:.5rem;}
+.vc-badges{display:flex;gap:.35rem;flex-wrap:wrap;}
+.vc-badge{background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);border-radius:3px;padding:.15rem .5rem;font-family:'DM Mono',monospace;font-size:.52rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;}
+.vc-divider{height:1px;background:var(--border);margin:0 1.75rem;}
+.vc-mid{padding:1.25rem 1.75rem;display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.vc-stat{display:flex;flex-direction:column;gap:.2rem;}
+.vc-stat-lbl{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.15em;color:var(--text3);text-transform:uppercase;}
+.vc-stat-val{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--text);}
+.vc-stat-val.gold{color:var(--gold);}
+.vc-portfolio{display:flex;gap:.35rem;padding:0 1.75rem 1.25rem;overflow:hidden;}
+.vc-portfolio-item{flex:1;height:72px;border-radius:var(--r8);display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:1px solid var(--border);}
+.vc-footer{padding:1.25rem 1.75rem;border-top:1px solid var(--border);display:flex;gap:.75rem;margin-top:auto;}
+.vc-btn-primary{flex:1;padding:.65rem;background:var(--gold);color:var(--ink);border:none;border-radius:var(--r4);font-family:'Manrope',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .2s;}
+.vc-btn-primary:hover{background:var(--gold2);}
+.vc-btn-ghost{padding:.65rem 1rem;background:transparent;border:1px solid var(--border2);color:var(--text2);border-radius:var(--r4);font-family:'Manrope',sans-serif;font-size:.78rem;cursor:pointer;transition:all .2s;}
+.vc-btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+/* DETAIL MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(12px);z-index:800;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .3s;padding:1.5rem;}
+.modal-overlay.open{opacity:1;visibility:visible;}
+.modal{background:var(--ink2);border:1px solid var(--border2);border-radius:var(--r24);width:100%;max-width:720px;max-height:90vh;overflow-y:auto;}
+.modal::-webkit-scrollbar{width:3px;}
+.modal::-webkit-scrollbar-thumb{background:var(--gold3);}
+.modal-header{padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;gap:1.25rem;align-items:center;position:sticky;top:0;background:var(--ink2);z-index:2;border-radius:var(--r24) var(--r24) 0 0;}
+.modal-av{width:72px;height:72px;border-radius:var(--r8);display:flex;align-items:center;justify-content:center;font-size:2rem;border:1px solid var(--border2);flex-shrink:0;}
+.modal-header-info{flex:1;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;color:var(--text);margin-bottom:.2rem;}
+.modal-subtitle{font-size:.8rem;color:var(--text3);margin-bottom:.5rem;}
+.modal-close-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--text2);font-size:1rem;cursor:pointer;align-self:flex-start;display:flex;align-items:center;justify-content:center;}
+.modal-close-btn:hover{border-color:var(--gold);color:var(--gold);}
+.modal-body{padding:2rem;}
+.modal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.ms-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r8);padding:1rem;text-align:center;}
+.ms-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--gold);}
+.ms-lbl{font-family:'DM Mono',monospace;font-size:.55rem;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-top:.2rem;}
+.sec-sub{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;}
+.sec-sub::before{content:'';width:14px;height:1px;background:var(--gold);}
+.modal-desc{font-size:.875rem;color:var(--text2);line-height:1.75;margin-bottom:1.75rem;}
+.packages-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.75rem;}
+.pkg-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r8);padding:1.25rem;}
+.pkg-name{font-family:'Manrope',sans-serif;font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.3rem;}
+.pkg-price{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--gold);margin-bottom:.5rem;}
+.pkg-feats{list-style:none;display:flex;flex-direction:column;gap:.3rem;}
+.pkg-feats li{font-size:.75rem;color:var(--text3);}
+.pkg-feats li::before{content:'✓ ';color:var(--gold);}
+.reviews-list{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.75rem;}
+.review-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r8);padding:1rem;}
+.review-header{display:flex;justify-content:space-between;margin-bottom:.5rem;}
+.review-name{font-size:.82rem;font-weight:600;color:var(--text);}
+.review-stars{color:var(--gold);font-size:.72rem;}
+.review-text{font-size:.8rem;color:var(--text3);line-height:1.6;}
+.inquiry-form{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r16);padding:1.5rem;}
+.inq-title{font-family:'Manrope',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:1.25rem;}
+.form-row{margin-bottom:1rem;}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem;}
+.field-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:.35rem;display:block;}
+.field{background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:var(--r8);padding:.7rem 1rem;font-size:.85rem;color:var(--text);font-family:'Manrope',sans-serif;outline:none;width:100%;transition:border-color .2s;}
+.field:focus{border-color:rgba(212,168,67,.4);}
+.field::placeholder{color:var(--text3);}
+select.field{cursor:pointer;}select.field option{background:var(--ink2);}
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid var(--border);padding:4rem 2.5rem 2rem;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1200px;margin:0 auto 3rem;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;font-style:italic;color:var(--gold);margin-bottom:.75rem;}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.75;max-width:260px;margin-bottom:1.5rem;}
+.footer-nl{display:flex;gap:.5rem;}
+.footer-nl input{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r4);padding:.55rem .9rem;font-size:.78rem;color:var(--text);font-family:'Manrope',sans-serif;outline:none;}
+.footer-nl input:focus{border-color:rgba(212,168,67,.4);}
+.footer-nl input::placeholder{color:var(--text3);}
+.footer-nl button{background:var(--gold3);border:none;border-radius:var(--r4);padding:0 .9rem;font-family:'Manrope',sans-serif;font-size:.72rem;font-weight:700;color:var(--text);cursor:pointer;}
+.footer-nl button:hover{background:var(--gold);color:var(--ink);}
+.footer-col h5{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text3);margin-bottom:1.25rem;}
+.footer-col ul{list-style:none;}.footer-col li{margin-bottom:.6rem;}
+.footer-col a{font-size:.82rem;color:var(--text3);text-decoration:none;transition:color .2s;}
+.footer-col a:hover{color:var(--gold);}
+.footer-bottom{max-width:1200px;margin:0 auto;border-top:1px solid var(--border);padding-top:1.75rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--text3);letter-spacing:.08em;}
+.footer-socials{display:flex;gap:.6rem;}
+.footer-socials a{width:34px;height:34px;border:1px solid var(--border);border-radius:var(--r4);display:flex;align-items:center;justify-content:center;font-size:.82rem;color:var(--text3);text-decoration:none;transition:all .2s;}
+.footer-socials a:hover{border-color:var(--gold);color:var(--gold);}
+@media(max-width:900px){.vendor-grid{grid-template-columns:repeat(2,1fr);}.modal-stats{grid-template-columns:repeat(2,1fr);}.packages-grid{grid-template-columns:1fr;}.form-row-2{grid-template-columns:1fr;}}
+@media(max-width:600px){.vendor-grid{grid-template-columns:1fr;}.nav-links{display:none;}}
+
+.inner { max-width: 1200px; margin: 0 auto; width: 100%; }
+
+.nav-logo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.7rem; font-weight:700; letter-spacing:0.04em;
+  color:var(--gold); text-decoration:none;
+  display:flex; align-items:center; gap:0.3rem;
+}
+.nav-logo sup {
+  font-size:0.45rem; font-family:'DM Mono',monospace;
+  color:var(--text3); letter-spacing:0.15em; text-transform:uppercase;
+}
+
+/* Profile Dropdown & Navigation Styles */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.profile-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: var(--ink2);
+  border: 1px solid var(--border);
+  border-radius: var(--r8);
+  width: 160px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 600;
+  padding: 0.5rem 0;
+}
+.profile-dropdown:hover .profile-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.profile-dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+.profile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.profile-menu-item:hover {
+  color: var(--gold);
+  background: rgba(212, 168, 67, 0.07);
+}
+.profile-menu-item.logout:hover {
+  color: var(--rose);
+  background: rgba(196, 48, 96, 0.07);
+}
+.profile-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0.4rem 0;
+}
+
+/* Auth Modals Styles */
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--text);}
+.modal-close{background:none;border:1px solid var(--border);border-radius:50%;width:36px;height:36px;color:var(--text2);font-size:1.1rem;cursor:pointer;transition:all .2s;}
+.modal-close:hover{border-color:var(--gold);color:var(--gold);}
+.form-row{margin-bottom:1.25rem;}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;}
+.divider{height:1px;background:var(--border);margin:1.5rem 0;position:relative;}
+.divider span{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--ink2);padding:0 0.75rem;font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--text3);letter-spacing:0.15em;}
+.social-auth{display:flex;gap:0.75rem;}
+.social-auth-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.7rem;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:var(--r8);font-size:0.82rem;color:var(--text2);cursor:pointer;transition:all .2s;font-family:'Manrope',sans-serif;}
+.social-auth-btn:hover{border-color:var(--gold);color:var(--gold);}
+.role-tabs{display:flex;gap:0.5rem;margin-bottom:1.75rem;}
+.role-tab{flex:1;padding:0.7rem;border:1px solid var(--border);border-radius:var(--r8);background:transparent;color:var(--text2);font-family:'Manrope',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;}
+.role-tab.active{background:rgba(212,168,67,0.1);border-color:rgba(212,168,67,0.3);color:var(--gold);}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+<nav>
+  <div class="inner" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+    <a class="nav-logo" href="index.html">Varnam<sup>™</sup></a>
+    <ul class="nav-links">
+      <li><a href="venues.html">Venues</a></li>
+      <li><a href="vendors.html" class="active">Vendors</a></li>
+      <li><a href="themes.html">Themes</a></li>
+    </ul>
+    <div class="nav-right" id="nav-auth-section">
+      <button class="btn btn-ghost" onclick="openModal('login-modal')">Sign In</button>
+      <button class="btn btn-gold" onclick="openModal('signup-modal')">Get Started</button>
+    </div>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="inner" style="position:relative; z-index:2;">
+    <div class="ph-label">Vendor Marketplace</div>
+    <h1 class="ph-title">India's finest <em>wedding professionals</em></h1>
+    <p class="ph-sub">12,000+ verified photographers, decorators, caterers, makeup artists, DJs, mehndi artists and more — handpicked, reviewed, and ready to make your wedding extraordinary.</p>
+  </div>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="cat-nav">
+  <div class="cat-nav-inner">
+    <button class="cat-tab active" onclick="switchCat('all',this)">🌟 All</button>
+    <button class="cat-tab" onclick="switchCat('photographer',this)">📸 Photographers</button>
+    <button class="cat-tab" onclick="switchCat('videographer',this)">🎬 Videographers</button>
+    <button class="cat-tab" onclick="switchCat('makeup',this)">💄 Makeup Artists</button>
+    <button class="cat-tab" onclick="switchCat('mehndi',this)">🌿 Mehndi Artists</button>
+    <button class="cat-tab" onclick="switchCat('decor',this)">🌺 Decorators</button>
+    <button class="cat-tab" onclick="switchCat('catering',this)">🍛 Catering</button>
+    <button class="cat-tab" onclick="switchCat('dj',this)">🎵 DJs & Music</button>
+    <button class="cat-tab" onclick="switchCat('chef',this)">👨‍🍳 Chefs</button>
+    <button class="cat-tab" onclick="switchCat('planner',this)">📋 Planners</button>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <div class="search-box"><span style="color:var(--text3);">🔍</span><input placeholder="Search by name, city or specialty..." id="v-search" oninput="filterCards()"></div>
+    <select class="filter-sel" id="city-filter" onchange="filterCards()">
+      <option value="">All Cities</option>
+      <option>Mumbai</option><option>Delhi</option><option>Bangalore</option>
+      <option>Chennai</option><option>Hyderabad</option><option>Jaipur</option>
+      <option>Goa</option><option>Kolkata</option><option>Pune</option>
+    </select>
+    <select class="filter-sel" id="budget-filter" onchange="filterCards()">
+      <option value="">Any Budget</option>
+      <option>Under ₹30,000</option><option>₹30K – ₹1L</option><option>₹1L – ₹3L</option><option>₹3L+</option>
+    </select>
+    <select class="filter-sel" onchange="filterCards()">
+      <option>Rating: High to Low</option><option>Price: Low to High</option><option>Most Reviewed</option>
+    </select>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="inner">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.15em;color:var(--text3);" id="v-count">SHOWING 20 VENDORS</div>
+    </div>
+    <div class="vendor-grid" id="vendor-grid">
+
+      <div class="vendor-card" data-cat="photographer" data-city="Mumbai" onclick="openVendor('radhik')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#1A0A15,#5A2A3A);">📸</div>
+          <div class="vc-info">
+            <div class="vc-name">Joseph Radhik</div>
+            <div class="vc-type">Wedding Photographer · Mumbai</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Premium</span><span class="vc-badge">Top Rated</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">847</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹1,50,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Weddings</div><div class="vc-stat-val">320+</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A0A15,#8B1A2E);">💍</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A2A1A,#1A5E38);">🌺</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A1608,#4A4020);">✨</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('radhik')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <div class="vendor-card" data-cat="makeup" data-city="Mumbai" onclick="openVendor('soni')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#2A0A18,#8A3A60);">💄</div>
+          <div class="vc-info">
+            <div class="vc-name">Namrata Soni</div>
+            <div class="vc-type">Bridal Makeup Artist · Mumbai</div>
+            <div class="vc-badges"><span class="vc-badge">⭐ Top Rated</span><span class="vc-badge">Celebrity</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 5.0</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">1,200+</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹75,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Clients</div><div class="vc-stat-val">500+</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#3A0A18,#C43060);">👰</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1A0A,#8A5A30);">💍</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A1A08,#3A6E28);">🌸</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('soni')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <div class="vendor-card" data-cat="decor" data-city="Delhi" onclick="openVendor('fnp')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#0A2A1A,#1A5E38);">🌺</div>
+          <div class="vc-info">
+            <div class="vc-name">Ferns N Petals Events</div>
+            <div class="vc-type">Wedding Decorator · Delhi, PAN India</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">PAN India</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.8</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">2,300+</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹2,00,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Cities</div><div class="vc-stat-val">50+</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0A30,#5A2A8A);">🌸</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A2A1A,#2A6A40);">🌿</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1608,#8A4A18);">🕯️</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('fnp')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <div class="vendor-card" data-cat="catering" data-city="Mumbai" onclick="openVendor('taj-cater')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#1A1608,#5A4A18);">🍛</div>
+          <div class="vc-info">
+            <div class="vc-name">Taj Catering Services</div>
+            <div class="vc-type">Premium Caterer · Mumbai, Delhi, Bangalore</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Premium</span><span class="vc-badge">Multi-cuisine</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">3,100+</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Per Plate</div><div class="vc-stat-val gold">₹1,200+</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Events/yr</div><div class="vc-stat-val">200+</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1A0A,#8A5A20);">🥘</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A1A08,#2A5E18);">🌿</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0808,#5A1818);">🎂</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('taj-cater')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <div class="vendor-card" data-cat="videographer" data-city="Delhi" onclick="openVendor('garg')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#0A0A2A,#2A2A6A);">🎬</div>
+          <div class="vc-info">
+            <div class="vc-name">Saurabh Garg Films</div>
+            <div class="vc-type">Cinematic Videographer · Delhi NCR</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Cinematic</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.8</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">562</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹2,50,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Films</div><div class="vc-stat-val">180+</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A0818,#2A1858);">🎞️</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0A08,#5A2A18);">🎬</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#081A10,#1A4828);">🌅</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('garg')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <div class="vendor-card" data-cat="mehndi" data-city="Jaipur" onclick="openVendor('reena')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#0A1A08,#2A5E18);">🌿</div>
+          <div class="vc-info">
+            <div class="vc-name">Mehndi by Reena</div>
+            <div class="vc-type">Mehndi Artist · Jaipur, Delhi</div>
+            <div class="vc-badges"><span class="vc-badge">⭐ Top Rated</span><span class="vc-badge">Traditional</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">1,800+</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹15,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Clients</div><div class="vc-stat-val">2,000+</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0A00,#5A2A08);">🌸</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A1A08,#3A5A18);">🌿</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1A0A,#7A4A18);">✋</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('reena')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <div class="vendor-card" data-cat="dj" data-city="Mumbai" onclick="openVendor('suketu')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#0A0A2A,#1A1A5A);">🎵</div>
+          <div class="vc-info">
+            <div class="vc-name">DJ Suketu</div>
+            <div class="vc-type">DJ & Entertainment · Mumbai, Goa</div>
+            <div class="vc-badges"><span class="vc-badge">⭐ Top DJ</span><span class="vc-badge">Bollywood</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.8</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">423</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹80,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Events</div><div class="vc-stat-val">600+</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A0818,#2A1858);">🎶</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0808,#5A1818);">🎉</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#081808,#1A4818);">🌟</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('suketu')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <div class="vendor-card" data-cat="planner" data-city="Mumbai" onclick="openVendor('wedtree')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#1A1608,#5A5028);">📋</div>
+          <div class="vc-info">
+            <div class="vc-name">Wedtree Events</div>
+            <div class="vc-type">Full Service Wedding Planner · Mumbai</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Full Service</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.7</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">789</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹3,00,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Weddings</div><div class="vc-stat-val">250+</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1A0A,#8A5A20);">🎊</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A0A2A,#2A2A6A);">🌟</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0A15,#5A2A4A);">💐</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('wedtree')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <div class="vendor-card" data-cat="chef" data-city="Chennai" onclick="openVendor('chef-ram')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#1A0808,#5A2018);">👨‍🍳</div>
+          <div class="vc-info">
+            <div class="vc-name">Chef Ramakrishnan</div>
+            <div class="vc-type">South Indian Chef · Chennai, Bangalore</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Traditional</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">340</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Per Plate</div><div class="vc-stat-val gold">₹800+</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Speciality</div><div class="vc-stat-val" style="font-size:.75rem;">Sadya & Sadhya</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0A00,#5A2A08);">🍛</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#081A10,#1A4828);">🌿</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A1608,#5A5020);">🍚</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('chef-ram')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 10. Delhi Stories Photography -->
+      <div class="vendor-card" data-cat="photographer" data-city="Delhi" onclick="openVendor('delhi-stories')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#1A0A0E,#5A2E1A);">📸</div>
+          <div class="vc-info">
+            <div class="vc-name">Delhi Stories Photography</div>
+            <div class="vc-type">Editorial Photographer · Delhi NCR</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Fine Art</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">230</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹1,20,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">8 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1A0A,#5A3815);">📸</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A2A1A,#1A5E38);">💍</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A0A18,#8A3A60);">👰</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('delhi-stories')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 11. Priya Makeover Studio -->
+      <div class="vendor-card" data-cat="makeup" data-city="Bangalore" onclick="openVendor('makeover-studio')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#2A0A1F,#6A1F3E);">💄</div>
+          <div class="vc-info">
+            <div class="vc-name">Priya Makeover Studio</div>
+            <div class="vc-type">Bridal Makeup Artist · Bangalore</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Airbrush</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.8</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">185</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹45,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">6 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A0A1A,#6A102A);">💋</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A2A1A,#1A5E38);">💅</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1A0A,#7A4A18);">🌸</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('makeover-studio')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 12. Vivaah Luxury Decor -->
+      <div class="vendor-card" data-cat="decor" data-city="Jaipur" onclick="openVendor('vivaah-decor')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#2A100A,#6A3D18);">🌺</div>
+          <div class="vc-info">
+            <div class="vc-name">Vivaah Luxury Decor</div>
+            <div class="vc-type">Wedding Decorator · Jaipur</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Premium</span><span class="vc-badge">Heritage</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">390</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹4,00,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">12 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A0808,#8B0000);">🏰</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A2A1A,#1A5E38);">🌴</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A1608,#5A4A18);">🕯️</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('vivaah-decor')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 13. Punjab Rasoi Caterers -->
+      <div class="vendor-card" data-cat="catering" data-city="Delhi" onclick="openVendor('punjab-rasoi')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#2A1608,#5A3810);">🍛</div>
+          <div class="vc-info">
+            <div class="vc-name">Punjab Rasoi Caterers</div>
+            <div class="vc-type">Traditional Caterer · Delhi NCR</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Traditional</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.7</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">840</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Per Plate</div><div class="vc-stat-val gold">₹1,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">15 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1A0A,#7A4A18);">🍲</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0808,#5A1818);">🍢</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A2A1A,#1A5E38);">🍨</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('punjab-rasoi')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 14. Pixel Wedding Studios -->
+      <div class="vendor-card" data-cat="videographer" data-city="Mumbai" onclick="openVendor('pixel-studios')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#0A152A,#1A3E6F);">🎬</div>
+          <div class="vc-info">
+            <div class="vc-name">Pixel Wedding Studios</div>
+            <div class="vc-type">Cinematic Videographer · Mumbai</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Teaser Specialist</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.8</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">142</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹1,80,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">7 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A0818,#2A1858);">🎞️</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0A08,#5A2A18);">🎥</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#081A10,#1A4828);">🎬</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('pixel-studios')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 15. Hina Mehndi Artistry -->
+      <div class="vendor-card" data-cat="mehndi" data-city="Mumbai" onclick="openVendor('hina-art')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#0A2A15,#1A5A35);">🌿</div>
+          <div class="vc-info">
+            <div class="vc-name">Hina Mehndi Artistry</div>
+            <div class="vc-type">Mehndi Artist · Mumbai</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Portrait</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">610</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹12,00,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">9 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0A00,#5A2A08);">🌸</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A1A08,#3A5A18);">🌿</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1A0A,#7A4A18);">✋</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('hina-art')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 16. DJ Chetas Live -->
+      <div class="vendor-card" data-cat="dj" data-city="Delhi" onclick="openVendor('dj-chetas')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#100A2A,#381A6B);">🎵</div>
+          <div class="vc-info">
+            <div class="vc-name">DJ Chetas Live</div>
+            <div class="vc-type">DJ & Entertainment · Delhi NCR</div>
+            <div class="vc-badges"><span class="vc-badge">⭐ Top Rated</span><span class="vc-badge">Bollywood Mix</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">880</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹2,00,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">14 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A0818,#2A1858);">🎧</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0808,#5A1818);">🥁</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#081808,#1A4818);">🔥</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('dj-chetas')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 17. Elite Destination Planners -->
+      <div class="vendor-card" data-cat="planner" data-city="Goa" onclick="openVendor('elite-planners')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#1A1A0A,#5A5018);">📋</div>
+          <div class="vc-info">
+            <div class="vc-name">Elite Destination Planners</div>
+            <div class="vc-type">Destination Planner · Goa, Bali</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Premium</span><span class="vc-badge">Destination</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">295</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹5,00,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">11 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A1A0A,#8A5A20);">✈️</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A0A2A,#2A2A6A);">🌴</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0A15,#5A2A4A);">🐚</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('elite-planners')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 18. Chef Nair's Feast -->
+      <div class="vendor-card" data-cat="chef" data-city="Bangalore" onclick="openVendor('chef-nair')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#1A1008,#5A3818);">👨‍🍳</div>
+          <div class="vc-info">
+            <div class="vc-name">Chef Nair's Feast</div>
+            <div class="vc-type">Cuisine Specialist · Bangalore</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Multi-Cuisine</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.8</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">115</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Per Plate</div><div class="vc-stat-val gold">₹950</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">16 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0A00,#5A2A08);">🍛</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#081A10,#1A4828);">🥦</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A1608,#5A5020);">🍰</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('chef-nair')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 19. Royal Strokes by Megha -->
+      <div class="vendor-card" data-cat="makeup" data-city="Delhi" onclick="openVendor('royal-strokes')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#2A0F0A,#5A1A2B);">💄</div>
+          <div class="vc-info">
+            <div class="vc-name">Royal Strokes by Megha</div>
+            <div class="vc-type">Bridal Makeup Artist · Delhi NCR</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Premium</span><span class="vc-badge">Airbrush MUA</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.9</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">320</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹55,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">8 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#2A0A18,#8A3A60);">💄</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A1608,#5A4A18);">💎</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A0808,#5A1A18);">💋</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('royal-strokes')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+      <!-- 20. Dream Frames South -->
+      <div class="vendor-card" data-cat="photographer" data-city="Chennai" onclick="openVendor('dream-frames')">
+        <div class="vc-top">
+          <div class="vc-avatar" style="background:linear-gradient(135deg,#0A2A1A,#1A5E38);">📸</div>
+          <div class="vc-info">
+            <div class="vc-name">Dream Frames South</div>
+            <div class="vc-type">Portrait Photographer · Chennai</div>
+            <div class="vc-badges"><span class="vc-badge">✦ Verified</span><span class="vc-badge">Traditional</span></div>
+          </div>
+        </div>
+        <div class="vc-divider"></div>
+        <div class="vc-mid">
+          <div class="vc-stat"><div class="vc-stat-lbl">Rating</div><div class="vc-stat-val gold">⭐ 4.8</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Reviews</div><div class="vc-stat-val">470</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Starting</div><div class="vc-stat-val gold">₹90,000</div></div>
+          <div class="vc-stat"><div class="vc-stat-lbl">Experience</div><div class="vc-stat-val">10 yrs</div></div>
+        </div>
+        <div class="vc-portfolio">
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#0A2A1A,#1A5E38);">🌺</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#1A1608,#5A4A18);">🪔</div>
+          <div class="vc-portfolio-item" style="background:linear-gradient(135deg,#8B1A2E,#D4A843);">💍</div>
+        </div>
+        <div class="vc-footer">
+          <button class="vc-btn-primary" onclick="event.stopPropagation();openVendor('dream-frames')">View Profile</button>
+          <button class="vc-btn-ghost" onclick="event.stopPropagation();toast('Added to wishlist!')">♡</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VENDOR DETAIL MODAL -->
+<div class="modal-overlay" id="vendor-modal" onclick="closeVendorModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-av" id="vd-av"></div>
+      <div class="modal-header-info">
+        <div class="modal-title" id="vd-name"></div>
+        <div class="modal-subtitle" id="vd-type"></div>
+        <div id="vd-badges"></div>
+      </div>
+      <button class="modal-close-btn" onclick="document.getElementById('vendor-modal').classList.remove('open');document.body.style.overflow=''">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats">
+        <div class="ms-box"><div class="ms-val" id="vd-rating"></div><div class="ms-lbl">Rating</div></div>
+        <div class="ms-box"><div class="ms-val" id="vd-reviews"></div><div class="ms-lbl">Reviews</div></div>
+        <div class="ms-box"><div class="ms-val" id="vd-price"></div><div class="ms-lbl">Starting</div></div>
+        <div class="ms-box"><div class="ms-val" id="vd-exp"></div><div class="ms-lbl">Experience</div></div>
+      </div>
+      <div class="sec-sub">About</div>
+      <p class="modal-desc" id="vd-desc"></p>
+      <div class="sec-sub">Service Packages</div>
+      <div class="packages-grid" id="vd-packages"></div>
+      <div class="sec-sub">Recent Reviews</div>
+      <div class="reviews-list" id="vd-reviews-list"></div>
+      <div class="inquiry-form">
+        <div class="inq-title">💬 Send an Inquiry</div>
+        <div class="form-row-2">
+          <div><label class="field-label">Your Name</label><input class="field" placeholder="Full Name"></div>
+          <div><label class="field-label">Phone</label><input class="field" type="tel" placeholder="+91 98765 43210"></div>
+        </div>
+        <div class="form-row-2">
+          <div><label class="field-label">Wedding Date</label><input class="field" type="date"></div>
+          <div><label class="field-label">Wedding City</label><input class="field" placeholder="e.g. Mumbai"></div>
+        </div>
+        <div class="form-row"><label class="field-label">Message</label><textarea class="field" rows="2" placeholder="Tell us about your requirements..."></textarea></div>
+        <button class="btn-gold" style="width:100%;padding:.9rem;border:none;border-radius:var(--r4);font-family:'Manrope',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;" onclick="toast('✦ Inquiry sent! Vendor will respond within 24 hrs.')">Send Inquiry →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Varnam</div>
+      <p class="footer-desc">India's most elegant wedding platform — weaving traditions, dreams, and celebrations into one breathtaking journey.</p>
+      <div class="footer-nl"><input id="footer-email" placeholder="Your email address"><button onclick="footerSub()">Subscribe</button></div>
+    </div>
+    <div class="footer-col">
+      <h5>Planning</h5>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="#">Guest Manager</a></li>
+        <li><a href="#">Budget Tracker</a></li>
+        <li><a href="#">Checklist</a></li>
+        <li><a href="#">Wedding Website</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Discover</h5>
+      <ul>
+        <li><a href="themes.html">Themes</a></li>
+        <li><a href="venues.html">Venues</a></li>
+        <li><a href="vendors.html">All Vendors</a></li>
+        <li><a href="vendors.html?cat=photographers">Photographers</a></li>
+        <li><a href="vendors.html?cat=makeup">Makeup Artists</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About Varnam</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#" onclick="openModal('vendor-signup-modal')">Vendor Registration</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 VARNAM · MADE WITH ❤ IN INDIA</div>
+    <div class="footer-socials">
+      <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+      <a href="#" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.163c-.272-1.015-1.074-1.817-2.09-2.09C17.914 3.5 12 3.5 12 3.5s-5.914 0-9.408.573c-1.016.273-1.818 1.075-2.09 2.09C0 9.657 0 12 0 12s0 2.343.502 5.837c.272 1.016 1.074 1.818 2.09 2.09C6.086 20.5 12 20.5 12 20.5s5.914 0 9.408-.573c1.016-.272 1.818-1.074 2.09-2.09C24 14.343 24 12 24 12s0-2.343-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      <a href="#" aria-label="X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+      <a href="#" aria-label="Gmail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+      <a href="#" aria-label="Reddit"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-.519 1.007c.01.127.014.254.014.382 0 2.29-2.878 4.15-6.417 4.15-3.538 0-6.417-1.86-6.417-4.15 0-.128.004-.255.014-.382a1.248 1.248 0 0 1-.519-1.007c0-.688.562-1.25 1.25-1.25.438 0 .823.23 1.042.576 1.205-.832 2.842-1.366 4.654-1.424l.984-4.636 3.22.684a.972.972 0 0 1-.027.228c0 .54.437.978.978.978.541 0 .978-.437.978-.978a.979.979 0 0 0-.978-.978.976.976 0 0 0-.948.745l-3.52-.747-.8 3.774c1.802.062 3.425.599 4.622 1.428.219-.342.6-.568 1.033-.568zM9.014 9.176c-.605 0-1.1.496-1.1 1.1s.495 1.1 1.1 1.1 1.1-.496 1.1-1.1-.495-1.1-1.1-1.1zm5.972 0c-.605 0-1.1.496-1.1 1.1s.495 1.1 1.1 1.1c.606 0 1.1-.496 1.1-1.1s-.494-1.1-1.1-1.1zm-5.437 3.655c.348.347.828.563 1.354.563.526 0 1.006-.216 1.354-.563a.252.252 0 0 0-.356-.356c-.256.255-.609.412-1 .412s-.744-.157-1-.412a.252.252 0 0 0-.356.356z"/></svg></a>
+      <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+    </div>
+  </div>
+</footer>
+
+  <!-- ══ LOGIN MODAL ══ -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal" style="max-width:480px; padding:2.5rem;">
+      <div class="modal-header">
+        <div class="modal-title" style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;">Welcome Back</div>
+        <button class="modal-close" onclick="closeModal('login-modal')">✕</button>
+      </div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="switchRole(this,'lu')">👰 Couple / Guest</button>
+        <button class="role-tab" onclick="switchRole(this,'lv')">🎯 Organizer / Vendor</button>
+      </div>
+      <div id="lu">
+        <div class="form-row"><label class="field-label">Email</label><input class="field" type="email" placeholder="your@email.com"></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="••••••••"></div>
+        <div style="text-align:right;margin-bottom:1.25rem;"><a href="#" style="font-size:.78rem;color:var(--gold);text-decoration:none;">Forgot password?</a></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.querySelector('#lu input[type=email]').value, false);closeModal('login-modal')">Sign In →</button>
+        <div class="divider"><span>or continue with</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google login…')">🔵 Google</button><button class="social-auth-btn" onclick="toast('OTP sent…')">📱 OTP</button></div>
+        <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--text3);">No account? <a href="#" style="color:var(--gold);text-decoration:none;" onclick="closeModal('login-modal');openModal('signup-modal')">Sign Up</a></p>
+      </div>
+      <div id="lv" style="display:none">
+        <div class="form-row"><label class="field-label">Business Email</label><input class="field" type="email" placeholder="studio@email.com"></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="••••••••"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.querySelector('#lv input[type=email]').value, true);closeModal('login-modal')">Sign In as Organizer →</button>
+        <div class="divider"><span>or</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google…')">🔵 Google</button></div>
+        <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--text3);">New vendor? <a href="#" style="color:var(--gold);text-decoration:none;" onclick="closeModal('login-modal');openModal('vendor-signup-modal')">Register business</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="signup-modal">
+    <div class="modal" style="max-width:480px; padding:2.5rem;">
+      <div class="modal-header">
+        <div class="modal-title" style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;">Create Account</div>
+        <button class="modal-close" onclick="closeModal('signup-modal')">✕</button>
+      </div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="switchRole(this,'su')">👰 Couple / Guest</button>
+        <button class="role-tab" onclick="switchRole(this,'sv')">🎯 Organizer / Vendor</button>
+      </div>
+      <div id="su" class="role-panel">
+        <div class="form-row-2">
+          <div><label class="field-label">First Name</label><input class="field" placeholder="Sita"></div>
+          <div><label class="field-label">Last Name</label><input class="field" placeholder="Sharma"></div>
+        </div>
+        <div class="form-row"><label class="field-label">Email</label><input class="field" type="email" placeholder="your@email.com"></div>
+        <div class="form-row"><label class="field-label">Phone</label><input class="field" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="form-row"><label class="field-label">Role</label><select class="field"><option>Bride</option><option>Groom</option><option>Family Member</option><option>Guest</option></select></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="Min. 8 characters"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.querySelector('#su input[type=email]').value, false);closeModal('signup-modal')">Create Account →</button>
+        <div class="divider"><span>or sign up with</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google…')">🔵 Google</button><button class="social-auth-btn" onclick="toast('OTP sent…')">📱 OTP</button></div>
+      </div>
+      <div id="sv" class="role-panel" style="display:none">
+        <div class="form-row-2">
+          <div><label class="field-label">First Name</label><input class="field" id="v-su-fname" placeholder="First Name"></div>
+          <div><label class="field-label">Last Name</label><input class="field" id="v-su-lname" placeholder="Last Name"></div>
+        </div>
+        <div class="form-row"><label class="field-label">Email</label><input class="field" id="v-su-email" type="email" placeholder="studio@email.com"></div>
+        <div class="form-row"><label class="field-label">Phone</label><input class="field" id="v-su-phone" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="form-row"><label class="field-label">Vendor Category</label><select class="field" id="v-su-role">
+            <option>Photographer</option>
+            <option>Videographer</option>
+            <option>Makeup Artist</option>
+            <option>Mehndi Artist</option>
+            <option>Decorator / Florist</option>
+            <option>Caterer</option>
+            <option>DJ / Musician</option>
+            <option>Wedding Planner</option>
+            <option>Venue Owner</option>
+          </select></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="Min. 8 characters"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.getElementById('v-su-email').value, true);closeModal('signup-modal')">Create Account →</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+let _tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2800);}
+
+const vdata={
+  radhik:{av:'📸',avBg:'linear-gradient(135deg,#1A0A15,#5A2A3A)',name:'Joseph Radhik',type:'Wedding Photographer · Mumbai, PAN India',badges:['✦ Verified','Premium','Top Rated'],rating:'4.9',reviews:'847',price:'₹1.5L',exp:'15 yrs',desc:'Joseph Radhik is India\'s most celebrated wedding photographer, known for his cinematic storytelling and ability to capture raw emotion. His work has been featured in Vogue, Brides Today, and the New York Times. He shoots across India, Southeast Asia, Europe, and the Americas — bringing a documentary-meets-fine-art approach to every wedding.',packages:[{n:'Essential Coverage',p:'₹1,50,000',f:['8 Hours Coverage','2 Photographers','500+ Edited Photos','Online Gallery','USB Delivery']},{n:'Premium Package',p:'₹2,80,000',f:['2 Days Coverage','3 Photographers','Pre-wedding Shoot','1,000+ Edits','Premium Album','Drone Shots']},{n:'Cinematic Elite',p:'₹4,50,000',f:['Full Wedding Coverage','4 Photographers','Video Highlights Film','Luxury Album','International Travel','Priority Editing']}],revs:[{n:'Priya & Vikram',s:'★★★★★',t:'Joseph captured moments we didn\'t even see ourselves. Every photo tells a story. Worth every rupee.'},{n:'Ananya & Rohit',s:'★★★★★',t:'The pre-wedding shoot in Udaipur was magical. Joseph made us feel so natural and at ease.'}]},
+  soni:{av:'💄',avBg:'linear-gradient(135deg,#2A0A18,#8A3A60)',name:'Namrata Soni',type:'Bridal Makeup Artist · Mumbai',badges:['⭐ Top Rated','Celebrity Artist'],rating:'5.0',reviews:'1,200+',price:'₹75,000',exp:'18 yrs',desc:'Namrata Soni is India\'s most sought-after celebrity bridal makeup artist, having transformed brides for over 18 years. Her clientele includes Bollywood A-listers and royals. Known for her ability to enhance natural beauty while creating looks that photograph stunningly, she specialises in airbrush makeup, traditional bridal looks, and contemporary glam.',packages:[{n:'Classic Bridal',p:'₹75,000',f:['Bridal Makeup','Hair Styling','Touch-up Kit','Pre-event Trial','6–8 Hours']},{n:'Full Day Package',p:'₹1,50,000',f:['Bridal + Bridesmaid','All-day Touch-ups','Airbrush Makeup','Traditional + Glam','Trial + Wedding']},{n:'Wedding Weekend',p:'₹3,00,000',f:['All Events (Mehndi/Sangeet/Wedding)','Full Entourage','Dedicated Team','Luxury Products','Trial Sessions']}],revs:[{n:'Kavya & Arun',s:'★★★★★',t:'Namrata understood exactly what I wanted — natural but stunning. I cried seeing myself in the mirror.'},{n:'Sneha & Dev',s:'★★★★★',t:'Worth every penny. The makeup lasted 14 hours through crying, dancing and humidity in Kerala!'}]},
+  fnp:{av:'🌺',avBg:'linear-gradient(135deg,#0A2A1A,#1A5E38)',name:'Ferns N Petals Events',type:'Wedding Decorator · Delhi, PAN India',badges:['✦ Verified','PAN India'],rating:'4.8',reviews:'2,300+',price:'₹2,00,000',exp:'25 yrs',desc:'India\'s largest floral and décor company, Ferns N Petals has been transforming wedding spaces for 25 years. With presence in 50+ cities and a team of 2,000+ creative professionals, they handle everything from intimate mandap decorations to large-scale royal wedding setups. Specialising in fresh flower arrangements, themed décor, and luxury installations.',packages:[{n:'Classic Mandap',p:'₹2,00,000',f:['Mandap Setup','Entrance Decoration','Stage Backdrop','Basic Floral','5-person Team']},{n:'Royal Setup',p:'₹5,00,000',f:['Mandap + Reception Décor','Entrance Arch','Floral Curtains','Lighting','Premium Flowers','Photo Walls']},{n:'Grand Luxury',p:'₹12,00,000',f:['Full Venue Transformation','All Events','Imported Flowers','Custom Installations','15-person Team','On-site Changes']}],revs:[{n:'Divya & Karan',s:'★★★★★',t:'The mandap was beyond our dreams. Every flower was perfect and the whole team was so professional.'},{n:'Meera & Suresh',s:'★★★★★',t:'Our sangeet décor was so Instagram-worthy. Every guest was taking photos. Thank you FNP!'}]},
+  'taj-cater':{av:'🍛',avBg:'linear-gradient(135deg,#1A1608,#5A4A18)',name:'Taj Catering Services',type:'Premium Caterer · Mumbai, Delhi, Bangalore',badges:['✦ Premium','Multi-cuisine'],rating:'4.9',reviews:'3,100+',price:'₹1,200/plate',exp:'50+ yrs',desc:'Taj Catering Services brings the legendary hospitality of the Taj Group to your wedding feast. With a team of internationally trained chefs and the ability to serve from 100 to 5,000 guests, they craft bespoke menus blending regional Indian cuisines with international gastronomy. Their live cooking stations, themed food stalls, and custom wedding cakes are legendary.',packages:[{n:'Classic Feast',p:'₹1,200/plate',f:['North or South Indian Menu','Live Stations','Standard Cutlery','Service Staff','4-hour Service']},{n:'Premium Banquet',p:'₹2,200/plate',f:['Multi-cuisine Menu','5 Live Stations','Premium Cutlery & Linen','Dedicated Chef Team','Bar Service','Dessert Counter']},{n:'Royal Celebration',p:'₹4,000/plate',f:['12-course Custom Menu','International Cuisine','Mixologist','Heirloom Crockery','Full Day Service','Custom Wedding Cake']}],revs:[{n:'Ananya & Rohit',s:'★★★★★',t:'The biryani live station was the highlight of our reception. Guests are still talking about the food!'},{n:'Pooja & Dev',s:'★★★★★',t:'Everything was impeccable — from the thali for the ceremony to the multicourse dinner. A1 service.'}]},
+  garg:{av:'🎬',avBg:'linear-gradient(135deg,#0A0A2A,#2A2A6A)',name:'Saurabh Garg Films',type:'Cinematic Videographer · Delhi NCR',badges:['✦ Verified','Cinematic'],rating:'4.8',reviews:'562',price:'₹2,50,000',exp:'12 yrs',desc:'Saurabh Garg Films creates cinematic wedding films that feel like Bollywood. With a passion for storytelling, their team uses the latest equipment including 8K cameras, drone cinematography, and underwater shots to capture the full spectrum of your wedding day. Their highlight reels regularly go viral and have been featured on major platforms.',packages:[{n:'Highlight Film',p:'₹2,50,000',f:['1-2 Days Coverage','2 Videographers','3-5 min Highlights','Drone Footage','Online Delivery']},{n:'Feature Film',p:'₹4,50,000',f:['Full Wedding Coverage','3 Videographers','15-20 min Feature Film','Ceremony Unedited','Social Cuts','USB + Online']},{n:'Cinematic Elite',p:'₹7,00,000',f:['All Events','4 Videographers','Same-day Edit','Feature + Highlights','Aerial Drone','International Travel']}],revs:[{n:'Nandini & Rahul',s:'★★★★★',t:'We watch our wedding film every anniversary. It\'s a masterpiece — raw emotion beautifully captured.'},{n:'Aditi & Nikhil',s:'★★★★★',t:'The same-day edit played at our reception and everyone was in tears. Absolutely stunning work.'}]},
+  reena:{av:'🌿',avBg:'linear-gradient(135deg,#0A1A08,#2A5E18)',name:'Mehndi by Reena',type:'Mehndi Artist · Jaipur, Delhi',badges:['⭐ Top Rated','Traditional'],rating:'4.9',reviews:'1,800+',price:'₹15,000',exp:'22 yrs',desc:'Reena is Rajasthan\'s most celebrated mehndi artist with over 22 years of mastery in traditional Rajasthani, Mughal, and contemporary mehndi designs. Known for her intricate detailing, use of organic henna, and ability to complete large designs with speed and precision, she and her team travel across India for bridal mehndi, mehndi nights, and mehfils.',packages:[{n:'Bridal Mehndi',p:'₹15,000',f:['Both Hands & Feet','Bridal Design','5–6 Hours','Organic Henna','Aftercare Kit']},{n:'Full Party Package',p:'₹45,000',f:['Bride + 10 Guests','Front & Back Hands','2 Artists','Design Consultation','Travel Included']},{n:'Mehndi Night',p:'₹1,20,000',f:['Up to 50 Guests','4 Artists','All Day Coverage','Traditional & Modern Designs','Songs & Dhol Coordination']}],revs:[{n:'Shreya & Aryan',s:'★★★★★',t:'Reena\'s work is pure art. My mehndi was so detailed and the color was deep red — perfect for my wedding!'},{n:'Divya & Karan',s:'★★★★★',t:'She completed the entire design in 4 hours and it was flawless. All our guests wanted her contact!'}]},
+  suketu:{av:'🎵',avBg:'linear-gradient(135deg,#0A0A2A,#1A1A5A)',name:'DJ Suketu',type:'DJ & Entertainment · Mumbai, Goa',badges:['⭐ Top DJ','Bollywood'],rating:'4.8',reviews:'423',price:'₹80,000',exp:'20 yrs',desc:'DJ Suketu is one of India\'s most celebrated wedding DJs with a career spanning over 20 years and 6,000+ shows worldwide. His curated Bollywood, Punjabi, and international sets are guaranteed to keep every generation dancing. He works with a team of sound engineers, lighting designers, and live percussionists to create an immersive musical experience.',packages:[{n:'Standard Set',p:'₹80,000',f:['4-hour Performance','Basic Sound System','DJ Setup','Standard Lighting','Backup Equipment']},{n:'Premium Night',p:'₹1,80,000',f:['6-hour Performance','Pro Sound System','LED Lighting Rig','Live Dhol Player','Smoke & Fog Machine']},{n:'Full Production',p:'₹4,00,000',f:['All Events (Sangeet + Reception)','Concert-grade Sound','Full Lighting Show','Live Musicians','Pyrotechnics','MC Services']}],revs:[{n:'Meera & Suresh',s:'★★★★★',t:'Our reception was LIT. DJ Suketu read the crowd perfectly — from slow sufi to crazy bhangra!'},{n:'Sneha & Vikash',s:'★★★★★',t:'Three generations of family dancing together — that\'s the magic DJ Suketu creates. Truly exceptional.'}]},
+  wedtree:{av:'📋',avBg:'linear-gradient(135deg,#1A1608,#5A5028)',name:'Wedtree Events',type:'Full Service Wedding Planner · Mumbai',badges:['✦ Verified','Full Service'],rating:'4.7',reviews:'789',price:'₹3,00,000',exp:'10 yrs',desc:'Wedtree Events is a full-service wedding planning company based in Mumbai with experience in planning 250+ weddings across India and internationally. From budget planning and vendor coordination to day-of management and honeymoon booking, Wedtree handles every detail so you can truly enjoy your wedding.',packages:[{n:'Day-of Coordination',p:'₹3,00,000',f:['Wedding Day Management','Vendor Coordination','Timeline Creation','Backup Planning','10-person Team']},{n:'Partial Planning',p:'₹6,00,000',f:['3 months Planning','Vendor Negotiations','Venue Sourcing','Budget Management','Rehearsal Coordination']},{n:'Full Planning',p:'₹15,00,000',f:['12 months Planning','All Vendor Bookings','Complete Vendor Mgmt','Destination Handling','Post-wedding Services']}],revs:[{n:'Kavya & Arun',s:'★★★★★',t:'Wedtree made our Kerala wedding feel effortless. Every detail was handled with such care and precision.'},{n:'Pooja & Dev',s:'★★★★★',t:'From venue selection to the last farewell — they managed everything flawlessly. Worth every rupee!'}]},
+  'chef-ram':{av:'👨‍🍳',avBg:'linear-gradient(135deg,#1A0808,#5A2018)',name:'Chef Ramakrishnan',type:'South Indian Chef · Chennai, Bangalore',badges:['✦ Verified','Traditional'],rating:'4.9',reviews:'340',price:'₹800/plate',exp:'28 yrs',desc:'Chef Ramakrishnan is Chennai\'s most celebrated traditional wedding chef specialising in authentic Kerala Sadya, Tamil Nadu Sadhya, and Karnataka Oota. With 28 years of experience cooking at royal weddings and heritage properties, he brings the authentic flavours of South India to your celebration using traditional banana leaf service and ancient recipes.',packages:[{n:'Sadya Feast',p:'₹800/plate',f:['28-dish Kerala Sadya','Banana Leaf Service','Traditional Sweet','Buttermilk & Papad','Up to 300 guests']},{n:'Grand Oota',p:'₹1,50,000',f:['35-dish Full Meal','Multiple Sweets','Payasam Varieties','Live Appam Station','Up to 500 guests']},{n:'Royal Feast',p:'₹3,00,000',f:['50+ dish Menu','3 Payasam Varieties','Live Cooking Stations','Dessert Counter','Custom Wedding Menu','1000+ guests']}],revs:[{n:'Kavya & Arun',s:'★★★★★',t:'The Kerala Sadya was absolutely authentic. Guests from Kerala said it was exactly like home. Pure magic.'},{n:'Meera & Suresh',s:'★★★★★',t:'28 courses on a banana leaf — it was an experience, not just a meal. Chef Ram is a true artist.'}]},
+  'delhi-stories':{av:'📸',avBg:'linear-gradient(135deg,#1A0A0E,#5A2E1A)',name:'Delhi Stories Photography',type:'Editorial Photographer · Delhi NCR',badges:['✦ Verified','Fine Art'],rating:'4.9',reviews:'230',price:'₹1.2L',exp:'8 yrs',desc:'Delhi Stories Photography is a premier editorial and fine art wedding photography service based in New Delhi. They specialise in capturing raw emotions, beautiful candids, and grand moments in a style that is both timeless and modern. They cover weddings across North India and destination events.',packages:[{n:'Luxe Traditional',p:'₹1,20,000',f:['1 Day Coverage','2 Photographers','300+ Edits','Web Gallery']},{n:'Royal Cine Pack',p:'₹2,20,000',f:['2 Days Coverage','3 Photographers','Pre-wedding shoot','1 Premium Album','Drone shots']}],revs:[{n:'Riya & Sahil',s:'★★★★★',t:'Absolutely stunning pictures. Megha and team were so warm and professional.'}]},
+  'makeover-studio':{av:'💄',avBg:'linear-gradient(135deg,#2A0A1F,#6A1F3E)',name:'Priya Makeover Studio',type:'Bridal Makeup Artist · Bangalore',badges:['✦ Verified','Airbrush'],rating:'4.8',reviews:'185',price:'₹45,000',exp:'6 yrs',desc:'Priya Makeover Studio is one of Bangalore\'s top bridal makeup destinations. Priya specialises in flawless airbrush makeup, classical South Indian bridal looks, and contemporary reception styling. She uses premium international brands to ensure you look perfect in every light.',packages:[{n:'Bridal HD Makeup',p:'₹45,000',f:['HD Makeup','Hairstyling','Draping','Product Trial']},{n:'Bridal Airbrush Pack',p:'₹60,000',f:['Airbrush Makeup','Luxury Hair Styling','Assistance till event end','Premium eyelashes']}],revs:[{n:'Harini & Karthik',s:'★★★★★',t:'Priya made me look like a dream. The airbrush makeup lasted the whole night!'}]},
+  'vivaah-decor':{av:'🌺',avBg:'linear-gradient(135deg,#2A100A,#6A3D18)',name:'Vivaah Luxury Decor',type:'Wedding Decorator · Jaipur',badges:['✦ Premium','Heritage'],rating:'4.9',reviews:'390',price:'₹4.0L',exp:'12 yrs',desc:'Vivaah Luxury Decor is a premier event styling firm specializing in heritage and palace weddings in Jaipur, Udaipur, and Jodhpur. They bring majestic setups to life, using fresh exotic florals, grand stage lighting, and traditional installations to create a regal experience.',packages:[{n:'Palace Mandap Decor',p:'₹4,00,000',f:['Royal Floral Mandap','Grand Entrance Walkway','Accent Lighting','Traditional Carpets']},{n:'Imperial Full Venue',p:'₹10,00,000',f:['Full Venue Theme Styling','Imported Florals','Lounge Setups','Sangeet Stage Design']}],revs:[{n:'Tanvi & Rishi',s:'★★★★★',t:'Our wedding at Samode Palace was a fairytale, thanks to the decor by Vivaah!'}]},
+  'punjab-rasoi':{av:'🍛',avBg:'linear-gradient(135deg,#2A1608,#5A3810)',name:'Punjab Rasoi Caterers',type:'Traditional Caterer · Delhi NCR',badges:['✦ Verified','Traditional'],rating:'4.7',reviews:'840',price:'₹1,000/plate',exp:'15 yrs',desc:'Punjab Rasoi Caterers brings the rich and authentic flavours of Punjab and North India to your wedding feast. With 15 years of excellence, they offer interactive live counters, signature recipes, and unmatched hospitality.',packages:[{n:'Traditional Punjabi Feast',p:'₹1,000/plate',f:['Welcome Drinks','4 Starters','12 Main Course Dishes','3 Desserts','Standard Buffet Setup']},{n:'Luxe Imperial Feast',p:'₹1,800/plate',f:['Premium Mocktails','8 Starters','18 Main Course Dishes','5 Desserts','Live Tandoor & Chaat Counters']}],revs:[{n:'Jaspreet & Gurpreet',s:'★★★★★',t:'The Dal Makhani and live Amritsari Kulcha counter were massive hits. Excellent quality!'}]},
+  'pixel-studios':{av:'🎬',avBg:'linear-gradient(135deg,#0A152A,#1A3E6F)',name:'Pixel Wedding Studios',type:'Cinematic Videographer · Mumbai',badges:['✦ Verified','Teaser Specialist'],rating:'4.8',reviews:'142',price:'₹1,80,000',exp:'7 yrs',desc:'Pixel Wedding Studios captures the essence of your big day in modern cinematic style. They specialise in creating stunning 3-minute teaser videos, cinematic wedding films, and emotional documentary edits.',packages:[{n:'Cine Teaser Pack',p:'₹1,80,000',f:['1 Cinematic Teaser (3 mins)','Full raw footages','1 Videographer + 1 Drone']},{n:'Grand Wedding Film',p:'₹3,20,000',f:['1 Teaser + 20 Min Cine Film','2 Videographers','Drone shots','Pre-wedding Video Shoot']}],revs:[{n:'Nisha & Aman',s:'★★★★★',t:'The teaser was so beautiful and emotional. All our friends loved the background music and transitions.'}]},
+  'hina-art':{av:'🌿',avBg:'linear-gradient(135deg,#0A2A15,#1A5A35)',name:'Hina Mehndi Artistry',type:'Mehndi Artist · Mumbai',badges:['✦ Verified','Portrait'],rating:'4.9',reviews:'610',price:'₹12,000',exp:'9 yrs',desc:'Hina Mehndi Artistry is celebrated for intricate custom portrait mehndi designs that showcase the couple\'s love story. They use 100% natural, chemical-free organic henna to ensure a rich, long-lasting color.',packages:[{n:'Classic Bridal Mehndi',p:'₹12,000',f:['Intricate designs for hands (up to elbows)','Basic feet pattern','Organic henna cones']},{n:'Portrait Bridal Luxe',p:'₹25,000',f:['Custom bride/groom portraits','Designs up to elbows and mid-calf','Bridal entourage mehndi (up to 5 guests)']}],revs:[{n:'Divya & Varun',s:'★★★★★',t:'The portraits of us on my hands were so accurate. Highly recommend Hina for bridal mehndi!'}]},
+  'dj-chetas':{av:'🎵',avBg:'linear-gradient(135deg,#100A2A,#381A6B)',name:'DJ Chetas Live',type:'DJ & Entertainment · Delhi NCR',badges:['⭐ Top Rated','Bollywood Mix'],rating:'4.9',reviews:'880',price:'₹2,00,000',exp:'14 yrs',desc:'DJ Chetas Live is Delhi\'s top choice for high-energy wedding sangeets and after-parties. Famous for his custom Bollywood mashups, Punjabi beats, and spectacular light coordination, he ensures the dance floor is never empty.',packages:[{n:'Sangeet Dance Pack',p:'₹2,00,000',f:['4-hour Live DJ set','High-fidelity Sound Setup','Basic dance floor lights']},{n:'Grand Arena Production',p:'₹4,50,000',f:['All-event DJ sets','Concert-grade sound & truss lighting','Live percussionist','LED screen backdrop']}],revs:[{n:'Kabir & Preeti',s:'★★★★★',t:'DJ Chetas made our sangeet night unforgettable. Nobody left the dance floor till 3 AM!'}]},
+  'elite-planners':{av:'📋',avBg:'linear-gradient(135deg,#1A1A0A,#5A5018)',name:'Elite Destination Planners',type:'Destination Planner · Goa, Bali',badges:['✦ Premium','Destination'],rating:'4.9',reviews:'295',price:'₹5,00,000',exp:'11 yrs',desc:'Elite Destination Planners are specialists in conceptualising and executing beachfront and heritage destination weddings. From guest hospitality and logistics to vendor management and day-of coordination, they make remote weddings stress-free.',packages:[{n:'Goa/Udaipur Direct',p:'₹5,00,000',f:['Day-of Coordination','Local vendor coordination','Guest RSVP Management','Venue Sourcing']},{n:'Luxe End-to-End Pack',p:'₹12,00,000',f:['Complete wedding planning','Travel & Logistics management','Bespoke design curation','On-site crew (20 members)']}],revs:[{n:'Shruti & Neil',s:'★★★★★',t:'We planned our Goa wedding from London. Elite planners handled everything perfectly. True life-savers!'}]},
+  'chef-nair':{av:'👨‍🍳',avBg:'linear-gradient(135deg,#1A1008,#5A3818)',name:'Chef Nair\'s Feast',type:'Cuisine Specialist · Bangalore',badges:['✦ Verified','Multi-Cuisine'],rating:'4.8',reviews:'115',price:'₹950/plate',exp:'16 yrs',desc:'Chef Nair specializes in curated multi-course menus featuring authentic Coastal Karnataka, Kerala, and Chettinad delicacies alongside popular North Indian favorites. He is renowned for his signature fusion dessert creations.',packages:[{n:'South Coastal Sadya',p:'₹950/plate',f:['Traditional banana leaf service','24 Authentic coastal items','Elaneer Payasam']},{n:'Royal Pan-Indian Buffet',p:'₹1,600/plate',f:['Multi-cuisine buffet','5 Live interactive food counters','Premium desserts & mocktails']}],revs:[{n:'Rahul & Swapna',s:'★★★★★',t:'Elaneer payasam was mindblowing. All guests praised the food quality and presentation.'}]},
+  'royal-strokes':{av:'💄',avBg:'linear-gradient(135deg,#2A0F0A,#5A1A2B)',name:'Royal Strokes by Megha',type:'Bridal Makeup Artist · Delhi NCR',badges:['✦ Premium','Airbrush MUA'],rating:'4.9',reviews:'320',price:'₹55,000',exp:'8 yrs',desc:'Royal Strokes by Megha is a boutique bridal studio specializing in high-definition bridal makeups. Megha creates radiant, classy, and clean looks that highlight your best features for photos and videography.',packages:[{n:'Signature HD Bridal',p:'₹55,000',f:['HD Bridal Makeup','Premium hairstyling','Dupatta/saree draping','Nail polish']},{n:'Luxury Airbrush Bridal',p:'₹75,000',f:['Airbrush makeup','Premium hair extensions','Hydrating pre-makeup treatment','On-site touchups']}],revs:[{n:'Ishita & Mohit',s:'★★★★★',t:'Megha is incredibly skilled. She did exactly what suited my face. Received so many compliments!'}]},
+  'dream-frames':{av:'📸',avBg:'linear-gradient(135deg,#0A2A1A,#1A5E38)',name:'Dream Frames South',type:'Portrait Photographer · Chennai',badges:['✦ Verified','Traditional'],rating:'4.8',reviews:'470',price:'₹90,000',exp:'10 yrs',desc:'Dream Frames South specialises in capturing the vibrant colors and timeless rituals of traditional South Indian weddings. They focus on rich candid portraiture and high-end video documentations.',packages:[{n:'Classic South Pack',p:'₹90,000',f:['1 Day Coverage','2 Photographers','350 High-res Edits','Traditional Wedding Album']},{n:'Grand Temple Luxe',p:'₹1,70,000',f:['2 Days Photo + Cinematic Video','3 Crew Members','Candid Video Highlights','Premium Leatherette Album']}],revs:[{n:'Abhishek & Radhika',s:'★★★★★',t:'They captured the temple rituals beautifully. The quality of print in the album is excellent.'}]}
+};
+
+function openVendor(id){
+  const v=vdata[id]; if(!v) return;
+  const av=document.getElementById('vd-av');
+  av.style.background=v.avBg; av.textContent=v.av; av.style.fontSize='2rem';
+  document.getElementById('vd-name').textContent=v.name;
+  document.getElementById('vd-type').textContent=v.type;
+  document.getElementById('vd-badges').innerHTML=v.badges.map(b=>`<span style="background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);border-radius:3px;padding:.15rem .5rem;font-family:'DM Mono',monospace;font-size:.52rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-right:.3rem;">${b}</span>`).join('');
+  document.getElementById('vd-rating').textContent=v.rating+' ★';
+  document.getElementById('vd-reviews').textContent=v.reviews;
+  document.getElementById('vd-price').textContent=v.price;
+  document.getElementById('vd-exp').textContent=v.exp;
+  document.getElementById('vd-desc').textContent=v.desc;
+  document.getElementById('vd-packages').innerHTML=v.packages.map(p=>`<div class="pkg-card"><div class="pkg-name">${p.n}</div><div class="pkg-price">${p.p}</div><ul class="pkg-feats">${p.f.map(f=>`<li>${f}</li>`).join('')}</ul></div>`).join('');
+  document.getElementById('vd-reviews-list').innerHTML=v.revs.map(r=>`<div class="review-item"><div class="review-header"><div class="review-name">${r.n}</div><div class="review-stars">${r.s}</div></div><div class="review-text">${r.t}</div></div>`).join('');
+  document.getElementById('vendor-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeVendorModal(e){if(e.target===document.getElementById('vendor-modal')){document.getElementById('vendor-modal').classList.remove('open');document.body.style.overflow='';}}
+
+function switchCat(cat,btn){
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const cards=document.querySelectorAll('.vendor-card');
+  let c=0;
+  cards.forEach(card=>{
+    const show=cat==='all'||card.dataset.cat===cat;
+    card.style.display=show?'':'none';
+    if(show)c++;
+  });
+  document.getElementById('v-count').textContent=`SHOWING ${c} VENDORS`;
+}
+function filterCards(){
+  const s=document.getElementById('v-search').value.toLowerCase();
+  const city=document.getElementById('city-filter').value;
+  const cards=document.querySelectorAll('.vendor-card');
+  let c=0;
+  cards.forEach(card=>{
+    const name=card.querySelector('.vc-name').textContent.toLowerCase();
+    const type=card.querySelector('.vc-type').textContent.toLowerCase();
+    const cardCity=card.dataset.city||'';
+    const matchSearch=!s||name.includes(s)||type.includes(s);
+    const matchCity=!city||cardCity.includes(city);
+    const show=matchSearch&&matchCity;
+    card.style.display=show?'':'none';
+    if(show)c++;
+  });
+  document.getElementById('v-count').textContent=`SHOWING ${c} VENDORS`;
+}
+
+// Handle ?cat= URL param
+const params=new URLSearchParams(window.location.search);
+const catParam=params.get('cat');
+if(catParam){
+  const tabMap={'photographers':'photographer','makeup':'makeup','decor':'decor','catering':'catering','dj':'dj','videographer':'videographer','mehndi':'mehndi','chef':'chef','planner':'planner'};
+  const cat=tabMap[catParam];
+  if(cat){
+    document.querySelectorAll('.cat-tab').forEach(t=>{
+      if(t.textContent.trim().toLowerCase().includes(cat.slice(0,4))){
+        t.classList.add('active');
+        switchCat(cat,t);
+      } else {
+        t.classList.remove('active');
+      }
+    });
+  }
+}
+</script>
+<script src="shared.js"></script>
+<script src="chatbot.js"></script>
+</body>
+</html>

@@ -1,0 +1,3867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Varnam — India's Premier Wedding Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #080608;
+      --ink2: #0f0b10;
+      --ink3: #1a1220;
+      --surface: #120e18;
+      --border: rgba(255, 255, 255, 0.07);
+      --border2: rgba(255, 255, 255, 0.13);
+      --gold: #D4A843;
+      --gold2: #F0C96A;
+      --gold3: #8A6A20;
+      --ember: #E85D30;
+      --rose: #C43060;
+      --text: #F0EAE2;
+      --text2: #A89888;
+      --text3: #6A5A50;
+      --r4: 4px;
+      --r8: 8px;
+      --r16: 16px;
+      --r24: 24px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--ink);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 1000;
+      mix-blend-mode: overlay;
+    }
+
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--ink);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold3);
+    }
+
+    /* ── LOADER ── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--ink);
+      z-index: 9997;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      transition: opacity .6s, visibility .6s;
+    }
+
+    #loader.done {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .loader-bar {
+      width: 180px;
+      height: 1px;
+      background: var(--border);
+      overflow: hidden;
+    }
+
+    .loader-fill {
+      height: 100%;
+      background: var(--gold);
+      width: 0;
+      transition: width 1.4s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    .loader-txt {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem;
+      color: var(--text3);
+      letter-spacing: .3em;
+      text-transform: uppercase;
+    }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--ink2);
+      border: 1px solid rgba(212, 168, 67, .3);
+      border-radius: var(--r4);
+      padding: .75rem 1.75rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .72rem;
+      color: var(--gold);
+      letter-spacing: .08em;
+      z-index: 9990;
+      transition: transform .3s cubic-bezier(.23, 1, .32, 1);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      padding: 0 2.5rem;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 6, 8, .88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      color: var(--gold);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    .nav-logo sup {
+      font-size: .45rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--text3);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: .5rem 1rem;
+      border-radius: var(--r4);
+      transition: color .2s, background .2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold);
+      background: rgba(212, 168, 67, .07);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .55rem 1.4rem;
+      border-radius: var(--r4);
+      font-family: 'Manrope', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      cursor: pointer;
+      transition: all .25s;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .btn-gold:hover {
+      background: var(--gold2);
+      box-shadow: 0 0 30px rgba(212, 168, 67, .3);
+      transform: translateY(-1px);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 100px 2.5rem 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .orb1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(212, 168, 67, .14) 0%, transparent 70%);
+      top: -10%;
+      right: -5%;
+      animation: ob1 12s ease-in-out infinite;
+    }
+
+    .orb2 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(196, 48, 96, .1) 0%, transparent 70%);
+      bottom: 5%;
+      left: -5%;
+      animation: ob2 15s ease-in-out infinite;
+    }
+
+    @keyframes ob1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(-20px, 30px);
+      }
+    }
+
+    @keyframes ob2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(30px, -20px);
+      }
+    }
+
+    .sacred-svg {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 52%;
+      height: 100%;
+      opacity: .07;
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: rgba(212, 168, 67, .07);
+      border: 1px solid rgba(212, 168, 67, .18);
+      border-radius: var(--r4);
+      padding: .38rem .9rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .68rem;
+      color: var(--gold);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 2.25rem;
+      width: fit-content;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: blink 1.4s step-end infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .hero-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 300;
+      line-height: .92;
+      letter-spacing: -.02em;
+      margin-bottom: .15em;
+    }
+
+    .hero-h1 .l1 {
+      display: block;
+      color: var(--text);
+    }
+
+    .hero-h1 .l2 {
+      display: block;
+      font-style: italic;
+      background: linear-gradient(135deg, var(--gold2), var(--gold), #E8902A);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-h1 .l3 {
+      display: block;
+      font-style: italic;
+      -webkit-text-stroke: 1px rgba(212, 168, 67, .35);
+      color: transparent;
+    }
+
+    .hero-bottom {
+      display: flex;
+      align-items: flex-end;
+      gap: 4rem;
+      margin-top: 2.75rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-desc {
+      max-width: 360px;
+      font-size: .93rem;
+      line-height: 1.78;
+      color: var(--text2);
+    }
+
+    .hero-desc em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .hero-btns {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      margin-left: auto;
+    }
+
+    .hero-btn-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      border-radius: var(--r4);
+      padding: 1rem 2rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .25s;
+      letter-spacing: .04em;
+      text-decoration: none;
+    }
+
+    .hero-btn-main i {
+      position: absolute;
+      right: 1.5rem;
+      font-style: normal;
+    }
+
+    .hero-btn-main:hover {
+      background: var(--gold2);
+      box-shadow: 0 0 48px rgba(212, 168, 67, .35);
+      transform: translateY(-2px);
+    }
+
+    .hero-btn-sec {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: transparent;
+      color: var(--text2);
+      border: 1px solid var(--border2);
+      border-radius: var(--r4);
+      padding: .9rem 2rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: .88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .25s;
+      text-decoration: none;
+    }
+
+    .hero-btn-sec i {
+      position: absolute;
+      right: 1.5rem;
+      font-style: normal;
+    }
+
+    .hero-btn-sec:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+
+
+
+
+    /* ── TICKER ── */
+    .ticker-bar {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      height: 50px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .02);
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-track {
+      display: flex;
+      animation: tick 30s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes tick {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .t-item {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 0 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: .08em;
+      color: var(--text3);
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .t-item strong {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-bar {
+      padding: 1.5rem 0;
+      overflow: hidden;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .marquee-inner {
+      display: flex;
+      animation: marq 24s linear infinite;
+      white-space: nowrap;
+    }
+
+    .marquee-inner:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes marq {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .m-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text3);
+      white-space: nowrap;
+    }
+
+    .m-item.g {
+      color: var(--gold);
+    }
+
+    .m-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--gold3);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── SECTION ── */
+    .sec {
+      padding: 6rem 2.5rem;
+    }
+
+    .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .sec-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .63rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .sec-label::before {
+      content: '';
+      width: 22px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .sec-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.06;
+      letter-spacing: -.015em;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+
+    .sec-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* ══════════════════════════════════════════
+   FEATURES — 4 × 2 PERFECTLY EQUAL GRID
+   Each card is EXACTLY the same size.
+   We use a 2-row grid where each row has
+   a fixed height, so all 8 cells are
+   pixel-perfect identical.
+   ══════════════════════════════════════════ */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 260px);
+      /* ← FIXED height, both rows identical */
+      gap: 1.5rem;
+      overflow: hidden;
+      margin-top: 3rem;
+    }
+
+    .feat-card {
+      /* exact same box every time */
+      width: 100%;
+      height: 100%;
+      background: rgba(212, 168, 67, 0.06);
+      padding: 1.75rem;
+      /* 3-zone layout: number row / icon / text block */
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background .3s, transform .3s;
+      border: 1px solid rgba(212, 168, 67, 0.15);
+      border-radius: var(--r16);
+    }
+
+    .feat-card:hover {
+      background: rgba(212, 168, 67, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .feat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--rose));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .35s;
+    }
+
+    .feat-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* highlight removed for uniformity */
+
+    /* ── Row 1: number tag (top-right) ── */
+    .feat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* sits in grid row 1 */
+    }
+
+    .feat-ico {
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .feat-num {
+      font-family: 'DM Mono', monospace;
+      font-size: .55rem;
+      color: var(--text3);
+      letter-spacing: .15em;
+    }
+
+    /* ── Row 2: spacer (icon already in row1, this keeps the gap) ── */
+    /* (empty div .feat-mid not needed — grid-row 1fr handles it) */
+
+    /* ── Row 3: text block always pinned to bottom ── */
+    .feat-bottom {
+      align-self: end;
+    }
+
+    .feat-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: .55rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .4rem;
+    }
+
+    .feat-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: .35rem;
+    }
+
+    .feat-desc {
+      font-size: .73rem;
+      color: var(--text3);
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════════════════
+   CATEGORIES
+   ══════════════════════════════════════════ */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .cat-card {
+      background: var(--ink2);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      padding: 1.75rem 1rem;
+      text-align: center;
+      text-decoration: none;
+      transition: all .3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .cat-card:hover {
+      background: var(--ink3);
+      border-color: rgba(212, 168, 67, .25);
+      transform: translateY(-4px);
+    }
+
+    .cat-ico {
+      font-size: 2rem;
+    }
+
+    .cat-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .cat-count {
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem;
+      color: var(--text3);
+      letter-spacing: .1em;
+    }
+
+    /* ══════════════════════════════════════════
+   THEMES — SQUARE CAROUSEL  (6 visible)
+   + "View All" popup modal for all 20
+   ══════════════════════════════════════════ */
+    .themes-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Carousel wrapper ── */
+    .themes-carousel-wrap {
+      position: relative;
+      overflow: hidden;
+      margin-top: 0;
+    }
+
+    /* fade edges */
+    .themes-carousel-wrap::before,
+    .themes-carousel-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .themes-carousel-wrap::before {
+      left: 0;
+      background: linear-gradient(to right, var(--ink) 0%, transparent 100%);
+    }
+
+    .themes-carousel-wrap::after {
+      right: 0;
+      background: linear-gradient(to left, var(--ink) 0%, transparent 100%);
+    }
+
+    /* ── Scrollable track ── */
+    .themes-track {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 4px 4px 12px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+    }
+
+    .themes-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .themes-track.dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+    }
+
+    /* ── RECTANGLE card ── */
+    .theme-tile {
+      flex: 0 0 280px;
+      /* fixed width  */
+      height: 320px;
+      /* rectangle height */
+      border-radius: var(--r16);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .35s cubic-bezier(.23, 1, .32, 1), box-shadow .35s;
+      flex-shrink: 0;
+      background: var(--ink2);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .theme-tile:hover {
+      transform: scale(1.04);
+      box-shadow: 0 20px 56px rgba(0, 0, 0, .55);
+      border-color: rgba(212, 168, 67, 0.3);
+    }
+
+    .theme-tile:hover .ttbg {
+      transform: scale(1.08);
+    }
+
+    .ttbg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 210px;
+      background-size: cover;
+      background-position: center;
+      transition: transform .5s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    .ttgrad {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 210px;
+      background: linear-gradient(to top, rgba(15, 11, 16, 0.4) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .ttbadge {
+      position: absolute;
+      top: 228px;
+      right: 1rem;
+      z-index: 4;
+      background: rgba(212, 168, 67, .18);
+      border: 1px solid rgba(212, 168, 67, .4);
+      border-radius: var(--r4);
+      padding: .18rem .55rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .55rem;
+      color: var(--gold);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .ttcontent {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 110px;
+      padding: 1.1rem 1rem 0.75rem;
+      z-index: 3;
+      background: var(--ink2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .ttnum {
+      font-family: 'DM Mono', monospace;
+      font-size: .52rem;
+      color: rgba(212, 168, 67, .7);
+      letter-spacing: .2em;
+      margin-bottom: .15rem;
+      display: block;
+    }
+
+    .ttname {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: .1rem;
+    }
+
+    .ttsub {
+      font-size: .65rem;
+      color: rgba(255, 255, 255, .4);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── Arrow nav buttons ── */
+    .carousel-arrows {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+    }
+
+    .c-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border2);
+      transition: all .3s;
+      cursor: pointer;
+    }
+
+    .c-dot.active {
+      width: 20px;
+      border-radius: 3px;
+      background: var(--gold);
+    }
+
+    .c-arrow-group {
+      display: flex;
+      gap: .5rem;
+    }
+
+    .c-arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--ink2);
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .c-arrow:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(212, 168, 67, .08);
+    }
+
+    /* "View All" button */
+    .view-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .72rem 1.75rem;
+      background: rgba(212, 168, 67, .07);
+      border: 1px solid rgba(212, 168, 67, .28);
+      border-radius: var(--r4);
+      font-family: 'Manrope', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all .25s;
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+
+    .view-all-btn:hover {
+      background: rgba(212, 168, 67, .14);
+      box-shadow: 0 0 24px rgba(212, 168, 67, .18);
+    }
+
+    /* ══════════════════════════════════════════
+   THEMES POPUP MODAL (all 20 grid)
+   ══════════════════════════════════════════ */
+    .themes-popup {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(0, 0, 0, .85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .35s, visibility .35s;
+      padding: 1.5rem;
+    }
+
+    .themes-popup.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .themes-popup-box {
+      background: var(--ink2);
+      border: 1px solid var(--border2);
+      border-radius: var(--r24);
+      width: 100%;
+      max-width: 1100px;
+      max-height: 88vh;
+      overflow-y: auto;
+      transform: translateY(24px) scale(.97);
+      transition: transform .35s cubic-bezier(.23, 1, .32, 1);
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold3) var(--ink2);
+    }
+
+    .themes-popup.open .themes-popup-box {
+      transform: translateY(0) scale(1);
+    }
+
+    .themes-popup-box::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .themes-popup-box::-webkit-scrollbar-thumb {
+      background: var(--gold3);
+      border-radius: 2px;
+    }
+
+    .tp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 2.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--ink2);
+      z-index: 2;
+      border-radius: var(--r24) var(--r24) 0 0;
+    }
+
+    .tp-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .tp-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .tp-close {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tp-close:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .tp-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      padding: 2rem 2.5rem 2.5rem;
+    }
+
+    /* Square popup cards */
+    .tp-card {
+      aspect-ratio: 1/1;
+      border-radius: var(--r16);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .3s, box-shadow .3s;
+    }
+
+    .tp-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, .6);
+    }
+
+    .tp-card:hover .tp-bg {
+      transform: scale(1.08);
+    }
+
+    .tp-bg {
+      position: absolute;
+      inset: 0;
+      transition: transform .45s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    .tp-grad {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, .9) 0%, transparent 60%);
+    }
+
+    .tp-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: .9rem 1rem;
+      z-index: 2;
+    }
+
+    .tp-num {
+      font-family: 'DM Mono', monospace;
+      font-size: .5rem;
+      color: rgba(212, 168, 67, .65);
+      letter-spacing: .2em;
+      display: block;
+      margin-bottom: .2rem;
+    }
+
+    .tp-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    @media(max-width:900px) {
+      .tp-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media(max-width:600px) {
+      .tp-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 1.25rem;
+      }
+
+      .tp-header {
+        padding: 1.25rem 1.5rem;
+      }
+    }
+
+    /* ══════════════════════════════════════════
+   STATS
+   ══════════════════════════════════════════ */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      overflow: hidden;
+      margin-top: 3rem;
+    }
+
+    .stat-cell {
+      background: var(--ink2);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: .3rem;
+    }
+
+    .stat-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+
+    /* ══════════════════════════════════════════
+   TESTIMONIALS — SINGLE ROW AUTO-SCROLL LEFT
+   26 cards scrolling left continuously
+   ══════════════════════════════════════════ */
+    .testi-section {
+      overflow: hidden;
+    }
+
+    .testi-belt {
+      margin-top: 2.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Fade masks on left and right edges */
+    .testi-belt::before,
+    .testi-belt::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .testi-belt::before {
+      left: 0;
+      background: linear-gradient(to right, var(--ink) 0%, transparent 100%);
+    }
+
+    .testi-belt::after {
+      right: 0;
+      background: linear-gradient(to left, var(--ink) 0%, transparent 100%);
+    }
+
+    .testi-row {
+      display: flex;
+      gap: 20px;
+      width: max-content;
+      /* Cards scroll left at a comfortable pace — pause on hover */
+      animation: testiScroll 120s linear infinite;
+    }
+
+    .testi-row:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes testiScroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* SQUARE card */
+    .testi-card {
+      flex: 0 0 340px;
+      height: 340px;
+      background: var(--ink2);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: border-color .3s, transform .3s;
+    }
+
+    .testi-card:hover {
+      border-color: rgba(212, 168, 67, .3);
+      transform: translateY(-4px);
+    }
+
+    /* Gold top-left accent bar */
+    .testi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 52px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      border-radius: 0 0 2px 2px;
+    }
+
+    /* Big quote mark background decoration */
+    .tc-deco-quote {
+      position: absolute;
+      top: -.5rem;
+      right: .75rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 7rem;
+      line-height: 1;
+      color: rgba(212, 168, 67, .06);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Stars row at top */
+    .tc-stars-top {
+      color: var(--gold);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      margin-bottom: .6rem;
+    }
+
+    /* Review text */
+    .tc-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text2);
+      line-height: 1.72;
+      flex: 1;
+      /* clamp to 5 lines */
+      display: -webkit-box;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Author row at bottom */
+    .tc-author {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-top: 1rem;
+      padding-top: .9rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .tc-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--r4);
+      background: rgba(212, 168, 67, .1);
+      border: 1px solid rgba(212, 168, 67, .2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .tc-info {}
+
+    .tc-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .tc-loc {
+      font-family: 'DM Mono', monospace;
+      font-size: .55rem;
+      color: var(--text3);
+      letter-spacing: .1em;
+      margin-top: .1rem;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .75);
+      backdrop-filter: blur(8px);
+      z-index: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all .3s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--ink2);
+      border: 1px solid var(--border2);
+      border-radius: var(--r24);
+      padding: 2.5rem;
+      max-width: 480px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(20px) scale(.97);
+      transition: transform .3s;
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .modal-close {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      color: var(--text2);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .modal-close:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .field-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: .4rem;
+      display: block;
+    }
+
+    .field {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border2);
+      border-radius: var(--r8);
+      padding: .75rem 1rem;
+      font-size: .875rem;
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      outline: none;
+      width: 100%;
+      transition: border-color .2s;
+    }
+
+    .field:focus {
+      border-color: rgba(212, 168, 67, .45);
+    }
+
+    .field::placeholder {
+      color: var(--text3);
+    }
+
+    select.field {
+      cursor: pointer;
+    }
+
+    select.field option {
+      background: var(--ink2);
+    }
+
+    .form-row {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1.5rem 0;
+      position: relative;
+    }
+
+    .divider span {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink2);
+      padding: 0 .75rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      color: var(--text3);
+      letter-spacing: .15em;
+    }
+
+    .social-auth {
+      display: flex;
+      gap: .75rem;
+    }
+
+    .social-auth-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .7rem;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border);
+      border-radius: var(--r8);
+      font-size: .82rem;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .social-auth-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .role-tabs {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .role-tab {
+      flex: 1;
+      padding: .7rem;
+      border: 1px solid var(--border);
+      border-radius: var(--r8);
+      background: transparent;
+      color: var(--text2);
+      font-family: 'Manrope', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      text-align: center;
+    }
+
+    .role-tab.active {
+      background: rgba(212, 168, 67, .1);
+      border-color: rgba(212, 168, 67, .3);
+      color: var(--gold);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid var(--border);
+      padding: 4rem 2.5rem 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: .75rem;
+    }
+
+    .footer-desc {
+      font-size: .82rem;
+      color: var(--text3);
+      line-height: 1.75;
+      max-width: 260px;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-nl {
+      display: flex;
+      gap: .5rem;
+    }
+
+    .footer-nl input {
+      flex: 1;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border);
+      border-radius: var(--r4);
+      padding: .55rem .9rem;
+      font-size: .78rem;
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      outline: none;
+    }
+
+    .footer-nl input:focus {
+      border-color: rgba(212, 168, 67, .4);
+    }
+
+    .footer-nl input::placeholder {
+      color: var(--text3);
+    }
+
+    .footer-nl button {
+      background: var(--gold3);
+      border: none;
+      border-radius: var(--r4);
+      padding: 0 .9rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .footer-nl button:hover {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .footer-col h5 {
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: .6rem;
+    }
+
+    .footer-col a {
+      font-size: .82rem;
+      color: var(--text3);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-col a:hover {
+      color: var(--gold);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+      padding-top: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      color: var(--text3);
+      letter-spacing: .08em;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: .6rem;
+    }
+
+    .footer-socials a {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: var(--r4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .82rem;
+      color: var(--text3);
+      text-decoration: none;
+      transition: all .2s;
+    }
+
+    .footer-socials a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ── FADE-IN ON SCROLL ── */
+    .fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+
+    .fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1100px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 240px);
+      }
+
+      .themes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .testi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cat-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media(max-width:700px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(8, 220px);
+      }
+
+      .themes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      nav {
+        padding: 0 1.25rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .sec {
+        padding: 4rem 1.25rem;
+      }
+    }
+
+    /* Profile Dropdown & Navigation Styles */
+    .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 0.5rem;
+      background: var(--ink2);
+      border: 1px solid var(--border);
+      border-radius: var(--r8);
+      width: 160px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 600;
+      padding: 0.5rem 0;
+    }
+
+    .profile-dropdown:hover .profile-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .profile-dropdown:hover .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .profile-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .profile-menu-item:hover {
+      color: var(--gold);
+      background: rgba(212, 168, 67, 0.07);
+    }
+
+    .profile-menu-item.logout:hover {
+      color: var(--rose);
+      background: rgba(196, 48, 96, 0.07);
+    }
+
+    .profile-menu-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0.4rem 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-logo">Varnam</div>
+    <div class="loader-bar">
+      <div class="loader-fill" id="loader-fill"></div>
+    </div>
+    <div class="loader-txt">Weaving your celebration</div>
+  </div>
+  <div id="toast"></div>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="inner" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+      <a class="nav-logo" href="index.html">Varnam<sup>™</sup></a>
+      <ul class="nav-links">
+        <li><a href="venues.html">Venues</a></li>
+        <li><a href="vendors.html">Vendors</a></li>
+        <li><a href="themes.html">Themes</a></li>
+      </ul>
+      <div class="nav-right" id="nav-auth-section">
+        <button class="btn btn-ghost" onclick="openModal('login-modal')">Sign In</button>
+        <button class="btn btn-gold" onclick="openModal('signup-modal')">Get Started</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <svg class="sacred-svg" viewBox="0 0 600 900" fill="none">
+      <circle cx="300" cy="450" r="280" stroke="#D4A843" stroke-width="0.5" />
+      <circle cx="300" cy="450" r="200" stroke="#D4A843" stroke-width="0.5" />
+      <circle cx="300" cy="450" r="130" stroke="#D4A843" stroke-width="0.5" />
+      <circle cx="300" cy="450" r="70" stroke="#D4A843" stroke-width="0.5" />
+      <line x1="300" y1="170" x2="300" y2="730" stroke="#D4A843" stroke-width="0.5" />
+      <line x1="20" y1="450" x2="580" y2="450" stroke="#D4A843" stroke-width="0.5" />
+      <line x1="60" y1="210" x2="540" y2="690" stroke="#D4A843" stroke-width="0.5" />
+      <line x1="60" y1="690" x2="540" y2="210" stroke="#D4A843" stroke-width="0.5" />
+      <polygon points="300,180 520,590 80,590" fill="none" stroke="#D4A843" stroke-width="0.5" />
+      <polygon points="300,720 80,310 520,310" fill="none" stroke="#D4A843" stroke-width="0.5" />
+    </svg>
+
+    <div class="inner" style="position:relative; z-index:2; width:100%;">
+      <div class="hero-tag">✦ India's #1 Wedding Platform · Est. 2026</div>
+      <h1 class="hero-h1">
+        <span class="l1">Where Every</span>
+        <span class="l2">Celebration</span>
+        <span class="l3">Becomes Legend</span>
+      </h1>
+      <div class="hero-bottom">
+        <p class="hero-desc">Varnam orchestrates your <em>Entire Wedding Universe</em> — from Sacred Ceremonies to
+          Cinematic Receptions with the precision of a master planner and the warmth of family.</p>
+        <div class="hero-btns">
+          <a href="#" onclick="beginJourney(event)" class="hero-btn-main">Begin Your Journey <i> →</i></a>
+          <a href="vendors.html" class="hero-btn-sec">Explore Vendors <i>→</i></a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── TICKER ── -->
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <div class="t-item"><strong>50,000+</strong> Weddings Planned</div>
+      <div class="t-item"><strong>12,000+</strong> Verified Vendors</div>
+      <div class="t-item"><strong>₹500 Cr+</strong> Budgets Managed</div>
+      <div class="t-item"><strong>180+</strong> Cities</div>
+      <div class="t-item"><strong>4.9 ★</strong> Avg Rating</div>
+      <div class="t-item"><strong>5,000+</strong> Venues Listed</div>
+      <div class="t-item"><strong>50,000+</strong> Weddings Planned</div>
+      <div class="t-item"><strong>12,000+</strong> Verified Vendors</div>
+      <div class="t-item"><strong>₹500 Cr+</strong> Budgets Managed</div>
+      <div class="t-item"><strong>180+</strong> Cities</div>
+      <div class="t-item"><strong>4.9 ★</strong> Avg Rating</div>
+      <div class="t-item"><strong>5,000+</strong> Venues Listed</div>
+    </div>
+  </div>
+
+  <!-- ── MARQUEE ── -->
+  <div class="marquee-bar">
+    <div class="marquee-inner">
+      <span class="m-item g">Royal Weddings</span><span class="m-dot"></span>
+      <span class="m-item">Beach Ceremonies</span><span class="m-dot"></span>
+      <span class="m-item g">Temple Rituals</span><span class="m-dot"></span>
+      <span class="m-item">Sangeet Nights</span><span class="m-dot"></span>
+      <span class="m-item g">Destination Vows</span><span class="m-dot"></span>
+      <span class="m-item">Mehndi Evenings</span><span class="m-dot"></span>
+      <span class="m-item g">Haldi Mornings</span><span class="m-dot"></span>
+      <span class="m-item">Grand Receptions</span><span class="m-dot"></span>
+      <span class="m-item g">Royal Weddings</span><span class="m-dot"></span>
+      <span class="m-item">Beach Ceremonies</span><span class="m-dot"></span>
+      <span class="m-item g">Temple Rituals</span><span class="m-dot"></span>
+      <span class="m-item">Sangeet Nights</span><span class="m-dot"></span>
+      <span class="m-item g">Destination Vows</span><span class="m-dot"></span>
+      <span class="m-item">Mehndi Evenings</span><span class="m-dot"></span>
+      <span class="m-item g">Haldi Mornings</span><span class="m-dot"></span>
+      <span class="m-item">Grand Receptions</span><span class="m-dot"></span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+     FEATURES — 8 EQUAL CARDS 4×2
+     ══════════════════════════════ -->
+  <section class="sec">
+    <div class="inner">
+      <div
+        style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;margin-bottom:0;">
+        <div>
+          <div class="sec-label">Platform Features</div>
+          <h2 class="sec-title" style="margin-bottom:0;">Every tool your <em>dream wedding</em> deserves</h2>
+        </div>
+        <p style="font-size:.85rem;color:var(--text2);max-width:280px;line-height:1.7;">One unified platform replacing
+          twelve different tools — built for the modern Indian couple.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feat-card feat-hl fade" onclick="window.location='dashboard.html'">
+          <div class="feat-top">
+            <div class="feat-ico">📊</div><span class="feat-num">01</span>
+          </div>
+          <div class="feat-bottom">
+            <div class="feat-tag">Core</div>
+            <div class="feat-title">Smart Wedding Dashboard</div>
+            <div class="feat-desc">Real-time analytics, budget tracking, guest stats &amp; vendor status — all in one
+              cinematic view.</div>
+          </div>
+        </div>
+        <div class="feat-card fade" onclick="openModal('ai-planner-modal')">
+          <div class="feat-top">
+            <div class="feat-ico">🤖</div><span class="feat-num">02</span>
+          </div>
+          <div class="feat-bottom">
+            <div class="feat-tag">Intelligence</div>
+            <div class="feat-title">AI Wedding Planner</div>
+            <div class="feat-desc">Personalised venue, vendor &amp; timeline recommendations powered by 50K+ weddings.
+            </div>
+          </div>
+        </div>
+        <div class="feat-card fade" onclick="openModal('guest-manager-modal')">
+          <div class="feat-top">
+            <div class="feat-ico">👥</div><span class="feat-num">03</span>
+          </div>
+          <div class="feat-bottom">
+            <div class="feat-tag">Guests</div>
+            <div class="feat-title">Guest Manager</div>
+            <div class="feat-desc">Seating plans, RSVP tracking, meal preferences &amp; QR check-ins for every event.
+            </div>
+          </div>
+        </div>
+        <div class="feat-card fade" onclick="openModal('budget-tracker-modal')">
+          <div class="feat-top">
+            <div class="feat-ico">💰</div><span class="feat-num">04</span>
+          </div>
+          <div class="feat-bottom">
+            <div class="feat-tag">Finance</div>
+            <div class="feat-title">Budget Intelligence</div>
+            <div class="feat-desc">AI-driven allocation, payment reminders &amp; predictive overspend alerts in real
+              time.</div>
+          </div>
+        </div>
+        <div class="feat-card feat-hl fade" onclick="window.location='vendors.html'">
+          <div class="feat-top">
+            <div class="feat-ico">🏛️</div><span class="feat-num">05</span>
+          </div>
+          <div class="feat-bottom">
+            <div class="feat-tag">Marketplace</div>
+            <div class="feat-title">Vendor Marketplace</div>
+            <div class="feat-desc">12,000+ professionals — Photography, Décor, Catering, Makeup, Mehndi, Music &amp;
+              more.</div>
+          </div>
+        </div>
+        <div class="feat-card fade" onclick="openModal('invite-studio-modal')">
+          <div class="feat-top">
+            <div class="feat-ico">💌</div><span class="feat-num">06</span>
+          </div>
+          <div class="feat-bottom">
+            <div class="feat-tag">Invitations</div>
+            <div class="feat-title">Digital Invite Studio</div>
+            <div class="feat-desc">200+ animated templates, QR RSVPs, WhatsApp sharing &amp; live RSVP dashboard.</div>
+          </div>
+        </div>
+        <div class="feat-card fade" onclick="openModal('microsite-modal')">
+          <div class="feat-top">
+            <div class="feat-ico">🌐</div><span class="feat-num">07</span>
+          </div>
+          <div class="feat-bottom">
+            <div class="feat-tag">Website Builder</div>
+            <div class="feat-title">Your Wedding Microsite</div>
+            <div class="feat-desc">Countdown, gallery, RSVP, map &amp; livestream — your story, beautifully published
+              online.</div>
+          </div>
+        </div>
+        <div class="feat-card fade" onclick="openModal('live-events-modal')">
+          <div class="feat-top">
+            <div class="feat-ico">📱</div><span class="feat-num">08</span>
+          </div>
+          <div class="feat-bottom">
+            <div class="feat-tag">Live Events</div>
+            <div class="feat-title">QR Check-ins &amp; Live Wall</div>
+            <div class="feat-desc">Digital passes, live announcements, instant photo sharing &amp; real-time
+              coordination.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+     CATEGORIES
+     ══════════════════════════════ -->
+  <section class="sec" style="background:var(--surface);padding-top:4rem;padding-bottom:4rem;">
+    <div class="inner">
+      <div class="sec-label">Browse by Category</div>
+      <div
+        style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:0;">
+        <h2 class="sec-title" style="margin-bottom:0;">Find your <em>perfect professionals</em></h2>
+        <a href="vendors.html" class="btn btn-ghost">Browse All →</a>
+      </div>
+      <div class="cat-grid">
+        <a href="vendors.html?cat=venues" class="cat-card fade">
+          <div class="cat-ico">🏰</div>
+          <div class="cat-name">Venues</div>
+          <div class="cat-count">5,200+ listed</div>
+        </a>
+        <a href="vendors.html?cat=photographers" class="cat-card fade">
+          <div class="cat-ico">📸</div>
+          <div class="cat-name">Photographers</div>
+          <div class="cat-count">3,100+ listed</div>
+        </a>
+        <a href="vendors.html?cat=makeup" class="cat-card fade">
+          <div class="cat-ico">💄</div>
+          <div class="cat-name">Makeup Artists</div>
+          <div class="cat-count">2,400+ listed</div>
+        </a>
+        <a href="vendors.html?cat=catering" class="cat-card fade">
+          <div class="cat-ico">🍛</div>
+          <div class="cat-name">Catering</div>
+          <div class="cat-count">1,800+ listed</div>
+        </a>
+        <a href="vendors.html?cat=decor" class="cat-card fade">
+          <div class="cat-ico">🌺</div>
+          <div class="cat-name">Decorators</div>
+          <div class="cat-count">2,000+ listed</div>
+        </a>
+        <a href="vendors.html?cat=dj" class="cat-card fade">
+          <div class="cat-ico">🎵</div>
+          <div class="cat-name">DJs &amp; Music</div>
+          <div class="cat-count">900+ listed</div>
+        </a>
+        <a href="vendors.html?cat=videographer" class="cat-card fade">
+          <div class="cat-ico">🎬</div>
+          <div class="cat-name">Videographers</div>
+          <div class="cat-count">1,200+ listed</div>
+        </a>
+        <a href="vendors.html?cat=mehndi" class="cat-card fade">
+          <div class="cat-ico">🌿</div>
+          <div class="cat-name">Mehndi Artists</div>
+          <div class="cat-count">1,500+ listed</div>
+        </a>
+        <a href="vendors.html?cat=chef" class="cat-card fade">
+          <div class="cat-ico">👨‍🍳</div>
+          <div class="cat-name">Chefs</div>
+          <div class="cat-count">600+ listed</div>
+        </a>
+        <a href="vendors.html?cat=planner" class="cat-card fade">
+          <div class="cat-ico">📋</div>
+          <div class="cat-name">Planners</div>
+          <div class="cat-count">450+ listed</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+     THEMES — SQUARE CAROUSEL
+     ══════════════════════════════ -->
+  <section class="sec">
+    <div class="inner">
+      <div class="themes-section-header">
+        <div>
+          <div class="sec-label">Wedding Themes</div>
+          <h2 class="sec-title" style="margin-bottom:0;">Find your <em>visual identity</em></h2>
+        </div>
+        <a href="themes.html" class="view-all-btn" style="text-decoration:none;">View All 20 Themes ↗</a>
+      </div>
+
+      <!-- Carousel -->
+      <div class="themes-carousel-wrap">
+        <div class="themes-track" id="themes-track">
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('southindian.jpg') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Classic</div>
+            <div class="ttcontent"><span class="ttnum">01</span>
+              <div class="ttname">South Indian Traditional</div>
+              <div class="ttsub">Silk · Jasmine · Temple</div>
+            </div>
+          </a>
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('palace.jpg') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Trending</div>
+            <div class="ttcontent"><span class="ttnum">02</span>
+              <div class="ttname">Royal Palace</div>
+              <div class="ttsub">Gold mandap · Heritage palaces</div>
+            </div>
+          </a>
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('beach.jpg') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Destination</div>
+            <div class="ttcontent"><span class="ttnum">03</span>
+              <div class="ttname">Beach</div>
+              <div class="ttsub">Sunset · Goa &amp; Kerala</div>
+            </div>
+          </a>
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('garden.jpg') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Romantic</div>
+            <div class="ttcontent"><span class="ttnum">04</span>
+              <div class="ttname">Garden</div>
+              <div class="ttsub">Botanicals · Pavilion · Lush</div>
+            </div>
+          </a>
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('destination.jpg') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Wanderlust</div>
+            <div class="ttcontent"><span class="ttnum">05</span>
+              <div class="ttname">Destination</div>
+              <div class="ttsub">Santorini · Maldives · Bali</div>
+            </div>
+          </a>
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('rustic.avif') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Charming</div>
+            <div class="ttcontent"><span class="ttnum">06</span>
+              <div class="ttname">Rustic Village</div>
+              <div class="ttsub">Barn · Fairy lights · Vintage</div>
+            </div>
+          </a>
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('floral.jpg') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Enchanted</div>
+            <div class="ttcontent"><span class="ttnum">07</span>
+              <div class="ttname">Floral Fairytale</div>
+              <div class="ttsub">Bloom arches · Storybook magic</div>
+            </div>
+          </a>
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('luxury.jfif') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Premium</div>
+            <div class="ttcontent"><span class="ttnum">08</span>
+              <div class="ttname">Modern Luxury</div>
+              <div class="ttsub">Crystal · Velvet · Five-star</div>
+            </div>
+          </a>
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('boho.jpg') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Bohemian</div>
+            <div class="ttcontent"><span class="ttnum">09</span>
+              <div class="ttname">Boho Wedding</div>
+              <div class="ttsub">Dreamcatchers · Pampas Grass · Outdoors</div>
+            </div>
+          </a>
+
+          <a class="theme-tile" href="themes.html" style="text-decoration:none;">
+            <div class="ttbg" style="background:url('minimalist.jpg') center/cover;"></div>
+            <div class="ttgrad"></div>
+            <div class="ttbadge">Modern</div>
+            <div class="ttcontent"><span class="ttnum">10</span>
+              <div class="ttname">Minimalist Contemporary</div>
+              <div class="ttsub">Clean lines · Neutral tones</div>
+            </div>
+          </a>
+
+
+
+        </div><!-- /themes-track -->
+      </div><!-- /carousel-wrap -->
+
+      <!-- Arrow nav + dot row -->
+      <div class="carousel-arrows">
+        <div class="carousel-dots" id="theme-dots">
+          <div class="c-dot active" onclick="themesGoTo(0)"></div>
+          <div class="c-dot" onclick="themesGoTo(1)"></div>
+          <div class="c-dot" onclick="themesGoTo(2)"></div>
+          <div class="c-dot" onclick="themesGoTo(3)"></div>
+          <div class="c-dot" onclick="themesGoTo(4)"></div>
+        </div>
+        <div class="c-arrow-group">
+          <button class="c-arrow" onclick="themesScroll(-1)">←</button>
+          <button class="c-arrow" onclick="themesScroll(1)">→</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ THEMES ALL-20 POPUP ══ -->
+  <div class="themes-popup" id="themes-popup" onclick="closeThemesPopup(event)">
+    <div class="themes-popup-box">
+      <div class="tp-header">
+        <div class="tp-title">All Wedding <em>Themes</em></div>
+        <button class="tp-close" onclick="closeThemesPopupDirect()">✕</button>
+      </div>
+      <div class="tp-grid">
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#3A0A15,#8B1A2E,#D4A843);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">01 / 20</span>
+            <div class="tp-name">Royal / Palace Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#0A2A1A,#1A5E38,#C8A840);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">02 / 20</span>
+            <div class="tp-name">Traditional South Indian</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#071A2A,#1A4A6B,#4AADCF);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">03 / 20</span>
+            <div class="tp-name">Beach Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#0E1A08,#2A5E1A,#8AC84A);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">04 / 20</span>
+            <div class="tp-name">Garden Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#111,#2A2A2A,#888);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">05 / 20</span>
+            <div class="tp-name">Minimalist Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#2A1A0A,#7A4A1A,#E8C070);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">06 / 20</span>
+            <div class="tp-name">Boho Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#1A1008,#5A3A18,#B87840);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">07 / 20</span>
+            <div class="tp-name">Rustic Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#0A0A1A,#2A2A5A,#8A8AFF);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">08 / 20</span>
+            <div class="tp-name">Contemporary Glam</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#2A0A18,#8A3A60,#F4B0C8);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">09 / 20</span>
+            <div class="tp-name">Pastel Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#1A1608,#4A4020,#F0D878);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">10 / 20</span>
+            <div class="tp-name">White &amp; Gold Elegant</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#2A0808,#8B0000,#D4A843);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">11 / 20</span>
+            <div class="tp-name">Red &amp; Gold Theme</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#0A1A08,#3A6E28,#D4EE88);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">12 / 20</span>
+            <div class="tp-name">Floral Garden Theme</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#100808,#3A2010,#E8904A);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">13 / 20</span>
+            <div class="tp-name">Candlelight Theme</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#0A081A,#2A1858,#9A78FF);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">14 / 20</span>
+            <div class="tp-name">Fairytale Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#0A0E08,#2A3820,#788860);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">15 / 20</span>
+            <div class="tp-name">Old Money Aesthetic</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#0E0E0E,#2A2A2A,#C8C8C8);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">16 / 20</span>
+            <div class="tp-name">Korean Minimal</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#081820,#1A4858,#40A8D0);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">17 / 20</span>
+            <div class="tp-name">Destination Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#0A0818,#2A1848,#8050C8);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">18 / 20</span>
+            <div class="tp-name">Luxury Resort Wedding</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#1A0A00,#5A2A08,#D47820);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">19 / 20</span>
+            <div class="tp-name">Temple Theme</div>
+          </div>
+        </div>
+
+        <div class="tp-card" onclick="window.location='themes.html'">
+          <div class="tp-bg" style="background:linear-gradient(145deg,#1A0808,#6A1818,#FF7030);"></div>
+          <div class="tp-grad"></div>
+          <div class="tp-content"><span class="tp-num">20 / 20</span>
+            <div class="tp-name">Sunset Cocktail Theme</div>
+          </div>
+        </div>
+
+      </div><!-- /tp-grid -->
+    </div><!-- /popup-box -->
+  </div><!-- /popup -->
+
+  <!-- ── STATS ── -->
+  <section class="sec" style="background:var(--surface);padding:4rem 2.5rem;">
+    <div class="inner">
+      <div class="stats-row">
+        <div class="stat-cell fade">
+          <div class="stat-num">50K+</div>
+          <div class="stat-lbl">Weddings Planned</div>
+        </div>
+        <div class="stat-cell fade">
+          <div class="stat-num">12K+</div>
+          <div class="stat-lbl">Verified Vendors</div>
+        </div>
+        <div class="stat-cell fade">
+          <div class="stat-num">₹500Cr+</div>
+          <div class="stat-lbl">Budgets Managed</div>
+        </div>
+        <div class="stat-cell fade">
+          <div class="stat-num">4.9★</div>
+          <div class="stat-lbl">Average Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS — SQUARE AUTO-SCROLL ── -->
+  <section class="sec testi-section" style="padding-left:0;padding-right:0;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 2.5rem 0;">
+      <div class="sec-label">Couple Stories</div>
+      <h2 class="sec-title">Voices of <em>joyful celebration</em></h2>
+    </div>
+
+    <!-- Single continuous belt — all 26 cards scroll LEFT slowly -->
+    <div class="testi-belt" style="margin-top:2.5rem;">
+      <div class="testi-row row-left" id="testi-track">
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">Varnam transformed our palace wedding dream into reality. The AI suggested Umaid Bhawan
+            before we even knew to ask — every vendor recommendation was flawless. 500 guests, zero stress.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">💍</div>
+            <div class="tc-info">
+              <div class="tc-name">M.S. Dhoni &amp; Sakshi</div>
+              <div class="tc-loc">RANCHI, JHARKHAND · OCT 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">The budget intelligence saved us ₹3 lakhs. The whole ecosystem — invites, guests, vendors,
+            timeline — synchronised perfectly. This is what modern wedding planning should feel like.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">🌸</div>
+            <div class="tc-info">
+              <div class="tc-name">Sriram &amp; Sita</div>
+              <div class="tc-loc">COIMBATORE, TAMIL NADU · DEC 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">QR check-ins for 800 guests — smooth as silk. The live photo wall had everyone posting.
+            Varnam is not just a planner; it's a full wedding experience platform. Absolutely breathtaking.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">🪔</div>
+            <div class="tc-info">
+              <div class="tc-name">Sharmila &amp; Nithesh</div>
+              <div class="tc-loc">CHENNAI, TAMIL NADU · JAN 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">We planned our entire destination wedding. The vendor marketplace is
+            incredible — photographer, mehndi artist, and decorator all found in one place. Seamless from start to
+            finish.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">🌺</div>
+            <div class="tc-info">
+              <div class="tc-name">Prabavathi &amp; Mithun</div>
+              <div class="tc-loc">DHARMAPURI, TAMIL NADU · NOV 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">The AI theme recommendation was spot-on. It suggested Candlelight theme based on our
+            preferences and the result was breathtaking. Every guest still talks about how magical that evening felt.
+          </p>
+          <div class="tc-author">
+            <div class="tc-avatar">🕯️</div>
+            <div class="tc-info">
+              <div class="tc-name">Siva &amp; Dhivya</div>
+              <div class="tc-loc">COIMBATORE, TAMIL NADU · FEB 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">Digital invites with QR RSVP changed everything. All 450 guests confirmed in just 3 days.
+            No calls, no confusion — just pure elegance. The RSVP dashboard is a masterpiece of UX design.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">💌</div>
+            <div class="tc-info">
+              <div class="tc-name">Swetha &amp; Deepak</div>
+              <div class="tc-loc">TIRUPPUR, TAMIL NADU · MAR 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">Our beach wedding in Kerala was planned entirely through Varnam. From venue booking to
+            sangeet
+            choreographer — every detail was handled with remarkable precision. The sunset ceremony was perfect.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">🌊</div>
+            <div class="tc-info">
+              <div class="tc-name">Vanishree &amp; Surya</div>
+              <div class="tc-loc">KOCHI, KERALA · DEC 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">Varnam's AI matched us with photographers whose style we didn't even know we wanted. The
+            photos brought us to tears. The platform just understands what couples need.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">📸</div>
+            <div class="tc-info">
+              <div class="tc-name">Nandhini &amp; Vijay</div>
+              <div class="tc-loc">BENGALURU, KARNATAKA · OCT 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">The seating arrangement tool is genius. Varnam's AI suggested groupings by relationships
+            and everyone sat comfortably — no family drama at all! That alone was worth every rupee.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">🪑</div>
+            <div class="tc-info">
+              <div class="tc-name">Abinaya &amp; Karthik</div>
+              <div class="tc-loc">NEW DELHI, DELHI · JAN 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">Our wedding microsite was stunning. Guests in Australia said it felt like browsing a luxury
+            magazine.
+            The countdown timer, gallery, and RSVP form were all seamlessly integrated. Pure class.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">🌐</div>
+            <div class="tc-info">
+              <div class="tc-name">Amarnath &amp; Pranava</div>
+              <div class="tc-loc">SYDNEY, AUSTRALIA · FEB 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">Our Heritage Palace wedding came together in 4 months thanks to Varnam. The instant booking
+            system, vendor communication hub, and budget tracker made the impossible feel effortless.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">🏯</div>
+            <div class="tc-info">
+              <div class="tc-name">Raina &amp; Priyanka</div>
+              <div class="tc-loc">LUCKNOW, UTTAR PRADESH · SEP 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">We had 1,200 guests across three events. Varnam's guest manager tracked RSVP, meals,
+            accommodation, and transport for every single person. The export to Excel feature saved us hours.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">👑</div>
+            <div class="tc-info">
+              <div class="tc-name">Riteish &amp; Genelia</div>
+              <div class="tc-loc">MUMBAI, MAHARASHTRA · JAN 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Duplicate set for seamless infinite loop -->
+
+        <div class="testi-card">
+          <div class="tc-deco-quote">"</div>
+          <div class="tc-stars-top">★★★★★</div>
+          <p class="tc-text">Varnam transformed our palace wedding dream into reality. The AI suggested Umaid Bhawan
+            before we even knew to ask — every vendor recommendation was flawless. 500 guests, zero stress.</p>
+          <div class="tc-author">
+            <div class="tc-avatar">💍</div>
+            <div class="tc-info">
+              <div class="tc-name">M.S. Dhoni &amp; Sakshi</div>
+              <div class="testi-card">
+                <div class="tc-deco-quote">"</div>
+                <div class="tc-stars-top">★★★★★</div>
+                <p class="tc-text">Our wedding microsite was stunning. Guests in Australia said it felt like browsing a
+                  luxury magazine.
+                  The countdown timer, gallery, and RSVP form were all seamlessly integrated. Pure class.</p>
+                <div class="tc-author">
+                  <div class="tc-avatar">🌐</div>
+                  <div class="tc-info">
+                    <div class="tc-name">Amarnath &amp; Pranava</div>
+                    <div class="tc-loc">AUSTRALIA · FEB 2025</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="testi-card">
+                <div class="tc-deco-quote">"</div>
+                <div class="tc-stars-top">★★★★★</div>
+                <p class="tc-text">Our Heritage Palace wedding came together in 4 months thanks to Varnam. The instant
+                  booking
+                  system, vendor communication hub, and budget tracker made the impossible feel effortless.</p>
+                <div class="tc-author">
+                  <div class="tc-avatar">🏯</div>
+                  <div class="tc-info">
+                    <div class="tc-name">Raina &amp; Priyanka</div>
+                    <div class="tc-loc">UP · SEP 2024</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="testi-card">
+                <div class="tc-deco-quote">"</div>
+                <div class="tc-stars-top">★★★★★</div>
+                <p class="tc-text">We had 1,200 guests across three events. Varnam's guest manager tracked RSVP, meals,
+                  accommodation, and transport for every single person. The export to Excel feature saved us hours.</p>
+                <div class="tc-author">
+                  <div class="tc-avatar">👑</div>
+                  <div class="tc-info">
+                    <div class="tc-name">Riteish &amp; Genelia</div>
+                    <div class="tc-loc">MUMBAI · JAN 2025</div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /testi-row -->
+          </div><!-- /testi-belt -->
+  </section>
+
+  <!-- ── CTA BAND ── -->
+  <section
+    style="background:linear-gradient(135deg,rgba(212,168,67,.07),rgba(196,48,96,.05));border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 2.5rem;text-align:center;">
+    <div class="inner fade">
+      <div class="sec-label" style="justify-content:center;">Get Started</div>
+      <h2 class="sec-title" style="max-width:580px;margin:0 auto 1rem;">Ready to plan your <em>dream wedding?</em></h2>
+      <p style="color:var(--text2);font-size:.95rem;margin-bottom:2.5rem;">Join 50,000+ couples who created the wedding
+        of their dreams with Varnam.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-gold" style="padding:1rem 2.5rem;font-size:.95rem;"
+          onclick="openModal('signup-modal')">Start Planning Free →</button>
+        <button class="btn btn-ghost" style="padding:1rem 2.5rem;font-size:.95rem;"
+          onclick="openModal('marriage-style-modal')">Design Your Theme</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Varnam</div>
+        <p class="footer-desc">India's most elegant wedding platform — weaving traditions, dreams, and celebrations into
+          one breathtaking journey.</p>
+        <div class="footer-nl">
+          <input id="footer-email" placeholder="Your email address">
+          <button onclick="footerSub()">Subscribe</button>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Planning</h5>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#">Guest Manager</a></li>
+          <li><a href="#">Budget Tracker</a></li>
+          <li><a href="#">Checklist</a></li>
+          <li><a href="#">Wedding Website</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Discover</h5>
+        <ul>
+          <li><a href="themes.html">Themes</a></li>
+          <li><a href="venues.html">Venues</a></li>
+          <li><a href="vendors.html">All Vendors</a></li>
+          <li><a href="vendors.html?cat=photographers">Photographers</a></li>
+          <li><a href="vendors.html?cat=makeup">Makeup Artists</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About Varnam</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#" onclick="openModal('vendor-signup-modal')">Vendor Registration</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 VARNAM · MADE WITH ❤ IN INDIA</div>
+      <div class="footer-socials">
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg></a>
+        <a href="#" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M23.498 6.163c-.272-1.015-1.074-1.817-2.09-2.09C17.914 3.5 12 3.5 12 3.5s-5.914 0-9.408.573c-1.016.273-1.818 1.075-2.09 2.09C0 9.657 0 12 0 12s0 2.343.502 5.837c.272 1.016 1.074 1.818 2.09 2.09C6.086 20.5 12 20.5 12 20.5s5.914 0 9.408-.573c1.016-.272 1.818-1.074 2.09-2.09C24 14.343 24 12 24 12s0-2.343-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg></a>
+        <a href="#" aria-label="X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg></a>
+        <a href="#" aria-label="Gmail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg></a>
+        <a href="#" aria-label="Reddit"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-.519 1.007c.01.127.014.254.014.382 0 2.29-2.878 4.15-6.417 4.15-3.538 0-6.417-1.86-6.417-4.15 0-.128.004-.255.014-.382a1.248 1.248 0 0 1-.519-1.007c0-.688.562-1.25 1.25-1.25.438 0 .823.23 1.042.576 1.205-.832 2.842-1.366 4.654-1.424l.984-4.636 3.22.684a.972.972 0 0 1-.027.228c0 .54.437.978.978.978.541 0 .978-.437.978-.978a.979.979 0 0 0-.978-.978.976.976 0 0 0-.948.745l-3.52-.747-.8 3.774c1.802.062 3.425.599 4.622 1.428.219-.342.6-.568 1.033-.568zM9.014 9.176c-.605 0-1.1.496-1.1 1.1s.495 1.1 1.1 1.1 1.1-.496 1.1-1.1-.495-1.1-1.1-1.1zm5.972 0c-.605 0-1.1.496-1.1 1.1s.495 1.1 1.1 1.1c.606 0 1.1-.496 1.1-1.1s-.494-1.1-1.1-1.1zm-5.437 3.655c.348.347.828.563 1.354.563.526 0 1.006-.216 1.354-.563a.252.252 0 0 0-.356-.356c-.256.255-.609.412-1 .412s-.744-.157-1-.412a.252.252 0 0 0-.356.356z" />
+          </svg></a>
+        <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+          </svg></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══ LOGIN MODAL ══ -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Welcome Back</div><button class="modal-close"
+          onclick="closeModal('login-modal')">✕</button>
+      </div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="switchRole(this,'lu')">👰 Couple / Guest</button>
+        <button class="role-tab" onclick="switchRole(this,'lv')">🎯 Organizer / Vendor</button>
+      </div>
+      <div id="lu">
+        <div class="form-row"><label class="field-label">Email</label><input class="field" type="email"
+            placeholder="your@email.com"></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password"
+            placeholder="••••••••"></div>
+        <div style="text-align:right;margin-bottom:1.25rem;"><a href="#"
+            style="font-size:.78rem;color:var(--gold);text-decoration:none;">Forgot password?</a></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;"
+          onclick="loginUser(document.querySelector('#lu input[type=email]').value, false);closeModal('login-modal')">Sign
+          In →</button>
+        <div class="divider"><span>or continue with</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google login…')">🔵
+            Google</button><button class="social-auth-btn" onclick="toast('OTP sent…')">📱 OTP</button></div>
+        <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--text3);">No account? <a href="#"
+            style="color:var(--gold);text-decoration:none;"
+            onclick="closeModal('login-modal');openModal('signup-modal')">Sign Up</a></p>
+      </div>
+      <div id="lv" style="display:none">
+        <div class="form-row"><label class="field-label">Business Email</label><input class="field" type="email"
+            placeholder="studio@email.com"></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password"
+            placeholder="••••••••"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;"
+          onclick="loginUser(document.querySelector('#lv input[type=email]').value, true);closeModal('login-modal')">Sign
+          In as Organizer →</button>
+        <div class="divider"><span>or</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google…')">🔵 Google</button></div>
+        <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--text3);">New vendor? <a href="#"
+            style="color:var(--gold);text-decoration:none;"
+            onclick="closeModal('login-modal');openModal('vendor-signup-modal')">Register business</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ USER SIGNUP MODAL ══ -->
+  <div class="modal-overlay" id="signup-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Create Account</div><button class="modal-close"
+          onclick="closeModal('signup-modal')">✕</button>
+      </div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="switchRole(this,'su')">👰 Couple / Guest</button>
+        <button class="role-tab" onclick="switchRole(this,'sv')">🎯 Organizer / Vendor</button>
+      </div>
+      <div id="su" class="role-panel">
+        <div class="form-row-2">
+          <div><label class="field-label">First Name</label><input class="field" placeholder="Sita"></div>
+          <div><label class="field-label">Last Name</label><input class="field" placeholder="Sharma"></div>
+        </div>
+        <div class="form-row"><label class="field-label">Email</label><input class="field" type="email"
+            placeholder="your@email.com"></div>
+        <div class="form-row"><label class="field-label">Phone</label><input class="field" type="tel"
+            placeholder="+91 98765 43210"></div>
+        <div class="form-row"><label class="field-label">Role</label><select class="field">
+            <option>Bride</option>
+            <option>Groom</option>
+            <option>Family Member</option>
+            <option>Guest</option>
+          </select></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password"
+            placeholder="Min. 8 characters"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;"
+          onclick="loginUser(document.querySelector('#su input[type=email]').value, false);closeModal('signup-modal')">Create
+          Account →</button>
+        <div class="divider"><span>or sign up with</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google…')">🔵 Google</button><button
+            class="social-auth-btn" onclick="toast('OTP sent…')">📱 OTP</button></div>
+      </div>
+      <div id="sv" class="role-panel" style="display:none">
+        <div class="form-row-2">
+          <div><label class="field-label">First Name</label><input class="field" id="v-su-fname"
+              placeholder="First Name"></div>
+          <div><label class="field-label">Last Name</label><input class="field" id="v-su-lname" placeholder="Last Name">
+          </div>
+        </div>
+        <div class="form-row"><label class="field-label">Email</label><input class="field" id="v-su-email" type="email"
+            placeholder="studio@email.com"></div>
+        <div class="form-row"><label class="field-label">Phone</label><input class="field" id="v-su-phone" type="tel"
+            placeholder="+91 98765 43210"></div>
+        <div class="form-row"><label class="field-label">Vendor Category</label><select class="field" id="v-su-role">
+            <option>Photographer</option>
+            <option>Videographer</option>
+            <option>Makeup Artist</option>
+            <option>Mehndi Artist</option>
+            <option>Decorator / Florist</option>
+            <option>Caterer</option>
+            <option>DJ / Musician</option>
+            <option>Wedding Planner</option>
+            <option>Venue Owner</option>
+          </select></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password"
+            placeholder="Min. 8 characters"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;"
+          onclick="loginUser(document.getElementById('v-su-email').value, true);closeModal('signup-modal')">Create
+          Account →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ VENDOR SIGNUP MODAL ══ -->
+  <div class="modal-overlay" id="vendor-signup-modal">
+    <div class="modal" style="max-width:560px;">
+      <div class="modal-header">
+        <div class="modal-title">Register Your Business</div><button class="modal-close"
+          onclick="closeModal('vendor-signup-modal')">✕</button>
+      </div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:1.75rem;line-height:1.6;">Join 12,000+ verified
+        professionals on Varnam. Create your profile and start receiving enquiries from couples across India.</p>
+      <div class="form-row-2">
+        <div><label class="field-label">Full Name</label><input class="field" placeholder="Your Name"></div>
+        <div><label class="field-label">Business Name</label><input class="field" placeholder="Studio / Brand Name">
+        </div>
+      </div>
+      <div class="form-row"><label class="field-label">Category</label>
+        <select class="field">
+          <option>Photographer</option>
+          <option>Videographer</option>
+          <option>Makeup Artist</option>
+          <option>Mehndi Artist</option>
+          <option>Decorator / Florist</option>
+          <option>Caterer</option>
+          <option>DJ / Musician</option>
+          <option>Chef</option>
+          <option>Wedding Planner</option>
+          <option>Venue Owner</option>
+          <option>Bridal Wear Designer</option>
+          <option>Jeweller</option>
+        </select>
+      </div>
+      <div class="form-row-2">
+        <div><label class="field-label">City / Base Location</label><input class="field" placeholder="e.g. Mumbai">
+        </div>
+        <div><label class="field-label">Years of Experience</label><input class="field" type="number" placeholder="5">
+        </div>
+      </div>
+      <div class="form-row"><label class="field-label">Business Email</label><input class="field" type="email"
+          placeholder="studio@email.com"></div>
+      <div class="form-row"><label class="field-label">Phone / WhatsApp</label><input class="field" type="tel"
+          placeholder="+91 98765 43210"></div>
+      <div class="form-row"><label class="field-label">About Your Work</label><textarea class="field" rows="3"
+          placeholder="Tell couples about your style and experience…"></textarea></div>
+      <div class="form-row"><label class="field-label">Starting Price (₹)</label><input class="field" type="number"
+          placeholder="e.g. 25000"></div>
+      <div class="form-row"><label class="field-label">Portfolio / Website URL</label><input class="field"
+          placeholder="https://yourstudio.com"></div>
+      <div class="form-row"><label class="field-label">Password</label><input class="field" type="password"
+          placeholder="Min. 8 characters"></div>
+      <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;"
+        onclick="toast('🎉 Submitted! Verification within 24 hrs.');closeModal('vendor-signup-modal')">Submit for
+        Verification →</button>
+      <p style="text-align:center;margin-top:1rem;font-size:.75rem;color:var(--text3);">Verification takes 24–48 hours.
+        You'll receive an email once approved.</p>
+    </div>
+  </div>
+
+  <!-- ══ DESIGN YOUR THEME MODAL ══ -->
+  <div class="modal-overlay" id="marriage-style-modal">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <div class="modal-title">Design Your Theme</div>
+        <button class="modal-close" onclick="closeModal('marriage-style-modal')">✕</button>
+      </div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:1.5rem;line-height:1.6;">
+        Tell us about your dream celebration. Customize your wedding themes from start to finish.
+      </p>
+
+      <form id="marriage-style-form" onsubmit="event.preventDefault(); submitMarriageStyle();">
+        <div class="form-row-2">
+          <div>
+            <label class="field-label">Partner 1 Name</label>
+            <input class="field" id="ms-partner1" placeholder="e.g. M.S. Dhoni" required>
+          </div>
+          <div>
+            <label class="field-label">Partner 2 Name</label>
+            <input class="field" id="ms-partner2" placeholder="e.g. Sakshi" required>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div>
+            <label class="field-label">Email Address</label>
+            <input class="field" type="email" id="ms-email" placeholder="your@email.com" required>
+          </div>
+          <div>
+            <label class="field-label">Phone Number</label>
+            <input class="field" type="tel" id="ms-phone" placeholder="+91 98765 43210" required>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div>
+            <label class="field-label">Date of Marriage</label>
+            <input class="field" type="date" id="ms-date" required>
+          </div>
+          <div>
+            <label class="field-label">Estimated Guest Count</label>
+            <input class="field" type="number" id="ms-guests" placeholder="e.g. 500" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="field-label">Select Marriage Style / Theme (Select one or more)</label>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.5rem;">
+            <label
+              style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text2); cursor: pointer;">
+              <input type="checkbox" name="ms-theme" value="Royal Wedding"> Royal Wedding
+            </label>
+            <label
+              style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text2); cursor: pointer;">
+              <input type="checkbox" name="ms-theme" value="South Indian Traditional"> South Indian Traditional
+            </label>
+            <label
+              style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text2); cursor: pointer;">
+              <input type="checkbox" name="ms-theme" value="Beach Ceremony"> Beach Ceremony
+            </label>
+            <label
+              style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text2); cursor: pointer;">
+              <input type="checkbox" name="ms-theme" value="Floral Garden"> Floral Garden
+            </label>
+            <label
+              style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text2); cursor: pointer;">
+              <input type="checkbox" name="ms-theme" value="Luxury Modern"> Luxury Modern
+            </label>
+            <label
+              style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text2); cursor: pointer;">
+              <input type="checkbox" name="ms-theme" value="Rajasthan Heritage"> Rajasthan Heritage
+            </label>
+            <label
+              style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text2); cursor: pointer;">
+              <input type="checkbox" name="ms-theme" value="Korean Minimalist"> Korean Minimalist
+            </label>
+            <label
+              style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text2); cursor: pointer;">
+              <input type="checkbox" name="ms-theme" value="Sunset Cocktail Theme"> Sunset Cocktail Theme
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="field-label">Start to End Marriage Style & Theme Preferences</label>
+          <textarea class="field" id="ms-preferences" rows="3"
+            placeholder="Describe the style/themes you desire for each ceremony (Welcome, Haldi, Sangeet, Pheras, Reception)..."
+            required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-gold"
+          style="width:100%;justify-content:center;padding:.9rem;margin-top:1rem;">
+          Save Theme Design →
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══ 02. AI WEDDING PLANNER MODAL ══ -->
+  <div class="modal-overlay" id="ai-planner-modal">
+    <div class="modal" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div class="modal-title">🤖 AI Wedding Planner</div>
+        <button class="modal-close" onclick="closeModal('ai-planner-modal')">✕</button>
+      </div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:1.5rem;">
+        Harness AI trained on 50,000+ Indian weddings to plan your venue, budget division, and timeline.
+      </p>
+
+      <div class="form-row">
+        <label class="field-label">Describe Your Dream Wedding Vibe</label>
+        <textarea class="field" id="ai-prompt" rows="3"
+          placeholder="e.g. A sunset beach wedding in Goa for 200 guests with a modern elegant theme..."></textarea>
+      </div>
+
+      <div class="form-row-2">
+        <div>
+          <label class="field-label">Primary Vibe Theme</label>
+          <select class="field" id="ai-vibe">
+            <option value="royal">Palatial Royal Grandeur</option>
+            <option value="beach">Sunset Beach Ceremony</option>
+            <option value="traditional">Traditional Silk & Jasmine</option>
+            <option value="minimalist">Modern Korean Minimalist</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Total Estimated Budget</label>
+          <select class="field" id="ai-budget-range">
+            <option value="20L">₹15L – ₹25L</option>
+            <option value="40L" selected>₹30L – ₹50L</option>
+            <option value="80L">₹60L – ₹1Cr</option>
+            <option value="1.5C">₹1.2Cr+</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;margin-bottom:1.5rem;"
+        onclick="generateAIPlan()">
+        ✦ Run AI Planner Engine
+      </button>
+
+      <div id="ai-plan-result"
+        style="display:none;background:var(--ink2);border:1px solid var(--border);border-radius:var(--r8);padding:1.25rem;">
+        <h4 style="color:var(--gold);margin-bottom:1rem;font-family:'Cormorant Garamond',serif;font-size:1.4rem;">AI
+          Recommendations Summary</h4>
+        <div style="font-size:0.85rem;line-height:1.6;color:var(--text);display:flex;flex-direction:column;gap:1rem;">
+          <div>
+            <strong>📍 Recommended Venues:</strong>
+            <ul id="ai-rec-venues" style="margin-left:1.2rem;list-style-type:square;"></ul>
+          </div>
+          <div>
+            <strong>💰 Optimal Budget Allocation:</strong>
+            <ul id="ai-rec-budget" style="margin-left:1.2rem;list-style-type:square;"></ul>
+          </div>
+          <div>
+            <strong>📅 Estimated Planning Timeline:</strong>
+            <ul id="ai-rec-timeline" style="margin-left:1.2rem;list-style-type:square;"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 03. GUEST MANAGER MODAL ══ -->
+  <div class="modal-overlay" id="guest-manager-modal">
+    <div class="modal" style="max-width: 700px; max-height: 85vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div class="modal-title">👥 Guest Manager Dashboard</div>
+        <button class="modal-close" onclick="closeModal('guest-manager-modal')">✕</button>
+      </div>
+
+      <!-- Stats banner -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;">
+        <div
+          style="background:var(--ink2);border:1px solid var(--border);border-radius:var(--r8);padding:0.75rem;text-align:center;">
+          <div style="font-size:0.65rem;color:var(--text3);font-family:monospace;">TOTAL GUESTS</div>
+          <div id="guest-stat-total" style="font-size:1.5rem;font-weight:700;color:var(--gold);">3</div>
+        </div>
+        <div
+          style="background:var(--ink2);border:1px solid var(--border);border-radius:var(--r8);padding:0.75rem;text-align:center;">
+          <div style="font-size:0.65rem;color:var(--text3);font-family:monospace;">CONFIRMED</div>
+          <div id="guest-stat-confirmed" style="font-size:1.5rem;font-weight:700;color:#3A9A3A;">2</div>
+        </div>
+        <div
+          style="background:var(--ink2);border:1px solid var(--border);border-radius:var(--r8);padding:0.75rem;text-align:center;">
+          <div style="font-size:0.65rem;color:var(--text3);font-family:monospace;">PENDING / DECLINED</div>
+          <div id="guest-stat-pending" style="font-size:1.5rem;font-weight:700;color:var(--ember);">1</div>
+        </div>
+      </div>
+
+      <div
+        style="background:var(--ink2);border:1px solid var(--border);border-radius:var(--r8);padding:1rem;margin-bottom:1.5rem;">
+        <h4 style="margin-bottom:0.75rem;font-size:0.9rem;color:var(--gold);">+ Quick Add Guest</h4>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;align-items:flex-end;">
+          <div>
+            <label class="field-label" style="font-size:0.7rem;">Name</label>
+            <input class="field" style="padding:0.5rem;" id="guest-in-name" placeholder="Sita Patel">
+          </div>
+          <div>
+            <label class="field-label" style="font-size:0.7rem;">RSVP Status</label>
+            <select class="field" style="padding:0.5rem;" id="guest-in-rsvp">
+              <option value="Confirmed">Confirmed</option>
+              <option value="Pending">Pending</option>
+              <option value="Declined">Declined</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" style="font-size:0.7rem;">Diet</label>
+            <select class="field" style="padding:0.5rem;" id="guest-in-diet">
+              <option value="Veg">Veg</option>
+              <option value="Non-Veg">Non-Veg</option>
+              <option value="Jain">Jain</option>
+            </select>
+          </div>
+          <button class="btn btn-gold" style="padding:0.65rem;font-size:0.8rem;justify-content:center;"
+            onclick="addGuestRow()">Add</button>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;text-align:left;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);color:var(--text2);">
+              <th style="padding:0.5rem 0.25rem;">Name</th>
+              <th style="padding:0.5rem 0.25rem;">RSVP</th>
+              <th style="padding:0.5rem 0.25rem;">Diet</th>
+              <th style="padding:0.5rem 0.25rem;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="guest-table-body">
+            <!-- Mock items -->
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.03);" id="g-row-0">
+              <td style="padding:0.6rem 0.25rem;">Rohan Mehra</td>
+              <td style="padding:0.6rem 0.25rem;color:#3A9A3A;">Confirmed</td>
+              <td style="padding:0.6rem 0.25rem;">Veg</td>
+              <td style="padding:0.6rem 0.25rem;"><a href="#" style="color:var(--ember);text-decoration:none;"
+                  onclick="removeGuestRow(0)">Delete</a></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.03);" id="g-row-1">
+              <td style="padding:0.6rem 0.25rem;">Anjali Sen</td>
+              <td style="padding:0.6rem 0.25rem;color:#3A9A3A;">Confirmed</td>
+              <td style="padding:0.6rem 0.25rem;">Non-Veg</td>
+              <td style="padding:0.6rem 0.25rem;"><a href="#" style="color:var(--ember);text-decoration:none;"
+                  onclick="removeGuestRow(1)">Delete</a></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.03);" id="g-row-2">
+              <td style="padding:0.6rem 0.25rem;">Suresh Kumar</td>
+              <td style="padding:0.6rem 0.25rem;color:var(--gold);">Pending</td>
+              <td style="padding:0.6rem 0.25rem;">Jain</td>
+              <td style="padding:0.6rem 0.25rem;"><a href="#" style="color:var(--ember);text-decoration:none;"
+                  onclick="removeGuestRow(2)">Delete</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 04. BUDGET INTELLIGENCE MODAL ══ -->
+  <div class="modal-overlay" id="budget-tracker-modal">
+    <div class="modal" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div class="modal-title">💰 Budget Intelligence</div>
+        <button class="modal-close" onclick="closeModal('budget-tracker-modal')">✕</button>
+      </div>
+
+      <div
+        style="display:flex;justify-content:space-between;align-items:center;background:var(--ink2);padding:1rem;border-radius:var(--r8);border:1px solid var(--border);margin-bottom:1.5rem;">
+        <div>
+          <span
+            style="font-size:0.7rem;color:var(--text3);display:block;font-family:monospace;letter-spacing:1px;">TOTAL
+            WEDDING BUDGET</span>
+          <span id="budget-val-total"
+            style="font-size:1.6rem;font-weight:700;color:var(--gold);font-family:'Cormorant Garamond',serif;">₹40,00,000</span>
+        </div>
+        <div style="text-align:right;">
+          <span
+            style="font-size:0.7rem;color:var(--text3);display:block;font-family:monospace;letter-spacing:1px;">SPENT SO
+            FAR</span>
+          <span id="budget-val-spent"
+            style="font-size:1.6rem;font-weight:700;color:var(--rose);font-family:'Cormorant Garamond',serif;">₹24,80,000</span>
+        </div>
+      </div>
+
+      <h4 style="font-size:0.9rem;color:var(--gold);margin-bottom:0.75rem;">Category Allocation & Expenses</h4>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;" id="budget-categories-list">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.25rem;">
+            <span>🏛️ Venue & Catering (Target: ₹24,00,000)</span>
+            <span style="font-weight:600;">₹18,00,000</span>
+          </div>
+          <div style="width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;">
+            <div style="width:75%;height:100%;background:var(--gold);"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.25rem;">
+            <span>📸 Photography (Target: ₹6,00,000)</span>
+            <span style="font-weight:600;">₹4,80,000</span>
+          </div>
+          <div style="width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;">
+            <div style="width:80%;height:100%;background:var(--ember);"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.25rem;">
+            <span>🌷 Décor & Styling (Target: ₹4,80,000)</span>
+            <span style="font-weight:600;">₹2,00,000</span>
+          </div>
+          <div style="width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;">
+            <div style="width:42%;height:100%;background:#3A9A3A;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Expense Form -->
+      <div
+        style="background:var(--ink2);border:1px solid var(--border);border-radius:var(--r8);padding:1rem;margin-top:1.5rem;">
+        <h4 style="margin-bottom:0.75rem;font-size:0.85rem;color:var(--gold);">+ Add Custom Expense</h4>
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:0.5rem;align-items:flex-end;">
+          <div>
+            <label class="field-label" style="font-size:0.7rem;">Item / Vendor Name</label>
+            <input class="field" style="padding:0.5rem;" id="budget-in-item" placeholder="e.g. Sangeet DJ Sound">
+          </div>
+          <div>
+            <label class="field-label" style="font-size:0.7rem;">Cost (₹)</label>
+            <input class="field" type="number" style="padding:0.5rem;" id="budget-in-amount" placeholder="e.g. 50000">
+          </div>
+          <button class="btn btn-gold" style="padding:0.65rem;font-size:0.8rem;justify-content:center;"
+            onclick="addExpenseItem()">Add Item</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 06. DIGITAL INVITE STUDIO MODAL ══ -->
+  <div class="modal-overlay" id="invite-studio-modal">
+    <div class="modal" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div class="modal-title">💌 Digital Invite Studio</div>
+        <button class="modal-close" onclick="closeModal('invite-studio-modal')">✕</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+        <div>
+          <div class="form-row">
+            <label class="field-label">Couples / Banner Headline</label>
+            <input class="field" id="inv-headline" value="M.S. Dhoni & Sakshi" oninput="updateInvitePreview()">
+          </div>
+          <div class="form-row">
+            <label class="field-label">Date & Time</label>
+            <input class="field" id="inv-datetime" value="14 October 2026 at 5:00 PM" oninput="updateInvitePreview()">
+          </div>
+          <div class="form-row">
+            <label class="field-label">Venue Location</label>
+            <input class="field" id="inv-venue" value="Taj Rambagh Palace, Jaipur" oninput="updateInvitePreview()">
+          </div>
+          <div class="form-row">
+            <label class="field-label">Choose Studio Theme Template</label>
+            <select class="field" id="inv-theme-picker" onchange="updateInvitePreview()">
+              <option value="crimson">Royal Crimson & Gold</option>
+              <option value="pastel">Oceanic Beach Pastel</option>
+              <option value="silk">Classic South Silk Garden</option>
+            </select>
+          </div>
+          <button class="btn btn-gold" style="width:100%;justify-content:center;padding:0.85rem;"
+            onclick="toast('🎉 Invitation card saved to downloads!')">
+            Save Invitation Card
+          </button>
+        </div>
+
+        <!-- Live Preview -->
+        <div
+          style="display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:var(--r8);padding:1.5rem;background:linear-gradient(135deg,#3A0A15,#8B1A2E);position:relative;min-height:300px;text-align:center;color:#fff;"
+          id="inv-card-preview">
+          <div
+            style="font-family:'Cormorant Garamond',serif;font-size:0.75rem;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;">
+            THE WEDDING CELEBRATION</div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:1.5rem;"
+            id="inv-prev-headline">M.S. Dhoni & Sakshi</h2>
+          <p style="font-size:0.75rem;opacity:0.8;margin-bottom:0.5rem;font-family:monospace;">SAVE THE DATE</p>
+          <p style="font-size:0.85rem;margin-bottom:1rem;color:var(--gold);" id="inv-prev-datetime">14 October 2026 at
+            5:00 PM</p>
+          <p style="font-size:0.8rem;font-style:italic;" id="inv-prev-venue">Taj Rambagh Palace, Jaipur</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 07. WEBSITE BUILDER (MICROSITE) MODAL ══ -->
+  <div class="modal-overlay" id="microsite-modal">
+    <div class="modal" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div class="modal-title">🌐 Your Wedding Microsite</div>
+        <button class="modal-close" onclick="closeModal('microsite-modal')">✕</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.5rem;">
+        <div>
+          <div class="form-row">
+            <label class="field-label">Custom Site URL Suffix</label>
+            <div style="display:flex;align-items:center;gap:0.25rem;">
+              <span style="font-size:0.75rem;color:var(--text3);">varnam.wedding/</span>
+              <input class="field" style="padding:0.50rem;" id="site-suffix" value="dhoni-sakshi"
+                oninput="updateMicrositePreview()">
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="field-label">Our Love Story Header</label>
+            <input class="field" id="site-title" value="A Beautiful Journey Begins..."
+              oninput="updateMicrositePreview()">
+          </div>
+          <div class="form-row">
+            <label class="field-label">Intro Text</label>
+            <textarea class="field" id="site-story" rows="3"
+              oninput="updateMicrositePreview()">Two hearts, one soul, and a lifetime of shared dreams. We invite you to join us on our big day.</textarea>
+          </div>
+          <button class="btn btn-gold" style="width:100%;justify-content:center;padding:0.85rem;"
+            onclick="toast('🚀 Wedding Microsite successfully published!')">
+            Publish Microsite Live
+          </button>
+        </div>
+
+        <!-- Phone Preview Mock -->
+        <div
+          style="border:8px solid #222;border-radius:24px;background:#0d0a12;overflow:hidden;min-height:320px;display:flex;flex-direction:column;position:relative;font-size:0.7rem;box-shadow:inset 0 0 10px rgba(0,0,0,0.8);">
+          <div
+            style="background:#1d1825;padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--gold);font-family:monospace;font-size:0.55rem;"
+            id="site-prev-url">
+            varnam.wedding/dhoni-sakshi
+          </div>
+          <div
+            style="padding:1rem;text-align:center;flex-grow:1;display:flex;flex-direction:column;justify-content:center;gap:0.75rem;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);"
+              id="site-prev-title">A Beautiful Journey Begins...</div>
+            <p style="color:var(--text2);font-size:0.65rem;line-height:1.4;" id="site-prev-story">Two hearts, one soul,
+              and a lifetime of shared dreams. We invite you to join us on our big day.</p>
+            <div
+              style="border:1px solid rgba(212,168,67,0.3);padding:0.5rem;border-radius:4px;background:rgba(212,168,67,0.02);font-family:monospace;">
+              <div>COUNTDOWN</div>
+              <div style="font-size:0.85rem;color:var(--gold);font-weight:600;">132 Days · 04 Hrs</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 08. LIVE EVENTS MODAL ══ -->
+  <div class="modal-overlay" id="live-events-modal">
+    <div class="modal" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div class="modal-title">📱 QR Check-ins & Live Wall</div>
+        <button class="modal-close" onclick="closeModal('live-events-modal')">✕</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:1.5rem;">
+        <!-- Column 1: QR Check-in Sim -->
+        <div style="border-right:1px solid var(--border);padding-right:1.5rem;">
+          <h4 style="font-size:0.9rem;color:var(--gold);margin-bottom:0.75rem;">Simulate Guest Entry</h4>
+          <div class="form-row">
+            <label class="field-label">Select Registered Guest</label>
+            <select class="field" id="live-guest-select" onchange="generateMockQR()">
+              <option value="Rohan Mehra">Rohan Mehra</option>
+              <option value="Anjali Sen">Anjali Sen</option>
+              <option value="Suresh Kumar">Suresh Kumar</option>
+            </select>
+          </div>
+          <div
+            style="display:flex;flex-direction:column;align-items:center;background:#fff;padding:1rem;border-radius:8px;margin-bottom:1rem;">
+            <!-- Simple simulated QR Code using canvas border layout -->
+            <div
+              style="width:120px;height:120px;background:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22><rect width=%2230%22 height=%2230%22 fill=%22black%22/><rect x=%2270%22 width=%2230%22 height=%2230%22 fill=%22black%22/><rect y=%2270%22 width=%2230%22 height=%2230%22 fill=%22black%22/><rect x=%2235%22 y=%2235%22 width=%2230%22 height=%2230%22 fill=%22black%22/><rect x=%2210%22 y=%2240%22 width=%2210%22 height=%2220%22 fill=%22black%22/><rect x=%2275%22 y=%2275%22 width=%2220%22 height=%2220%22 fill=%22black%22/></svg>') center no-repeat;background-size:contain;">
+            </div>
+            <div style="font-size:0.65rem;color:#333;margin-top:0.5rem;font-weight:600;" id="live-guest-qr-lbl">PASS:
+              ROHAN MEHRA</div>
+          </div>
+          <button class="btn btn-gold" style="width:100%;justify-content:center;padding:0.75rem;"
+            onclick="performCheckInSim()">
+            Scan Entry Pass
+          </button>
+        </div>
+
+        <!-- Column 2: Live Wall feed -->
+        <div>
+          <h4 style="font-size:0.9rem;color:var(--gold);margin-bottom:0.75rem;">Live Photo & Wishes Wall</h4>
+          <div
+            style="background:var(--ink2);border:1px solid var(--border);border-radius:var(--r8);padding:0.75rem;height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:0.75rem;"
+            id="live-wall-posts">
+            <div style="border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:0.5rem;">
+              <span style="color:var(--gold);font-weight:600;font-size:0.75rem;">✨ Ramesh Gupta:</span>
+              <p style="font-size:0.75rem;margin-top:0.15rem;color:var(--text);">Congratulations to the beautiful
+                couple! Breathtaking decor at Taj Rambagh Palace.</p>
+            </div>
+            <div style="border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:0.5rem;">
+              <span style="color:var(--gold);font-weight:600;font-size:0.75rem;">✨ Neha Roy:</span>
+              <p style="font-size:0.75rem;margin-top:0.15rem;color:var(--text);">Sangeet dances were incredible! What a
+                party! 💃🎉</p>
+            </div>
+          </div>
+
+          <div style="margin-top:1rem;display:flex;gap:0.25rem;">
+            <input class="field" style="padding:0.5rem;" id="live-wall-in-msg"
+              placeholder="Post a wish to the Live Wall...">
+            <button class="btn btn-gold" style="padding:0.5rem 1rem;font-size:0.8rem;"
+              onclick="postToLiveWall()">Post</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── LOADER ── */
+    window.addEventListener('load', () => {
+      const f = document.getElementById('loader-fill');
+      if (f) { setTimeout(() => { f.style.width = '100%'; }, 80); }
+      setTimeout(() => { const l = document.getElementById('loader'); if (l) l.classList.add('done'); }, 1600);
+    });
+
+    /* ── TOAST ── */
+    let _tt;
+    function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(_tt); _tt = setTimeout(() => t.classList.remove('show'), 2600); }
+
+    /* ── MODAL (login/signup) ── */
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (id === 'guest-manager-modal' || id === 'live-events-modal') {
+        renderGuests();
+      }
+      if (id === 'invite-studio-modal') {
+        updateInvitePreview();
+      }
+      if (id === 'microsite-modal') {
+        updateMicrositePreview();
+      }
+    }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('modal-overlay') && !e.target.classList.contains('themes-popup')) {
+        e.target.classList.remove('open'); document.body.style.overflow = '';
+      }
+    });
+
+    /* ── ROLE TABS ── */
+    function switchRole(tab, panelId) {
+      tab.closest('.role-tabs').querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      ['lu', 'lv', 'su', 'sv'].forEach(id => { const p = document.getElementById(id); if (p) p.style.display = 'none'; });
+      const p = document.getElementById(panelId); if (p) p.style.display = 'block';
+    }
+
+    /* ── SCROLL FADE ── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: .07 });
+    document.querySelectorAll('.fade').forEach(el => io.observe(el));
+
+    /* ── THEMES POPUP ── */
+    function openThemesPopup() {
+      document.getElementById('themes-popup').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeThemesPopupDirect() {
+      document.getElementById('themes-popup').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeThemesPopup(e) {
+      if (e.target === document.getElementById('themes-popup')) closeThemesPopupDirect();
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeThemesPopupDirect(); });
+
+    /* ── THEMES CAROUSEL ── */
+    const track = document.getElementById('themes-track');
+    const CARD_W = 220 + 16; // card width + gap
+
+    function themesScroll(dir) {
+      if (track) track.scrollBy({ left: dir * CARD_W * 2, behavior: 'smooth' });
+      updateDots();
+    }
+    function themesGoTo(idx) {
+      if (track) track.scrollTo({ left: idx * CARD_W * 2, behavior: 'smooth' });
+      setActiveDot(idx);
+    }
+    function updateDots() {
+      if (!track) return;
+      const idx = Math.round(track.scrollLeft / (CARD_W * 2));
+      setActiveDot(idx);
+    }
+    function setActiveDot(idx) {
+      document.querySelectorAll('.c-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === idx % 5);
+      });
+    }
+    if (track) {
+      track.addEventListener('scroll', updateDots, { passive: true });
+      /* Drag to scroll */
+      let isDragging = false, startX, scrollStart;
+      track.addEventListener('mousedown', e => {
+        isDragging = true; startX = e.pageX; scrollStart = track.scrollLeft;
+        track.classList.add('dragging');
+      });
+      document.addEventListener('mouseup', () => { isDragging = false; track.classList.remove('dragging'); });
+      document.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        track.scrollLeft = scrollStart - (e.pageX - startX);
+      });
+    }
+
+    /* ── FOOTER SUBSCRIBE ── */
+    function footerSub() { const v = document.getElementById('footer-email'); if (v && v.value) { toast('✦ Subscribed! Welcome to Varnam.'); v.value = ''; } else toast('Please enter your email.'); }
+
+    /* ── SUBMIT MARRIAGE STYLE ── */
+    function submitMarriageStyle() {
+      toast('🎉 Marriage Style Registered! We are styling your dream wedding.');
+      closeModal('marriage-style-modal');
+      document.getElementById('marriage-style-form').reset();
+    }
+
+    /* ── 02. AI PLANNER LOGIC ── */
+    function generateAIPlan() {
+      const prompt = document.getElementById('ai-prompt').value.trim();
+      const vibe = document.getElementById('ai-vibe').value;
+      const budget = document.getElementById('ai-budget-range').value;
+
+      toast('🤖 Varnam AI is processing your request...');
+
+      setTimeout(() => {
+        const venues = {
+          royal: ['Samode Palace, Jaipur (Heritage)', 'Umaid Bhawan Palace, Jodhpur', 'Taj Falaknuma Palace, Hyderabad'],
+          beach: ['The Leela Beach Resort, Goa', 'Taj Green Cove, Kovalam, Kerala', 'Marari Beach Resort, Mararikulam'],
+          traditional: ['ITC Grand Chola, Chennai', 'Mantra Koodam, Kumbakonam', 'Amrutha Castle, Hyderabad'],
+          minimalist: ['The Ritz-Carlton, Bangalore', 'Trident Bandra Kurla, Mumbai', 'The Lodhi, New Delhi']
+        };
+
+        const budgetDivision = {
+          '20L': ['Venue & Food: ₹10L (50%)', 'Decor & Styling: ₹3L (15%)', 'Photography & Video: ₹2.5L (12.5%)', 'Attire & Jewelry: ₹2.5L (12.5%)', 'Miscellaneous: ₹2L (10%)'],
+          '40L': ['Venue & Food: ₹20L (50%)', 'Decor & Styling: ₹6L (15%)', 'Photography & Video: ₹5L (12.5%)', 'Attire & Jewelry: ₹5L (12.5%)', 'Miscellaneous: ₹4L (10%)'],
+          '80L': ['Venue & Food: ₹40L (50%)', 'Decor & Styling: ₹12L (15%)', 'Photography & Video: ₹10L (12.5%)', 'Attire & Jewelry: ₹10L (12.5%)', 'Miscellaneous: ₹8L (10%)'],
+          '1.5C': ['Venue & Food: ₹75L (50%)', 'Decor & Styling: ₹22.5L (15%)', 'Photography & Video: ₹18.7L (12.5%)', 'Attire & Jewelry: ₹18.7L (12.5%)', 'Miscellaneous: ₹15L (10%)']
+        };
+
+        const timeline = [
+          'Month 1-2: Secure venue booking and premium decorators',
+          'Month 3-4: Design custom invitations and curate vendor shortlist',
+          'Month 5-6: Conduct catering tasting, finalize outfits and guest RSVP tracking',
+          'Month 7: Coordinate final trial runs and release micro-website details'
+        ];
+
+        // Populate lists
+        const vList = document.getElementById('ai-rec-venues');
+        vList.innerHTML = venues[vibe].map(v => `<li>${v}</li>`).join('');
+
+        const bList = document.getElementById('ai-rec-budget');
+        bList.innerHTML = budgetDivision[budget].map(b => `<li>${b}</li>`).join('');
+
+        const tList = document.getElementById('ai-rec-timeline');
+        tList.innerHTML = timeline.map(t => `<li>${t}</li>`).join('');
+
+        document.getElementById('ai-plan-result').style.display = 'block';
+        toast('🎉 Custom AI Plan Generated!');
+      }, 1200);
+    }
+
+    /* ── 03. GUEST MANAGER LOGIC ── */
+    let guestList = [
+      { name: 'Rohan Mehra', rsvp: 'Confirmed', diet: 'Veg' },
+      { name: 'Anjali Sen', rsvp: 'Confirmed', diet: 'Non-Veg' },
+      { name: 'Suresh Kumar', rsvp: 'Pending', diet: 'Jain' }
+    ];
+
+    function renderGuests() {
+      const tbody = document.getElementById('guest-table-body');
+      tbody.innerHTML = '';
+
+      let total = guestList.length;
+      let confirmed = 0;
+      let pending = 0;
+
+      guestList.forEach((g, idx) => {
+        if (g.rsvp === 'Confirmed') confirmed++;
+        else pending++;
+
+        const rsvpColor = g.rsvp === 'Confirmed' ? '#3A9A3A' : (g.rsvp === 'Declined' ? 'var(--rose)' : 'var(--gold)');
+
+        const row = document.createElement('tr');
+        row.style.borderBottom = '1px solid rgba(255,255,255,0.03)';
+        row.innerHTML = `
+          <td style="padding:0.6rem 0.25rem;">${g.name}</td>
+          <td style="padding:0.6rem 0.25rem;color:${rsvpColor};">${g.rsvp}</td>
+          <td style="padding:0.6rem 0.25rem;">${g.diet}</td>
+          <td style="padding:0.6rem 0.25rem;"><a href="#" style="color:var(--ember);text-decoration:none;" onclick="removeGuestRow(event, ${idx})">Delete</a></td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('guest-stat-total').textContent = total;
+      document.getElementById('guest-stat-confirmed').textContent = confirmed;
+      document.getElementById('guest-stat-pending').textContent = pending;
+
+      // Update dropdown in Live Events
+      const select = document.getElementById('live-guest-select');
+      if (select) {
+        select.innerHTML = guestList.map(g => `<option value="${g.name}">${g.name}</option>`).join('');
+        generateMockQR();
+      }
+    }
+
+    function addGuestRow() {
+      const name = document.getElementById('guest-in-name').value.trim();
+      const rsvp = document.getElementById('guest-in-rsvp').value;
+      const diet = document.getElementById('guest-in-diet').value;
+
+      if (!name) {
+        toast('Please enter guest name');
+        return;
+      }
+
+      guestList.push({ name, rsvp, diet });
+      document.getElementById('guest-in-name').value = '';
+      renderGuests();
+      toast(`🎉 Added guest: ${name}`);
+    }
+
+    function removeGuestRow(e, idx) {
+      if (e) e.preventDefault();
+      const removed = guestList.splice(idx, 1);
+      renderGuests();
+      toast(`Deleted guest: ${removed[0].name}`);
+    }
+
+    /* ── 04. BUDGET LOGIC ── */
+    let currentTotalBudget = 4000000;
+    let currentSpent = 2480000;
+
+    function addExpenseItem() {
+      const name = document.getElementById('budget-in-item').value.trim();
+      const amtVal = document.getElementById('budget-in-amount').value;
+      const amt = parseFloat(amtVal);
+
+      if (!name || isNaN(amt) || amt <= 0) {
+        toast('Please enter item name and valid cost');
+        return;
+      }
+
+      currentSpent += amt;
+      document.getElementById('budget-val-spent').textContent = '₹' + currentSpent.toLocaleString('en-IN');
+
+      const list = document.getElementById('budget-categories-list');
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.25rem;margin-top:0.75rem;">
+          <span>✨ ${name}</span>
+          <span style="font-weight:600;">₹${amt.toLocaleString('en-IN')}</span>
+        </div>
+        <div style="width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;">
+          <div style="width:100%;height:100%;background:var(--gold);"></div>
+        </div>
+      `;
+      list.appendChild(div);
+
+      document.getElementById('budget-in-item').value = '';
+      document.getElementById('budget-in-amount').value = '';
+
+      if (currentSpent > currentTotalBudget) {
+        toast('⚠️ Alert: Total expenditure has exceeded total target budget!');
+      } else {
+        toast('🎉 Expense registered successfully.');
+      }
+    }
+
+    /* ── 06. DIGITAL INVITE STUDIO LOGIC ── */
+    function updateInvitePreview() {
+      const headline = document.getElementById('inv-headline').value || 'M.S. Dhoni & Sakshi';
+      const datetime = document.getElementById('inv-datetime').value || '14 October 2026';
+      const venue = document.getElementById('inv-venue').value || 'Taj Palace';
+      const theme = document.getElementById('inv-theme-picker').value;
+
+      document.getElementById('inv-prev-headline').innerText = headline;
+      document.getElementById('inv-prev-datetime').innerText = datetime;
+      document.getElementById('inv-prev-venue').innerText = venue;
+
+      const preview = document.getElementById('inv-card-preview');
+      if (theme === 'crimson') {
+        preview.style.background = 'linear-gradient(135deg, #3A0A15, #8B1A2E)';
+        preview.style.color = '#fff';
+      } else if (theme === 'pastel') {
+        preview.style.background = 'linear-gradient(135deg, #071A2A, #1A4A6B)';
+        preview.style.color = '#E8EEF5';
+      } else if (theme === 'silk') {
+        preview.style.background = 'linear-gradient(135deg, #0A2A1A, #1A5E38)';
+        preview.style.color = '#F5FBEF';
+      }
+    }
+
+    /* ── 07. MICROSITE LOGIC ── */
+    function updateMicrositePreview() {
+      const suffix = document.getElementById('site-suffix').value || 'our-wedding';
+      const title = document.getElementById('site-title').value || 'A Journey Begins...';
+      const story = document.getElementById('site-story').value || 'Two hearts...';
+
+      document.getElementById('site-prev-url').innerText = 'varnam.wedding/' + suffix;
+      document.getElementById('site-prev-title').innerText = title;
+      document.getElementById('site-prev-story').innerText = story;
+    }
+
+    /* ── 08. LIVE EVENTS LOGIC ── */
+    function generateMockQR() {
+      const guest = document.getElementById('live-guest-select').value;
+      if (guest) {
+        document.getElementById('live-guest-qr-lbl').innerText = `PASS: ${guest.toUpperCase()}`;
+      }
+    }
+
+    function performCheckInSim() {
+      const guest = document.getElementById('live-guest-select').value;
+      if (!guest) return;
+      toast(`✅ Checked in: ${guest} entry logged successfully!`);
+
+      // Post checking log into wishes wall
+      const wall = document.getElementById('live-wall-posts');
+      const div = document.createElement('div');
+      div.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+      div.style.paddingBottom = '0.5rem';
+      div.innerHTML = `
+        <span style="color:#3A9A3A;font-weight:600;font-size:0.75rem;">🔑 Log:</span>
+        <p style="font-size:0.75rem;margin-top:0.15rem;color:var(--text2);">${guest} entered the venue gate.</p>
+      `;
+      wall.appendChild(div);
+      wall.scrollTop = wall.scrollHeight;
+    }
+
+    function postToLiveWall() {
+      const input = document.getElementById('live-wall-in-msg');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const wall = document.getElementById('live-wall-posts');
+      const div = document.createElement('div');
+      div.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+      div.style.paddingBottom = '0.5rem';
+      div.innerHTML = `
+        <span style="color:var(--gold);font-weight:600;font-size:0.75rem;">✨ You:</span>
+        <p style="font-size:0.75rem;margin-top:0.15rem;color:var(--text);">${msg}</p>
+      `;
+      wall.appendChild(div);
+      input.value = '';
+      wall.scrollTop = wall.scrollHeight;
+      toast('Wish posted to Live Wall!');
+    }
+  </script>
+  <script src="shared.js"></script>
+  <script src="chatbot.js"></script>
+</body>
+
+</html>
