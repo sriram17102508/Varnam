@@ -117,19 +117,23 @@ function checkAuthState() {
   if (isLoggedIn) {
     const userName = localStorage.getItem('varnam_user_name') || 'Sita and Sriram';
     navAuth.innerHTML = `
-      <div class="profile-dropdown">
-        <div class="profile-trigger" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
-          <div class="user-avatar-small" style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--rose)); display:flex; align-items:center; justify-content:center; font-size:0.9rem; color:#fff; font-weight:700;">💍</div>
-          <span class="profile-name" style="font-size:0.85rem; font-weight:600; color:var(--text); max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${userName}</span>
-          <span class="dropdown-arrow" style="font-size:0.6rem; color:var(--text3); transition:transform 0.2s;">▼</span>
-        </div>
-        <div class="profile-menu">
-          <a href="dashboard.html" class="profile-menu-item">📊 Dashboard</a>
-          <a href="dashboard.html?tab=profile" class="profile-menu-item">👤 Profile</a>
-          <a href="dashboard.html?tab=notifications" class="profile-menu-item">🔔 Notifications</a>
-          <a href="dashboard.html?tab=settings" class="profile-menu-item">⚙️ Settings</a>
-          <div class="profile-menu-divider"></div>
-          <a href="#" onclick="logoutUser(event)" class="profile-menu-item logout">🚪 Log Out</a>
+      <div style="display:flex; align-items:center; gap:1.25rem;">
+        <a href="dashboard.html?tab=notifications" style="color:var(--text2); font-size:1.1rem; text-decoration:none; position:relative; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text2)'" title="Notifications">
+          🔔
+          <span style="position:absolute; top:-2px; right:-2px; width:8px; height:8px; background:#C43060; border-radius:50%;"></span>
+        </a>
+        <div class="profile-dropdown">
+          <div class="profile-trigger" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+            <div class="user-avatar-small" style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--rose)); display:flex; align-items:center; justify-content:center; font-size:0.9rem; color:#fff; font-weight:700;">💍</div>
+            <span class="profile-name" style="font-size:0.85rem; font-weight:600; color:var(--text); max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${userName}</span>
+            <span class="dropdown-arrow" style="font-size:0.6rem; color:var(--text3); transition:transform 0.2s;">▼</span>
+          </div>
+          <div class="profile-menu">
+            <a href="dashboard.html" class="profile-menu-item">📊 Dashboard</a>
+            <a href="dashboard.html?tab=settings" class="profile-menu-item">⚙️ Settings</a>
+            <div class="profile-menu-divider"></div>
+            <a href="#" onclick="logoutUser(event)" class="profile-menu-item logout">🚪 Log Out</a>
+          </div>
         </div>
       </div>
     `;
@@ -158,7 +162,7 @@ function beginJourney(e) {
   localStorage.removeItem('varnam_expenses');
   localStorage.removeItem('varnam_guests');
   localStorage.removeItem('varnam_timeline');
-  window.location.href = 'dashboard.html';
+  window.location.href = 'dashboard.html?setup=1';
 }
 
 
