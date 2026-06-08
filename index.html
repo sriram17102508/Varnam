@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Varnam — India's Premier Wedding Platform</title>
+  <title>Varnam - India's Premier Wedding Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap"
@@ -1953,8 +1953,8 @@
         <p class="hero-desc">Varnam orchestrates your <em>Entire Wedding Universe</em> — from Sacred Ceremonies to
           Cinematic Receptions with the precision of a master planner and the warmth of family.</p>
         <div class="hero-btns">
-          <a href="#" onclick="beginJourney(event)" class="hero-btn-main">Begin Your Journey <i> →</i></a>
-          <a href="vendors.html" class="hero-btn-sec">Explore Vendors <i>→</i></a>
+          <a href="#" onclick="beginJourney(event)" class="hero-btn-main">Begin Your Journey</i></a>
+          <a href="vendors.html" class="hero-btn-sec">Explore Vendors</i></a>
         </div>
       </div>
     </div>
@@ -3288,19 +3288,24 @@
 
       <div
         style="display:flex;justify-content:space-between;align-items:center;background:var(--ink2);padding:1rem;border-radius:var(--r8);border:1px solid var(--border);margin-bottom:1.5rem;">
-        <div>
+        <div style="flex:1;text-align:left;">
           <span
             style="font-size:0.7rem;color:var(--text3);display:block;font-family:monospace;letter-spacing:1px;">TOTAL
-            WEDDING BUDGET</span>
+            BUDGET</span>
           <span id="budget-val-total"
-            style="font-size:1.6rem;font-weight:700;color:var(--gold);font-family:'Cormorant Garamond',serif;">₹40,00,000</span>
+            style="font-size:1.6rem;font-weight:700;color:var(--gold);font-family:'Outfit',sans-serif;">₹40,00,000</span>
         </div>
-        <div style="text-align:right;">
+        <div style="flex:1;text-align:center;">
           <span
-            style="font-size:0.7rem;color:var(--text3);display:block;font-family:monospace;letter-spacing:1px;">SPENT SO
-            FAR</span>
+            style="font-size:0.7rem;color:var(--text3);display:block;font-family:monospace;letter-spacing:1px;">SPENT</span>
           <span id="budget-val-spent"
-            style="font-size:1.6rem;font-weight:700;color:var(--rose);font-family:'Cormorant Garamond',serif;">₹24,80,000</span>
+            style="font-size:1.6rem;font-weight:700;color:var(--rose);font-family:'Outfit',sans-serif;">₹24,80,000</span>
+        </div>
+        <div style="flex:1;text-align:right;">
+          <span
+            style="font-size:0.7rem;color:var(--text3);display:block;font-family:monospace;letter-spacing:1px;">BALANCE</span>
+          <span id="budget-val-balance"
+            style="font-size:1.6rem;font-weight:700;color:#3A9A3A;font-family:'Outfit',sans-serif;">₹15,20,000</span>
         </div>
       </div>
 
@@ -3380,9 +3385,20 @@
           <div class="form-row">
             <label class="field-label">Choose Studio Theme Template</label>
             <select class="field" id="inv-theme-picker" onchange="updateInvitePreview()">
-              <option value="crimson">Royal Crimson & Gold</option>
-              <option value="pastel">Oceanic Beach Pastel</option>
-              <option value="silk">Classic South Silk Garden</option>
+              <optgroup label="✨ Gradient Styles">
+                <option value="crimson">Royal Crimson & Gold</option>
+                <option value="pastel">Oceanic Beach Pastel</option>
+                <option value="silk">Classic South Silk Garden</option>
+                <option value="sunset">Sunset Orange & Pink</option>
+                <option value="midnight">Midnight Blue & Silver</option>
+              </optgroup>
+              <optgroup label="🖼️ Image / Pattern Styles">
+                <option value="floral">Floral Garden Motif</option>
+                <option value="mandala">Traditional Mandala Art</option>
+                <option value="marble">Elegant White Marble</option>
+                <option value="vintage">Vintage Sepia Scroll</option>
+                <option value="stars">Starry Night Sky</option>
+              </optgroup>
             </select>
           </div>
           <button class="btn btn-gold" style="width:100%;justify-content:center;padding:0.85rem;"
@@ -3434,8 +3450,29 @@
           </div>
           <div class="form-row">
             <label class="field-label">Intro Text</label>
-            <textarea class="field" id="site-story" rows="3"
+            <textarea class="field" id="site-story" rows="2"
               oninput="updateMicrositePreview()">Two hearts, one soul, and a lifetime of shared dreams. We invite you to join us on our big day.</textarea>
+          </div>
+          <div class="form-row">
+            <label class="field-label">Dress Code / Theme</label>
+            <input class="field" id="site-dress" value="Traditional Elegance" oninput="updateMicrositePreview()">
+          </div>
+          <div class="form-row" style="display:flex;gap:1rem;">
+            <div style="flex:1;">
+              <label class="field-label">Event 1 (Name - Date)</label>
+              <input class="field" id="site-event1" value="Sangeet - Oct 13" oninput="updateMicrositePreview()">
+            </div>
+            <div style="flex:1;">
+              <label class="field-label">Event 2 (Name - Date)</label>
+              <input class="field" id="site-event2" value="Wedding - Oct 14" oninput="updateMicrositePreview()">
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="field-label">Gallery Images (Upload up to 10)</label>
+            <button class="btn btn-ghost" style="width:100%;justify-content:center;padding:0.65rem;"
+              onclick="toast('📸 Choose images to upload')">
+              + Upload Pre-Wedding Photos
+            </button>
           </div>
           <button class="btn btn-gold" style="width:100%;justify-content:center;padding:0.85rem;"
             onclick="toast('🚀 Wedding Microsite successfully published!')">
@@ -3445,23 +3482,48 @@
 
         <!-- Phone Preview Mock -->
         <div
-          style="border:8px solid #222;border-radius:24px;background:#0d0a12;overflow:hidden;min-height:320px;display:flex;flex-direction:column;position:relative;font-size:0.7rem;box-shadow:inset 0 0 10px rgba(0,0,0,0.8);">
+          style="border:8px solid #222;border-radius:24px;background:#0d0a12;overflow-y:auto;min-height:360px;max-height:480px;display:flex;flex-direction:column;position:relative;font-size:0.7rem;box-shadow:inset 0 0 10px rgba(0,0,0,0.8);">
           <div
-            style="background:#1d1825;padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--gold);font-family:monospace;font-size:0.55rem;"
+            style="background:#1d1825;padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--gold);font-family:monospace;font-size:0.55rem;position:sticky;top:0;z-index:10;"
             id="site-prev-url">
             varnam.wedding/dhoni-sakshi
           </div>
           <div
-            style="padding:1rem;text-align:center;flex-grow:1;display:flex;flex-direction:column;justify-content:center;gap:0.75rem;">
+            style="background:url('https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=600&q=80') center/cover; height:120px; position:relative;">
+            <div style="position:absolute;inset:0;background:rgba(0,0,0,0.4);"></div>
+            <div
+              style="position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;text-shadow:1px 1px 3px rgba(0,0,0,0.8);">
+              SAVE THE DATE</div>
+          </div>
+          <div style="padding:1rem;text-align:center;display:flex;flex-direction:column;gap:0.75rem;">
             <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);"
               id="site-prev-title">A Beautiful Journey Begins...</div>
             <p style="color:var(--text2);font-size:0.65rem;line-height:1.4;" id="site-prev-story">Two hearts, one soul,
               and a lifetime of shared dreams. We invite you to join us on our big day.</p>
+
+            <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:0.5rem;margin-top:0.25rem;">
+              <div style="font-size:0.65rem;color:var(--gold);letter-spacing:1px;margin-bottom:0.4rem;">SCHEDULE</div>
+              <div style="font-size:0.7rem;color:var(--text);margin-bottom:0.2rem;" id="site-prev-e1">Sangeet - Oct 13
+              </div>
+              <div style="font-size:0.7rem;color:var(--text);" id="site-prev-e2">Wedding - Oct 14</div>
+            </div>
+
+            <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:0.5rem;">
+              <div style="font-size:0.65rem;color:var(--gold);letter-spacing:1px;margin-bottom:0.4rem;">DRESS CODE</div>
+              <div style="font-size:0.7rem;color:var(--text);font-style:italic;" id="site-prev-dress">Traditional
+                Elegance</div>
+            </div>
+
             <div
-              style="border:1px solid rgba(212,168,67,0.3);padding:0.5rem;border-radius:4px;background:rgba(212,168,67,0.02);font-family:monospace;">
+              style="border:1px solid rgba(212,168,67,0.3);padding:0.5rem;border-radius:4px;background:rgba(212,168,67,0.02);font-family:monospace;margin-top:0.5rem;">
               <div>COUNTDOWN</div>
               <div style="font-size:0.85rem;color:var(--gold);font-weight:600;">132 Days · 04 Hrs</div>
             </div>
+
+            <button
+              style="background:var(--gold);color:#000;border:none;border-radius:20px;padding:0.5rem;font-weight:700;font-size:0.7rem;margin-top:0.5rem;cursor:pointer;">
+              RSVP NOW
+            </button>
           </div>
         </div>
       </div>
@@ -3672,7 +3734,7 @@
 
         // Populate lists
         const vList = document.getElementById('ai-rec-venues');
-        vList.innerHTML = venues[vibe].map(v => `<li>${v}</li>`).join('');
+        vList.innerHTML = venues[vibe].map(v => `<li style="margin-bottom:0.3rem;"><a href="venues.html" style="color:var(--gold);text-decoration:none;transition:color 0.2s;display:inline-flex;align-items:center;gap:0.3rem;" onmouseover="this.style.color='#F0C96A'" onmouseout="this.style.color='var(--gold)'" title="View details in Venues marketplace">${v} <span style="font-size:0.75rem;">↗</span></a></li>`).join('');
 
         const bList = document.getElementById('ai-rec-budget');
         bList.innerHTML = budgetDivision[budget].map(b => `<li>${b}</li>`).join('');
@@ -3768,6 +3830,7 @@
 
       currentSpent += amt;
       document.getElementById('budget-val-spent').textContent = '₹' + currentSpent.toLocaleString('en-IN');
+      document.getElementById('budget-val-balance').textContent = '₹' + (currentTotalBudget - currentSpent).toLocaleString('en-IN');
 
       const list = document.getElementById('budget-categories-list');
       const div = document.createElement('div');
@@ -3804,6 +3867,9 @@
       document.getElementById('inv-prev-venue').innerText = venue;
 
       const preview = document.getElementById('inv-card-preview');
+      preview.style.backgroundImage = 'none';
+      preview.style.textShadow = 'none';
+
       if (theme === 'crimson') {
         preview.style.background = 'linear-gradient(135deg, #3A0A15, #8B1A2E)';
         preview.style.color = '#fff';
@@ -3813,6 +3879,30 @@
       } else if (theme === 'silk') {
         preview.style.background = 'linear-gradient(135deg, #0A2A1A, #1A5E38)';
         preview.style.color = '#F5FBEF';
+      } else if (theme === 'sunset') {
+        preview.style.background = 'linear-gradient(135deg, #ff7e5f, #feb47b)';
+        preview.style.color = '#2c0000';
+      } else if (theme === 'midnight') {
+        preview.style.background = 'linear-gradient(135deg, #141e30, #243b55)';
+        preview.style.color = '#fff';
+      } else if (theme === 'floral') {
+        preview.style.background = 'url("https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80") center/cover';
+        preview.style.color = '#fff';
+        preview.style.textShadow = '1px 1px 4px rgba(0,0,0,0.9)';
+      } else if (theme === 'mandala') {
+        preview.style.background = 'url("https://images.unsplash.com/photo-1584488390772-2bb808bfd7fb?auto=format&fit=crop&w=600&q=80") center/cover';
+        preview.style.color = '#fff';
+        preview.style.textShadow = '1px 1px 4px rgba(0,0,0,0.9)';
+      } else if (theme === 'marble') {
+        preview.style.background = 'url("https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=600&q=80") center/cover';
+        preview.style.color = '#111';
+      } else if (theme === 'vintage') {
+        preview.style.background = 'url("https://images.unsplash.com/photo-1533038590840-1c79eb46dcf8?auto=format&fit=crop&w=600&q=80") center/cover';
+        preview.style.color = '#3e2723';
+      } else if (theme === 'stars') {
+        preview.style.background = 'url("https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=600&q=80") center/cover';
+        preview.style.color = '#fff';
+        preview.style.textShadow = '1px 1px 4px rgba(0,0,0,0.9)';
       }
     }
 
@@ -3821,10 +3911,16 @@
       const suffix = document.getElementById('site-suffix').value || 'our-wedding';
       const title = document.getElementById('site-title').value || 'A Journey Begins...';
       const story = document.getElementById('site-story').value || 'Two hearts...';
+      const dress = document.getElementById('site-dress').value || 'Traditional Elegance';
+      const e1 = document.getElementById('site-event1').value || 'Sangeet';
+      const e2 = document.getElementById('site-event2').value || 'Wedding';
 
       document.getElementById('site-prev-url').innerText = 'varnam.wedding/' + suffix;
       document.getElementById('site-prev-title').innerText = title;
       document.getElementById('site-prev-story').innerText = story;
+      document.getElementById('site-prev-dress').innerText = dress;
+      document.getElementById('site-prev-e1').innerText = e1;
+      document.getElementById('site-prev-e2').innerText = e2;
     }
 
     /* ── 08. LIVE EVENTS LOGIC ── */

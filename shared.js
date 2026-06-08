@@ -117,11 +117,42 @@ function checkAuthState() {
   if (isLoggedIn) {
     const userName = localStorage.getItem('varnam_user_name') || 'Sita and Sriram';
     navAuth.innerHTML = `
+      <style>
+        .notification-dropdown.active .notif-menu {
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: translateY(0) !important;
+        }
+      </style>
       <div style="display:flex; align-items:center; gap:1.25rem;">
-        <a href="dashboard.html?tab=notifications" style="color:var(--text2); font-size:1.1rem; text-decoration:none; position:relative; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text2)'" title="Notifications">
-          🔔
-          <span style="position:absolute; top:-2px; right:-2px; width:8px; height:8px; background:#C43060; border-radius:50%;"></span>
-        </a>
+        <div class="notification-dropdown" style="position:relative; display:inline-block;">
+          <div class="notif-trigger" style="color:var(--text2); font-size:1.1rem; cursor:pointer; position:relative; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text2)'" onclick="this.parentElement.classList.toggle('active');">
+            🔔
+            <span id="notif-badge" style="position:absolute; top:-2px; right:-2px; width:8px; height:8px; background:#C43060; border-radius:50%;"></span>
+          </div>
+          <div class="notif-menu" style="position:absolute; top:100%; right:-10px; margin-top:0.8rem; background:var(--ink2); border:1px solid var(--border); border-radius:var(--r8); width:300px; opacity:0; visibility:hidden; transform:translateY(10px); transition:all 0.25s cubic-bezier(0.23, 1, 0.32, 1); box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:600; padding:0;">
+            <div style="padding:0.8rem 1rem; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-family:'Outfit',sans-serif; font-weight:600; font-size:0.9rem; color:var(--text);">Notifications</span>
+              <span style="font-size:0.7rem; color:var(--gold); cursor:pointer;" onclick="document.getElementById('notif-badge').style.display='none'; this.style.color='var(--text3)'; this.innerText='Read'">✓ Mark all as read</span>
+            </div>
+            
+            <div style="max-height:240px; overflow-y:auto; scrollbar-width:thin;">
+              <a href="dashboard.html?tab=notifications" style="display:block; padding:0.8rem 1rem; border-bottom:1px solid var(--border); text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='rgba(212,168,67,0.05)'" onmouseout="this.style.background='transparent'">
+                <div style="font-family:'Outfit',sans-serif; font-size:0.82rem; font-weight:600; color:var(--text); margin-bottom:0.25rem;">💳 Payment Reminder</div>
+                <div style="font-size:0.75rem; color:var(--text2); line-height:1.4;">Advance payment for Taj Palace is due tomorrow.</div>
+              </a>
+              <a href="dashboard.html?tab=notifications" style="display:block; padding:0.8rem 1rem; text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='rgba(212,168,67,0.05)'" onmouseout="this.style.background='transparent'">
+                <div style="font-family:'Outfit',sans-serif; font-size:0.82rem; font-weight:600; color:var(--text); margin-bottom:0.25rem;">💌 New RSVP</div>
+                <div style="font-size:0.75rem; color:var(--text2); line-height:1.4;">Rohan and family have confirmed their attendance.</div>
+              </a>
+            </div>
+
+            <div style="padding:0.5rem; border-top:1px solid var(--border); text-align:center; background:rgba(255,255,255,0.02); border-bottom-left-radius:var(--r8); border-bottom-right-radius:var(--r8);">
+              <a href="dashboard.html?tab=notifications" style="font-family:'Outfit',sans-serif; font-size:0.8rem; font-weight:600; color:var(--gold); text-decoration:none; display:block; padding:0.4rem; transition:color 0.2s;" onmouseover="this.style.color='#F0C96A'" onmouseout="this.style.color='var(--gold)'">View All Notifications →</a>
+            </div>
+          </div>
+        </div>
+
         <div class="profile-dropdown">
           <div class="profile-trigger" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
             <div class="user-avatar-small" style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--rose)); display:flex; align-items:center; justify-content:center; font-size:0.9rem; color:#fff; font-weight:700;">💍</div>
@@ -164,5 +195,62 @@ function beginJourney(e) {
   localStorage.removeItem('varnam_timeline');
   window.location.href = 'dashboard.html?setup=1';
 }
+
+/* ── SCROLL TO TOP BUTTON ── */
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.createElement('button');
+  btn.innerHTML = '↑';
+  btn.title = 'Scroll to top';
+  btn.style.cssText = `
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--gold, #D4A843);
+    color: #000;
+    font-weight: bold;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+  document.body.appendChild(btn);
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      btn.style.opacity = '1';
+      btn.style.visibility = 'visible';
+      btn.style.transform = 'translateY(0)';
+    } else {
+      btn.style.opacity = '0';
+      btn.style.visibility = 'hidden';
+      btn.style.transform = 'translateY(20px)';
+    }
+  });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  btn.addEventListener('mouseenter', () => {
+    btn.style.background = '#F0C96A';
+    btn.style.transform = 'translateY(-3px)';
+  });
+  
+  btn.addEventListener('mouseleave', () => {
+    btn.style.background = 'var(--gold, #D4A843)';
+    btn.style.transform = window.scrollY > 300 ? 'translateY(0)' : 'translateY(20px)';
+  });
+});
 
 
