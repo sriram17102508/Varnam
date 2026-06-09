@@ -3585,7 +3585,7 @@
   <!-- ══ 07. WEBSITE BUILDER (MICROSITE) MODAL ══ -->
   <div class="modal-overlay" id="microsite-modal">
     <div class="modal"
-      style="max-width: 850px; max-height: 90vh; overflow-y: auto; padding: 2rem; background: linear-gradient(145deg, #120e18 0%, #0d0a12 100%); border: 1px solid rgba(212,168,67,0.15); box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
+      style="max-width: 650px; max-height: 90vh; overflow-y: auto; padding: 2rem; background: linear-gradient(145deg, #120e18 0%, #0d0a12 100%); border: 1px solid rgba(212,168,67,0.15); box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
       <div class="modal-header"
         style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;">
         <div class="modal-title" style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.8rem;">
@@ -3594,8 +3594,8 @@
         <button class="modal-close" onclick="closeModal('microsite-modal')">✕</button>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 2rem;">
-        <!-- Left Side: Form Controls -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <!-- Form Controls -->
         <div style="display: flex; flex-direction: column; gap: 1.2rem;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div class="form-row" style="margin-bottom: 0;">
@@ -3642,19 +3642,31 @@
               style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08);">
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div class="form-row" style="margin-bottom: 0;">
-              <label class="field-label" style="color: var(--gold); font-weight: 600;">Event 1 (Name - Date)</label>
-              <input class="field" id="site-event1" value="Sangeet — October 13, 2026 · 6:00 PM"
-                oninput="updateMicrositePreview()"
-                style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); font-size: 0.8rem;">
+          <!-- Event List Container -->
+          <div id="microsite-events-container" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem;">
+            <div class="microsite-event-field-wrapper" style="display: flex; align-items: flex-end; gap: 0.5rem;">
+              <div class="form-row" style="margin-bottom: 0; flex: 1;">
+                <label class="field-label" style="color: var(--gold); font-weight: 600;">Event 1 (Name - Date)</label>
+                <input class="field" id="site-event1" value="Sangeet — October 13, 2026 · 6:00 PM"
+                  oninput="updateMicrositePreview()"
+                  style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); font-size: 0.8rem; width: 100%;">
+              </div>
             </div>
-            <div class="form-row" style="margin-bottom: 0;">
-              <label class="field-label" style="color: var(--gold); font-weight: 600;">Event 2 (Name - Date)</label>
-              <input class="field" id="site-event2" value="Wedding — October 14, 2026 · 10:30 AM"
-                oninput="updateMicrositePreview()"
-                style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); font-size: 0.8rem;">
+            <div class="microsite-event-field-wrapper" style="display: flex; align-items: flex-end; gap: 0.5rem;">
+              <div class="form-row" style="margin-bottom: 0; flex: 1;">
+                <label class="field-label" style="color: var(--gold); font-weight: 600;">Event 2 (Name - Date)</label>
+                <input class="field" id="site-event2" value="Wedding — October 14, 2026 · 10:30 AM"
+                  oninput="updateMicrositePreview()"
+                  style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); font-size: 0.8rem; width: 100%;">
+              </div>
             </div>
+          </div>
+
+          <!-- Add Event CTA Button -->
+          <div style="display: flex; justify-content: flex-end; margin-top: -0.5rem; margin-bottom: 1rem;">
+            <button class="btn btn-ghost" onclick="addMicrositeEventField()" style="padding: 0.4rem 1rem; font-size: 0.75rem; font-weight: 600; border: 1px dashed var(--gold3); border-radius: var(--r8); color: var(--gold); background: transparent; cursor: pointer;">
+              ➕ Add Event
+            </button>
           </div>
 
           <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem; margin-top: 0.5rem;">
@@ -3669,69 +3681,9 @@
           </div>
         </div>
 
-        <!-- Right Side: Phone Preview Mockup -->
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-          <div
-            style="font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--text3); text-transform: uppercase; margin-bottom: 0.5rem;">
-            Live Mobile Preview
-          </div>
-          <div
-            style="width: 250px; height: 440px; border: 8px solid #2d2636; border-radius: 36px; background: #0d0a12; overflow: hidden; display: flex; flex-direction: column; position: relative; font-size: 0.7rem; box-shadow: 0 15px 35px rgba(0,0,0,0.5), inset 0 0 10px rgba(0,0,0,0.8); border-color: #383042;">
-            <!-- Speaker & Camera Notch -->
-            <div
-              style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 90px; height: 16px; background: #383042; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; z-index: 20; display: flex; justify-content: center; align-items: center;">
-              <div style="width: 35px; height: 3px; background: #222; border-radius: 2px; margin-right: 5px;"></div>
-              <div style="width: 6px; height: 6px; background: #110022; border-radius: 50%;"></div>
-            </div>
-
-            <!-- Phone screen content -->
-            <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; padding-top: 10px;">
-              <a href="microsite.html#dhoni-sakshi" target="_blank" id="site-prev-url"
-                style="display: block; background: #1d1825; padding: 0.6rem 0.5rem 0.4rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--gold); font-family: monospace; font-size: 0.55rem; position: sticky; top: 0; z-index: 10; text-decoration: none; cursor: pointer; transition: background 0.2s;"
-                onmouseover="this.style.background='#2a2235'" onmouseout="this.style.background='#1d1825'">
-                varnam.wedding/dhoni-sakshi
-              </a>
-              <div
-                style="background: url('https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=600&q=80') center/cover; height: 110px; position: relative; flex-shrink: 0;">
-                <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.45);"></div>
-                <div
-                  style="position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; color: #fff; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); letter-spacing: 1px;">
-                  SAVE THE DATE
-                </div>
-              </div>
-              <div
-                style="padding: 1rem; text-align: center; display: flex; flex-direction: column; gap: 0.8rem; flex: 1; justify-content: center;">
-                <div
-                  style="font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); font-weight: 600; line-height: 1.2;"
-                  id="site-prev-title">
-                  A Beautiful Journey Begins...
-                </div>
-                <p style="color: var(--text2); font-size: 0.65rem; line-height: 1.4; margin: 0 auto; max-width: 90%;"
-                  id="site-prev-story">
-                  Two hearts, one soul, and a lifetime of shared dreams. We invite you to join us on our big day.
-                </p>
-
-                <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 0.6rem; margin-top: 0.25rem;">
-                  <div
-                    style="font-size: 0.6rem; color: var(--gold); letter-spacing: 1.5px; margin-bottom: 0.4rem; font-family: 'DM Mono', monospace; font-weight: 600;">
-                    SCHEDULE
-                  </div>
-                  <div style="font-size: 0.65rem; color: var(--text); margin-bottom: 0.25rem; font-weight: 500;"
-                    id="site-prev-e1">
-                    Sangeet — October 13, 2026 · 6:00 PM
-                  </div>
-                  <div style="font-size: 0.65rem; color: var(--text); font-weight: 500;" id="site-prev-e2">
-                    Wedding — October 14, 2026 · 10:30 AM
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- Permanent Live Site Link Section at the very bottom -->
         <div
-          style="grid-column: span 2; margin-top: 0.5rem; padding: 1rem; border-radius: var(--r12); background: rgba(212,168,67,0.04); border: 1px dashed rgba(212,168,67,0.2); display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+          style="margin-top: 0.5rem; padding: 1rem; border-radius: var(--r12); background: rgba(212,168,67,0.04); border: 1px dashed rgba(212,168,67,0.2); display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
           <div style="display: flex; align-items: center; gap: 0.75rem;">
             <div style="font-size: 1.25rem;">🔗</div>
             <div>
@@ -4304,13 +4256,69 @@
     }
 
     /* ── 07. MICROSITE LOGIC ── */
+    function addMicrositeEventField() {
+      const container = document.getElementById('microsite-events-container');
+      if (!container) return;
+      
+      const existingRows = container.querySelectorAll('.microsite-event-field-wrapper');
+      const nextNum = existingRows.length + 1;
+      
+      const wrapper = document.createElement('div');
+      wrapper.className = 'microsite-event-field-wrapper';
+      wrapper.style.display = 'flex';
+      wrapper.style.alignItems = 'flex-end';
+      wrapper.style.gap = '0.5rem';
+      wrapper.style.marginTop = '0.5rem';
+      
+      wrapper.innerHTML = `
+        <div class="form-row" style="margin-bottom: 0; flex: 1;">
+          <label class="field-label" style="color: var(--gold); font-weight: 600;">Event ${nextNum} (Name - Date)</label>
+          <input class="field" id="site-event${nextNum}" placeholder="e.g. Reception — October 15, 2026 · 7:00 PM"
+            oninput="updateMicrositePreview()"
+            style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); font-size: 0.8rem; width: 100%;">
+        </div>
+        <button class="btn" onclick="removeMicrositeEventField(this)" 
+          style="padding: 0 0.8rem; height: 38px; border-radius: var(--r8); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(232,93,48,0.3); color: #E85D30; background: rgba(232,93,48,0.05); font-weight: bold; font-size: 0.85rem;"
+          onmouseover="this.style.background='rgba(232,93,48,0.15)'"
+          onmouseout="this.style.background='rgba(232,93,48,0.05)'"
+          title="Remove event">✕</button>
+      `;
+      container.appendChild(wrapper);
+      updateMicrositePreview();
+    }
+
+    function removeMicrositeEventField(btn) {
+      const row = btn.closest('.microsite-event-field-wrapper');
+      if (row) {
+        row.remove();
+        reindexMicrositeEventFields();
+        updateMicrositePreview();
+      }
+    }
+
+    function reindexMicrositeEventFields() {
+      const container = document.getElementById('microsite-events-container');
+      if (!container) return;
+      const rows = container.querySelectorAll('.microsite-event-field-wrapper');
+      rows.forEach((row, index) => {
+        const num = index + 1;
+        
+        // Update label
+        const label = row.querySelector('.field-label');
+        if (label) {
+          label.textContent = `Event ${num} (Name - Date)`;
+        }
+        
+        // Update input ID
+        const input = row.querySelector('input');
+        if (input) {
+          input.id = `site-event${num}`;
+        }
+      });
+    }
+
     function updateMicrositePreview() {
       const suffix = document.getElementById('site-suffix').value || 'our-wedding';
-      const title = document.getElementById('site-title').value || 'A Journey Begins...';
-      const story = document.getElementById('site-story').value || 'Two hearts...';
-      const e1 = document.getElementById('site-event1').value || 'Sangeet';
-      const e2 = document.getElementById('site-event2').value || 'Wedding';
-
       const urlEl = document.getElementById('site-prev-url');
       if (urlEl) {
         urlEl.innerText = 'varnam.wedding/' + suffix;
@@ -4327,18 +4335,6 @@
       if (viewLiveBtn) {
         viewLiveBtn.href = 'microsite.html#' + suffix;
       }
-
-      const titleEl = document.getElementById('site-prev-title');
-      if (titleEl) titleEl.innerText = title;
-
-      const storyEl = document.getElementById('site-prev-story');
-      if (storyEl) storyEl.innerText = story;
-
-      const e1El = document.getElementById('site-prev-e1');
-      if (e1El) e1El.innerText = e1;
-
-      const e2El = document.getElementById('site-prev-e2');
-      if (e2El) e2El.innerText = e2;
     }
 
     function publishMicrosite() {
@@ -4347,9 +4343,17 @@
       const title = document.getElementById('site-title').value.trim() || 'A Beautiful Journey Begins...';
       const story = document.getElementById('site-story').value.trim() || 'Two hearts, one soul, and a lifetime of shared dreams.';
       const dress = document.getElementById('site-dress').value.trim() || 'Traditional Elegance';
-      const e1 = document.getElementById('site-event1').value.trim() || 'Sangeet';
-      const e2 = document.getElementById('site-event2').value.trim() || 'Wedding';
       const weddingDate = document.getElementById('site-wedding-date').value || '2026-10-14';
+
+      // Gather all events dynamically
+      const eventInputs = document.querySelectorAll('#microsite-events-container input');
+      const eventsList = [];
+      eventInputs.forEach(input => {
+        const val = input.value.trim();
+        if (val) {
+          eventsList.push(val);
+        }
+      });
 
       const data = {
         slug: suffix,
@@ -4358,8 +4362,9 @@
         story: story,
         dressCode: dress,
         weddingDate: weddingDate,
-        event1: e1,
-        event2: e2,
+        event1: eventsList[0] || '',
+        event2: eventsList[1] || '',
+        events: eventsList,
         publishedAt: new Date().toISOString()
       };
 

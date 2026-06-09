@@ -9,7 +9,7 @@ const VARNAM_KB = {
     name: "Varnam",
     tagline: "India's Premier Wedding Planning Platform",
     founded: "2024",
-    headquarters: "Mumbai, India",
+    headquarters: "Coimbatore, Tamil Nadu, India",
     coverage: "180+ cities across India",
     stats: {
       weddings: "50,000+",
@@ -323,7 +323,7 @@ function generateResponse(msg) {
       return `✦ **About Varnam:**\n\n${VARNAM_KB.platform.tagline}\n\n**Founded:** ${VARNAM_KB.platform.founded}\n**HQ:** ${VARNAM_KB.platform.headquarters}\n**Coverage:** ${VARNAM_KB.platform.coverage}\n\n**Key Stats:**\n• 🎊 ${VARNAM_KB.platform.stats.weddings} weddings planned\n• 🎯 ${VARNAM_KB.platform.stats.vendors} verified vendors\n• 🏰 ${VARNAM_KB.platform.stats.venues} venues listed\n• 💰 ${VARNAM_KB.platform.stats.budgetManaged} budgets managed\n• ⭐ ${VARNAM_KB.platform.stats.rating} average rating\n\n**8 Core Features:**\n${VARNAM_KB.platform.features.map(f => `• ${f}`).join('\n')}\n\n➡️ [Explore Varnam →](index.html)`;
 
     case 'contact':
-      return `📞 **Contact & Support:**\n\n• **Email:** support@varnam.in\n• **WhatsApp:** +91 98765 43210\n• **For vendor queries:** vendors@varnam.in\n• **Business hours:** 9 AM – 9 PM, 7 days\n\n**For urgent wedding day support:** Our Luxury Concierge plan includes 24/7 hotline support.\n\nYou can also visit our [Contact page →](contact.html) or reach us through the Dashboard chat for booking-related queries.`;
+      return `📞 **Contact & Support:**\n\n• **Support Desk:** contact@varnam.com\n• **Partnerships & Vendors:** partners@varnam.com\n• **Toll-Free Helpline:** +91 1800-183-1725\n• **Business hours:** 9 AM – 9 PM, 7 days\n\n**For urgent wedding day support:** Our Luxury Concierge plan includes 24/7 hotline support.\n\nYou can also visit our [Contact page →](contact.html) or reach us through the Dashboard chat for booking-related queries.`;
 
     default:
       return `I can help you with anything about Varnam! 🌸 Try asking me about:\n\n• 🏰 **Venues** — "Show me beach venues" or "Venues in Goa"\n• 🎯 **Vendors** — "Find photographers" or "Best makeup artists"\n• 🎨 **Themes** — "Tell me about Royal Wedding theme"\n• 💰 **Budget** — "How much does a wedding cost?"\n• 📊 **Dashboard** — "How does guest manager work?"\n• 📝 **Registration** — "How do I register as a vendor?"\n• 🗺️ **Navigation** — "Where can I find venues?"\n• 💡 **Planning Tips** — "When should I book my venue?"\n\nWhat would you like to know?`;

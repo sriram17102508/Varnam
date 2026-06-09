@@ -2843,6 +2843,12 @@
                   2026</span></div>
               <div>📍 <strong style="color:var(--text);">Wedding Location:</strong> <span
                   id="profile-card-city">Udaipur</span></div>
+              <div style="margin-top:0.5rem;padding-top:0.75rem;border-top:1px dashed var(--border);">
+                🌐 <strong style="color:var(--text);">Microsite:</strong> 
+                <a id="profile-card-microsite" href="#" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600;transition:color 0.2s;" onmouseover="this.style.color='var(--gold2)'" onmouseout="this.style.color='var(--gold)'">
+                  varnam.wedding/...
+                </a>
+              </div>
             </div>
           </div>
 
@@ -3785,6 +3791,8 @@
       if (tabParam && tabs.includes(tabParam)) {
         showTab(tabParam);
       }
+
+      updateProfileMicrositeLink();
     });
 
     let _tt;
@@ -4089,7 +4097,29 @@
 
       weddingTargetDate = new Date(date + 'T11:00:00');
 
+      updateProfileMicrositeLink();
+
       toast('Profile updated successfully! 🎉');
+    }
+
+    function updateProfileMicrositeLink() {
+      const msLinkEl = document.getElementById('profile-card-microsite');
+      if (msLinkEl) {
+        let slug = 'dhoni-sakshi';
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('varnam_microsite_')) {
+            slug = key.substring(17);
+            break;
+          }
+        }
+        if (slug === 'dhoni-sakshi') {
+          const name = localStorage.getItem('varnam_user_name') || 'Sita and Sriram';
+          slug = name.toLowerCase().replace(/\s*and\s*|\s*&\s*/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-');
+        }
+        msLinkEl.href = 'microsite.html#' + slug;
+        msLinkEl.textContent = 'varnam.wedding/' + slug;
+      }
     }
 
     /* NOTIFICATIONS FUNCTIONS */
