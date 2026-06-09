@@ -351,8 +351,8 @@ function initVarnamChatbot() {
     #vchat-bubble:hover{transform:scale(1.1);box-shadow:0 12px 40px rgba(128,0,32,.65);}
     #vchat-bubble.open{animation:none;background:linear-gradient(135deg,#9E7B15,#500010);}
     .vchat-bubble-icon {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
