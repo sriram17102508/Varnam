@@ -199,7 +199,7 @@ function detectIntent(msg) {
   if (/budget|cost|price|money|spend|afford|cheap|expensive|how much/i.test(m)) return 'budget';
   if (/register|signup|sign up|join|organizer|list my|add my|vendor registration|my business/i.test(m)) return 'registration';
   if (/dashboard|checklist|task|guest|rsvp|plan|timeline|calendar|countdown/i.test(m)) return 'dashboard';
-  if (/hello|hi|hey|namaste|good|start|help|assist|what can|who are you/i.test(m)) return 'greeting';
+  if (/hello|hi|hey|namaste|vanakkam|good|start|help|assist|what can|who are you/i.test(m)) return 'greeting';
   if (/tip|advice|guide|when|how long|planning|timeline|checklist/i.test(m)) return 'tips';
   if (/city|cities|where|cover|available|india/i.test(m)) return 'cities';
   if (/faq|question|how does|what is|explain|tell me about/i.test(m)) return 'faq';
@@ -217,10 +217,9 @@ function generateResponse(msg) {
   switch (intent) {
 
     case 'greeting':
-      return `Namaste! 🌸 I'm **Varnam AI**, your personal wedding planning assistant.\n\nI can help you with:\n• 🏰 Finding the perfect **venue** (54+ options)\n• 🎯 Discovering **vendors** (12,000+ verified professionals)\n• 🎨 Exploring **20 wedding themes**\n• 💰 **Budget planning** & tips\n• 📊 Using the **Dashboard** features\n• 📝 **Vendor registration** guidance\n• 🗺️ Navigating any page on Varnam\n\nWhat would you like to explore first?`;
+      return `Vanakkam! 🌸 I'm **VaranAI**, your personal wedding planning assistant.\n\nI can help you with:\n• 🏰 Finding the perfect **venue** (54+ options)\n• 🎯 Discovering **vendors** (12,00,000+ verified professionals)\n• 🎨 Exploring **20 wedding themes**\n• 💰 **Budget planning** & tips\n• 📊 Using the **Dashboard** features\n• 📝 **Vendor registration** guidance\n• 🗺️ Navigating any page on Varnam\n\nWhat would you like to explore first?`;
 
     case 'venues': {
-      // Check for specific city
       const cities = ['mumbai','delhi','jaipur','udaipur','goa','bangalore','chennai','hyderabad','agra','coorg','jodhpur','jaisalmer','kerala','rishikesh','manali','shimla','srinagar','kolkata','pune','mysore'];
       const found = cities.find(c => m.includes(c));
       if (found) {
@@ -268,7 +267,6 @@ function generateResponse(msg) {
     }
 
     case 'themes': {
-      // Check for specific theme
       const themeMatch = VARNAM_KB.themes.list.find(t =>
         m.includes(t.name.toLowerCase().split(' ')[0].toLowerCase()) ||
         t.name.toLowerCase().split(' ').some(w => w.length > 4 && m.includes(w.toLowerCase()))
@@ -333,6 +331,8 @@ function generateResponse(msg) {
 }
 
 // ── CHATBOT UI BUILDER ───────────────────────────────────────
+const PEACOCK_IMG = `<img src="peacock.png" alt="VaranAI" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />`;
+
 function initVarnamChatbot() {
   // Inject styles
   const style = document.createElement('style');
@@ -340,17 +340,57 @@ function initVarnamChatbot() {
     #vchat-bubble{
       position:fixed;bottom:2rem;right:2rem;z-index:8000;
       width:56px;height:56px;border-radius:50%;
-      background:linear-gradient(135deg,#D4A843,#C43060);
-      border:none;cursor:pointer;
+      background:linear-gradient(135deg,#E5C158,#800020);
+      border:1px solid rgba(229,193,88,0.4);cursor:pointer;
       display:flex;align-items:center;justify-content:center;
-      font-size:1.5rem;
-      box-shadow:0 8px 32px rgba(212,168,67,0.4);
+      box-shadow:0 8px 32px rgba(128,0,32,0.4);
       transition:all .3s cubic-bezier(.23,1,.32,1);
       animation:chatPulse 3s ease-in-out infinite;
     }
-    @keyframes chatPulse{0%,100%{box-shadow:0 8px 32px rgba(212,168,67,.4);}50%{box-shadow:0 8px 48px rgba(212,168,67,.65);}}
-    #vchat-bubble:hover{transform:scale(1.1);}
-    #vchat-bubble.open{animation:none;background:linear-gradient(135deg,#8A6A20,#6A1030);}
+    @keyframes chatPulse{0%,100%{box-shadow:0 8px 32px rgba(128,0,32,.4);}50%{box-shadow:0 8px 48px rgba(128,0,32,.65);}}
+    #vchat-bubble:hover{transform:scale(1.1);box-shadow:0 12px 40px rgba(128,0,32,.65);}
+    #vchat-bubble.open{animation:none;background:linear-gradient(135deg,#9E7B15,#500010);}
+    .vchat-bubble-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s;
+    }
+    #vchat-scroll-top {
+      position: fixed;
+      bottom: 6.2rem;
+      right: 2.25rem;
+      z-index: 7998;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #140a0c;
+      border: 1px solid rgba(229,193,88,0.4);
+      color: #E5C158;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      transition: all 0.3s cubic-bezier(.23,1,.32,1);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+    }
+    #vchat-scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    #vchat-scroll-top:hover {
+      background: #E5C158;
+      color: #140a0c;
+      border-color: #E5C158;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(229,193,88,0.4);
+    }
     #vchat-notif{
       position:absolute;top:-4px;right:-4px;
       width:18px;height:18px;border-radius:50%;
@@ -364,8 +404,8 @@ function initVarnamChatbot() {
     #vchat-window{
       position:fixed;bottom:5.5rem;right:2rem;z-index:7999;
       width:400px;height:580px;
-      background:#0f0b10;
-      border:1px solid rgba(212,168,67,.2);
+      background:#140a0c;
+      border:1px solid rgba(229,193,88,.25);
       border-radius:20px;
       display:flex;flex-direction:column;
       box-shadow:0 32px 80px rgba(0,0,0,.7);
@@ -377,31 +417,31 @@ function initVarnamChatbot() {
     #vchat-window.open{transform:scale(1) translateY(0);opacity:1;visibility:visible;}
     #vchat-header{
       padding:1rem 1.25rem;
-      background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(196,48,96,.08));
-      border-bottom:1px solid rgba(212,168,67,.15);
+      background:linear-gradient(135deg,rgba(229,193,88,.15),rgba(128,0,32,.2));
+      border-bottom:1px solid rgba(229,193,88,.25);
       display:flex;align-items:center;gap:.75rem;
       flex-shrink:0;
     }
     .vchat-av{
       width:38px;height:38px;border-radius:10px;
-      background:linear-gradient(135deg,#D4A843,#C43060);
+      background:linear-gradient(135deg,#E5C158,#800020);
       display:flex;align-items:center;justify-content:center;
-      font-size:1.1rem;flex-shrink:0;
+      padding:4px;flex-shrink:0;
     }
     .vchat-header-info{flex:1;}
     .vchat-name{font-family:'Manrope',sans-serif;font-size:.88rem;font-weight:700;color:#F0EAE2;}
     .vchat-status{font-family:'DM Mono',monospace;font-size:.58rem;color:#5ABA7A;letter-spacing:.08em;display:flex;align-items:center;gap:.35rem;}
     .vchat-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#3A9A5A;}
     #vchat-close{background:none;border:none;color:#6A5A50;font-size:1.1rem;cursor:pointer;padding:.25rem;border-radius:50%;transition:color .2s;}
-    #vchat-close:hover{color:#D4A843;}
+    #vchat-close:hover{color:#E5C158;}
     #vchat-messages{
       flex:1;overflow-y:auto;
       padding:1rem;
       display:flex;flex-direction:column;gap:.75rem;
-      scrollbar-width:thin;scrollbar-color:#8A6A20 transparent;
+      scrollbar-width:thin;scrollbar-color:#9E7B15 transparent;
     }
     #vchat-messages::-webkit-scrollbar{width:3px;}
-    #vchat-messages::-webkit-scrollbar-thumb{background:#8A6A20;border-radius:2px;}
+    #vchat-messages::-webkit-scrollbar-thumb{background:#9E7B15;border-radius:2px;}
     .vchat-msg{display:flex;gap:.5rem;align-items:flex-start;}
     .vchat-msg.user{flex-direction:row-reverse;}
     .vchat-msg-av{
@@ -409,8 +449,8 @@ function initVarnamChatbot() {
       display:flex;align-items:center;justify-content:center;
       font-size:.8rem;flex-shrink:0;
     }
-    .vchat-msg-av.bot{background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.2);color:#D4A843;}
-    .vchat-msg-av.user{background:rgba(196,48,96,.15);border:1px solid rgba(196,48,96,.2);}
+    .vchat-msg-av.bot{background:rgba(229,193,88,.15);border:1px solid rgba(229,193,88,.25);color:#E5C158;padding:3px;}
+    .vchat-msg-av.user{background:rgba(128,0,32,.15);border:1px solid rgba(128,0,32,.2);}
     .vchat-bubble{
       padding:.65rem .9rem;border-radius:12px;
       font-family:'Manrope',sans-serif;font-size:.8rem;line-height:1.6;
@@ -423,13 +463,13 @@ function initVarnamChatbot() {
       border-radius:3px 12px 12px 12px;
     }
     .vchat-msg.user .vchat-bubble{
-      background:linear-gradient(135deg,rgba(212,168,67,.2),rgba(196,48,96,.15));
-      border:1px solid rgba(212,168,67,.2);
+      background:linear-gradient(135deg,rgba(229,193,88,.2),rgba(128,0,32,.25));
+      border:1px solid rgba(229,193,88,.25);
       color:#F0EAE2;
       border-radius:12px 3px 12px 12px;
     }
     .vchat-bubble strong{color:#F0EAE2;font-weight:700;}
-    .vchat-bubble a{color:#D4A843;text-decoration:none;}
+    .vchat-bubble a{color:#E5C158;text-decoration:none;font-weight:600;}
     .vchat-bubble a:hover{text-decoration:underline;}
     .vchat-typing{
       display:flex;gap:.3rem;align-items:center;
@@ -443,7 +483,7 @@ function initVarnamChatbot() {
     }
     .vchat-typing span:nth-child(2){animation-delay:.2s;}
     .vchat-typing span:nth-child(3){animation-delay:.4s;}
-    @keyframes typingDot{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);background:#D4A843;}}
+    @keyframes typingDot{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);background:#E5C158;}}
     #vchat-quick{
       padding:.75rem 1rem;
       display:flex;gap:.4rem;flex-wrap:wrap;
@@ -453,11 +493,11 @@ function initVarnamChatbot() {
     .vchat-quick-btn{
       padding:.3rem .7rem;border-radius:100px;
       font-family:'Manrope',sans-serif;font-size:.7rem;font-weight:600;
-      border:1px solid rgba(212,168,67,.2);
-      background:rgba(212,168,67,.06);color:#D4A843;
+      border:1px solid rgba(229,193,88,.25);
+      background:rgba(229,193,88,.06);color:#E5C158;
       cursor:pointer;transition:all .2s;white-space:nowrap;
     }
-    .vchat-quick-btn:hover{background:rgba(212,168,67,.15);border-color:rgba(212,168,67,.4);}
+    .vchat-quick-btn:hover{background:rgba(229,193,88,.15);border-color:rgba(229,193,88,.45);}
     #vchat-input-row{
       padding:1rem;border-top:1px solid rgba(255,255,255,.07);
       display:flex;gap:.5rem;flex-shrink:0;
@@ -469,16 +509,16 @@ function initVarnamChatbot() {
       font-family:'Manrope',sans-serif;font-size:.82rem;
       color:#F0EAE2;outline:none;transition:border-color .2s;
     }
-    #vchat-input:focus{border-color:rgba(212,168,67,.4);}
+    #vchat-input:focus{border-color:rgba(229,193,88,.45);}
     #vchat-input::placeholder{color:#6A5A50;}
     #vchat-send{
       width:38px;height:38px;border-radius:10px;flex-shrink:0;
-      background:linear-gradient(135deg,#D4A843,#C43060);
+      background:linear-gradient(135deg,#E5C158,#800020);
       border:none;cursor:pointer;
       display:flex;align-items:center;justify-content:center;
       color:#fff;font-size:1rem;transition:all .2s;
     }
-    #vchat-send:hover{transform:scale(1.08);box-shadow:0 4px 20px rgba(212,168,67,.35);}
+    #vchat-send:hover{transform:scale(1.08);box-shadow:0 4px 20px rgba(128,0,32,.45);}
     @media(max-width:480px){
       #vchat-window{width:calc(100vw - 2rem);right:1rem;bottom:5rem;}
     }
@@ -487,11 +527,14 @@ function initVarnamChatbot() {
 
   // Build HTML
   const chatHTML = `
+    <button id="vchat-scroll-top" onclick="scrollToTop()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
     <div id="vchat-window">
       <div id="vchat-header">
-        <div class="vchat-av">✦</div>
+        <div class="vchat-av">${PEACOCK_IMG}</div>
         <div class="vchat-header-info">
-          <div class="vchat-name">Varnam AI Assistant</div>
+          <div class="vchat-name">VaranAI Assistant</div>
           <div class="vchat-status">Online · Ready to help</div>
         </div>
         <button id="vchat-close" onclick="toggleChat()">✕</button>
@@ -511,7 +554,7 @@ function initVarnamChatbot() {
       </div>
     </div>
     <button id="vchat-bubble" onclick="toggleChat()">
-      <span>✦</span>
+      <span class="vchat-bubble-icon">${PEACOCK_IMG}</span>
       <div id="vchat-notif">AI</div>
     </button>
   `;
@@ -521,9 +564,26 @@ function initVarnamChatbot() {
 
   // Initial greeting message
   setTimeout(() => {
-    appendBotMsg("Namaste! 🌸 I'm **Varnam AI**, your personal wedding planning assistant. I know everything about this platform — venues, vendors, themes, budget, registration, and more!\n\nWhat would you like to explore?");
+    appendBotMsg("Vanakkam! 🌸 I'm **VaranAI**, your personal wedding planning assistant. I know everything about this platform — venues, vendors, themes, budget, registration, and more!\n\nWhat would you like to explore?");
   }, 800);
+
+  // Scroll to Top Listener
+  window.addEventListener('scroll', () => {
+    const st = document.getElementById('vchat-scroll-top');
+    if (st) {
+      if (window.scrollY > 300) {
+        st.classList.add('visible');
+      } else {
+        st.classList.remove('visible');
+      }
+    }
+  });
 }
+
+// Global Scroll to Top Function
+window.scrollToTop = function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
 // ── CHAT FUNCTIONS ───────────────────────────────────────────
 let chatOpen = false;
@@ -536,13 +596,17 @@ function toggleChat() {
   if (chatOpen) {
     win.classList.add('open');
     btn.classList.add('open');
-    btn.querySelector('span').textContent = '✕';
+    btn.querySelector('.vchat-bubble-icon').innerHTML = '✕';
+    btn.querySelector('.vchat-bubble-icon').style.fontSize = '1.3rem';
+    btn.querySelector('.vchat-bubble-icon').style.color = '#FFF';
     if (notif) notif.style.display = 'none';
     document.getElementById('vchat-input').focus();
   } else {
     win.classList.remove('open');
     btn.classList.remove('open');
-    btn.querySelector('span').textContent = '✦';
+    btn.querySelector('.vchat-bubble-icon').innerHTML = PEACOCK_IMG;
+    btn.querySelector('.vchat-bubble-icon').style.fontSize = '';
+    btn.querySelector('.vchat-bubble-icon').style.color = '';
   }
 }
 
@@ -557,7 +621,7 @@ function appendBotMsg(text) {
     .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
     .replace(/\n/g, '<br>');
   div.innerHTML = `
-    <div class="vchat-msg-av bot">✦</div>
+    <div class="vchat-msg-av bot">${PEACOCK_IMG}</div>
     <div class="vchat-bubble">${formatted}</div>
   `;
   msgs.appendChild(div);
@@ -583,7 +647,7 @@ function showTyping() {
   div.className = 'vchat-msg bot';
   div.id = 'vchat-typing';
   div.innerHTML = `
-    <div class="vchat-msg-av bot">✦</div>
+    <div class="vchat-msg-av bot">${PEACOCK_IMG}</div>
     <div class="vchat-typing"><span></span><span></span><span></span></div>
   `;
   msgs.appendChild(div);

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — Varnam | India's Premier Wedding Platform</title>
+  <meta name="description" content="Learn more about Varnam, India's most elegant wedding platform. Weaving traditions, dreams, and celebrations into one breathtaking journey.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    /* Page Specific Styling */
+    .about-hero {
+      position: relative;
+      padding: 140px 2.5rem 6rem;
+      background: linear-gradient(180deg, var(--ink2) 0%, var(--ink) 100%);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .about-hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.005) 100%);
+      border: 1px solid rgba(212, 168, 67, 0.12);
+      border-radius: var(--r24);
+      padding: 3rem 2rem;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(212, 168, 67, 0.08) 0%, transparent 70%);
+      top: -60px;
+      right: -60px;
+      pointer-events: none;
+      transition: transform 0.5s ease;
+    }
+
+    /* Bottom glowing accent bar */
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease, left 0.4s ease, right 0.4s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(212, 168, 67, 0.35);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .stat-card:hover::before {
+      transform: scale(1.5);
+    }
+
+    .stat-card:hover::after {
+      opacity: 1;
+      left: 0;
+      right: 0;
+    }
+
+    .stat-number {
+      font-size: 2.75rem; /* Reduced by 4px (~0.25rem) to keep proportional */
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.03em;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem; /* Reduced by 2px (0.65rem -> 0.55rem) */
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stat-desc {
+      font-size: 0.72rem; /* Reduced by 2px (0.82rem -> 0.72rem) */
+      color: var(--text2);
+      line-height: 1.6;
+      margin: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .vision-section {
+      background: linear-gradient(180deg, var(--ink) 0%, var(--ink2) 100%);
+      padding: 7rem 2.5rem;
+    }
+
+    .glass-showcase {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border2);
+      border-radius: var(--r24);
+      padding: 3.5rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      margin-top: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-showcase::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(196, 48, 96, 0.04) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .founder-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .founder-card {
+      background: var(--ink2);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .founder-card:hover {
+      border-color: rgba(212, 168, 67, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .founder-img-holder {
+      width: 100%;
+      aspect-ratio: 1/1;
+      background: #1a1522;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+    }
+
+    .founder-img-holder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(8, 6, 8, 0.8) 0%, transparent 60%);
+      z-index: 1;
+    }
+
+    .founder-info {
+      padding: 1.5rem;
+    }
+
+    .founder-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .founder-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .founder-bio {
+      font-size: 0.82rem;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+
+    @media(max-width: 1024px) {
+      .founder-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+      .grid-4-custom {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+      }
+    }
+    @media(max-width: 600px) {
+      .founder-grid {
+        grid-template-columns: 1fr;
+      }
+      .grid-4-custom {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-logo">Varnam</div>
+    <div class="loader-bar">
+      <div class="loader-fill" id="loader-fill"></div>
+    </div>
+    <div class="loader-txt">Weaving your celebration</div>
+  </div>
+  <div id="toast"></div>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="inner" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+      <a class="nav-logo" href="index.html">Varnam<sup>™</sup></a>
+      <ul class="nav-links">
+        <li><a href="venues.html">Venues</a></li>
+        <li><a href="vendors.html">Vendors</a></li>
+        <li><a href="themes.html">Themes</a></li>
+      </ul>
+      <div class="nav-right" id="nav-auth-section">
+        <button class="btn btn-ghost" onclick="openModal('login-modal')">Sign In</button>
+        <button class="btn btn-gold" onclick="openModal('signup-modal')">Get Started</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── ABOUT HERO ── -->
+  <section class="about-hero">
+    <div class="orb orb1" style="top: -20%; right: 10%;"></div>
+    <div class="orb orb2" style="bottom: -10%; left: 10%;"></div>
+    <div class="about-hero-content">
+      <div class="sec-label" style="justify-content: center; margin-bottom: 1.5rem;">OUR HERITAGE</div>
+      <h1 class="sec-title" style="font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 1.5rem;">
+        Weaving <em>Tradition</em> & <em>Innovation</em>
+      </h1>
+      <p style="font-size: 1.1rem; color: var(--text2); line-height: 1.8; max-width: 680px; margin: 0 auto;">
+        Varnam is India's premier wedding ecosystem, designed for couples who seek a seamless blend of timeless heritage and forward-looking technology. We curate only the exceptional, creating celebrations that become legends.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── STATS SECTION ── -->
+  <section class="sec" style="background: var(--ink); border-bottom: 1px solid var(--border);">
+    <div class="inner">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;" class="grid-4-custom">
+        <div class="stat-card">
+          <div class="stat-number outfit-font">20+</div>
+          <div class="stat-label">Curated Themes</div>
+          <div class="stat-desc">Exclusive designer-curated wedding aesthetics from traditional heritage to modern minimalist.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number outfit-font">5K+</div>
+          <div class="stat-label">Weddings Planned</div>
+          <div class="stat-desc">Beautiful stories successfully coordinated and brought to life across India's premier destinations.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number outfit-font">12K+</div>
+          <div class="stat-label">Luxury Vendors</div>
+          <div class="stat-desc">A highly-vetted registry of top-tier decorators, caterers, planners, and venues.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number outfit-font">99.8%</div>
+          <div class="stat-label">Couple Satisfaction</div>
+          <div class="stat-desc">Couples who rate their Varnam planning journey as completely premium and stress-free.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── VISION & STORY SECTION ── -->
+  <section class="vision-section">
+    <div class="inner">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 2rem;">
+        <div class="sec-label" style="justify-content: center;">THE MISSION</div>
+        <h2 class="sec-title">Redefining the <em>Art</em> of Planning</h2>
+        <p style="color: var(--text2); font-size: 0.95rem; line-height: 1.8;">
+          Planning a wedding should feel as magical as the celebration itself. We combine high-touch hospitality with smart technology to replace planning stress with elegance.
+        </p>
+      </div>
+
+      <div class="glass-showcase">
+        <div class="grid-2" style="align-items: center; gap: 4rem;">
+          <div>
+            <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 400; color: var(--gold); margin-bottom: 1.5rem; line-height: 1.2;">
+              A platform born out of love, built to scale traditions.
+            </h3>
+            <p style="font-size: 0.9rem; color: var(--text2); line-height: 1.8; margin-bottom: 1.25rem;">
+              Founded in 2026, Varnam emerged from a simple realization: while Indian weddings are rich in tradition and beauty, the process of planning them is often fragmented and overwhelming. 
+            </p>
+            <p style="font-size: 0.9rem; color: var(--text2); line-height: 1.8;">
+              We set out to build a platform that respects traditions, standardizes pricing transparency, utilizes artificial intelligence for theme styling matching, and coordinates complex vendor management in a single elegant dashboard.
+            </p>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--r16); padding: 2.5rem; position: relative;">
+            <div style="position: absolute; top: -1rem; left: 2rem; font-size: 3rem; color: rgba(212,168,67,0.15); font-family: Georgia, serif;">“</div>
+            <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-style: italic; color: var(--text); line-height: 1.6; margin-bottom: 1.5rem; position: relative; z-index: 1;">
+              We believe a wedding is not just a one-day event, but a heritage milestone. Our platform is dedicated to making that milestone perfect, transparent, and breathtakingly beautiful.
+            </p>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--ink);">💍</div>
+              <div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: var(--text);">Vikram Aditya</div>
+                <div style="font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text3); text-transform: uppercase;">Founder & CEO</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LEADERSHIP TEAM ── -->
+  <section class="sec" style="background: var(--ink2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="inner">
+      <div style="text-align: center; max-width: 600px; margin: 0 auto 1rem;">
+        <div class="sec-label" style="justify-content: center;">OUR CURATORS</div>
+        <h2 class="sec-title">The Mindset Behind <em>Varnam</em></h2>
+      </div>
+
+      <div class="founder-grid">
+        <!-- Curator 1 -->
+        <div class="founder-card">
+          <div class="founder-img-holder">👑</div>
+          <div class="founder-info">
+            <div class="founder-role">Founder & CEO</div>
+            <div class="founder-name">Vikram Aditya</div>
+            <div class="founder-bio">Alumnus of luxury hospitality management. Committed to creating the ultimate digital companion for grand Indian celebrations.</div>
+          </div>
+        </div>
+        <!-- Curator 2 -->
+        <div class="founder-card">
+          <div class="founder-img-holder">✨</div>
+          <div class="founder-info">
+            <div class="founder-role">Co-Founder & Chief Designer</div>
+            <div class="founder-name">Sita Sharma</div>
+            <div class="founder-bio">Award-winning wedding couturier and aesthetic curator. Directs Varnam's theme library and luxury vendor vetting standards.</div>
+          </div>
+        </div>
+        <!-- Curator 3 -->
+        <div class="founder-card">
+          <div class="founder-img-holder">🔮</div>
+          <div class="founder-info">
+            <div class="founder-role">Chief of VarnAI Engine</div>
+            <div class="founder-name">Dr. Kabir Mehta</div>
+            <div class="founder-bio">PhD in Computational Design. Leads the engineering behind our smart theme matchmaker and predictive budgeting modules.</div>
+          </div>
+        </div>
+        <!-- Curator 4 -->
+        <div class="founder-card">
+          <div class="founder-img-holder">🌸</div>
+          <div class="founder-info">
+            <div class="founder-role">Chief Concierge Officer</div>
+            <div class="founder-name">Ananya Sen</div>
+            <div class="founder-bio">Former Director of Guest Relations at Taj Hotels. Directs our elite white-glove concierge and personalized hospitality experiences.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Varnam</div>
+        <p class="footer-desc">India's most elegant wedding platform — weaving traditions, dreams, and celebrations into one breathtaking journey.</p>
+        <div class="footer-nl">
+          <input id="footer-email" placeholder="Your email address">
+          <button onclick="footerSubscribe()">Subscribe</button>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Planning</h5>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#">Guest Manager</a></li>
+          <li><a href="#">Budget Tracker</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Discover</h5>
+        <ul>
+          <li><a href="themes.html">Themes</a></li>
+          <li><a href="venues.html">Venues</a></li>
+          <li><a href="vendors.html">All Vendors</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About Varnam</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#" onclick="openModal('vendor-signup-modal')">Vendor Registration</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 VARNAM · MADE WITH ❤ IN INDIA</div>
+      <div class="footer-socials">
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.163c-.272-1.015-1.074-1.817-2.09-2.09C17.914 3.5 12 3.5 12 3.5s-5.914 0-9.408.573c-1.016.273-1.818 1.075-2.09 2.09C0 9.657 0 12 0 12s0 2.343.502 5.837c.272 1.016 1.074 1.818 2.09 2.09C6.086 20.5 12 20.5 12 20.5s5.914 0 9.408-.573c1.016-.272 1.818-1.074 2.09-2.09C24 14.343 24 12 24 12s0-2.343-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        <a href="#" aria-label="X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+        <a href="#" aria-label="Gmail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══ LOGIN MODAL ══ -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Welcome Back</div><button class="modal-close" onclick="closeModal('login-modal')">✕</button>
+      </div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="switchRole(this,'lu')">👰 Couple / Guest</button>
+        <button class="role-tab" onclick="switchRole(this,'lv')">🎯 Organizer / Vendor</button>
+      </div>
+      <div id="lu">
+        <div class="form-row"><label class="field-label">Email</label><input class="field" type="email" placeholder="your@email.com"></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="••••••••"></div>
+        <div style="text-align:right;margin-bottom:1.25rem;"><a href="#" style="font-size:.78rem;color:var(--gold);text-decoration:none;">Forgot password?</a></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.querySelector('#lu input[type=email]').value, false);closeModal('login-modal')">Sign In →</button>
+        <div class="divider"><span>or continue with</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google login…')">🔵 Google</button><button class="social-auth-btn" onclick="toast('OTP sent…')">📱 OTP</button></div>
+        <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--text3);">No account? <a href="#" style="color:var(--gold);text-decoration:none;" onclick="closeModal('login-modal');openModal('signup-modal')">Sign Up</a></p>
+      </div>
+      <div id="lv" style="display:none">
+        <div class="form-row"><label class="field-label">Business Email</label><input class="field" type="email" placeholder="studio@email.com"></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="••••••••"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.querySelector('#lv input[type=email]').value, true);closeModal('login-modal')">Sign In as Organizer →</button>
+        <div class="divider"><span>or</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google…')">🔵 Google</button></div>
+        <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--text3);">New vendor? <a href="#" style="color:var(--gold);text-decoration:none;" onclick="closeModal('login-modal');openModal('vendor-signup-modal')">Register business</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ USER SIGNUP MODAL ══ -->
+  <div class="modal-overlay" id="signup-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Create Account</div><button class="modal-close" onclick="closeModal('signup-modal')">✕</button>
+      </div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="switchRole(this,'su')">👰 Couple / Guest</button>
+        <button class="role-tab" onclick="switchRole(this,'sv')">🎯 Organizer / Vendor</button>
+      </div>
+      <div id="su" class="role-panel">
+        <div class="form-row-2">
+          <div><label class="field-label">First Name</label><input class="field" placeholder="Sita"></div>
+          <div><label class="field-label">Last Name</label><input class="field" placeholder="Sharma"></div>
+        </div>
+        <div class="form-row"><label class="field-label">Email</label><input class="field" type="email" placeholder="your@email.com"></div>
+        <div class="form-row"><label class="field-label">Phone</label><input class="field" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="form-row"><label class="field-label">Role</label><select class="field">
+            <option>Bride</option>
+            <option>Groom</option>
+            <option>Family Member</option>
+            <option>Guest</option>
+          </select></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="Min. 8 characters"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.querySelector('#su input[type=email]').value, false);closeModal('signup-modal')">Create Account →</button>
+        <div class="divider"><span>or sign up with</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google…')">🔵 Google</button><button class="social-auth-btn" onclick="toast('OTP sent…')">📱 OTP</button></div>
+      </div>
+      <div id="sv" class="role-panel" style="display:none">
+        <div class="form-row-2">
+          <div><label class="field-label">First Name</label><input class="field" id="v-su-fname" placeholder="First Name"></div>
+          <div><label class="field-label">Last Name</label><input class="field" id="v-su-lname" placeholder="Last Name"></div>
+        </div>
+        <div class="form-row"><label class="field-label">Email</label><input class="field" id="v-su-email" type="email" placeholder="studio@email.com"></div>
+        <div class="form-row"><label class="field-label">Phone</label><input class="field" id="v-su-phone" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="form-row"><label class="field-label">Vendor Category</label><select class="field" id="v-su-role">
+            <option>Photographer</option>
+            <option>Videographer</option>
+            <option>Makeup Artist</option>
+            <option>Mehndi Artist</option>
+            <option>Decorator / Florist</option>
+            <option>Caterer</option>
+            <option>DJ / Musician</option>
+            <option>Wedding Planner</option>
+            <option>Venue Owner</option>
+          </select></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="Min. 8 characters"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.getElementById('v-su-email').value, true);closeModal('signup-modal')">Create Account →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ VENDOR SIGNUP MODAL ══ -->
+  <div class="modal-overlay" id="vendor-signup-modal">
+    <div class="modal" style="max-width:560px;">
+      <div class="modal-header">
+        <div class="modal-title">Register Your Business</div><button class="modal-close" onclick="closeModal('vendor-signup-modal')">✕</button>
+      </div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:1.75rem;line-height:1.6;">Join 12,000+ verified professionals on Varnam. Create your profile and start receiving enquiries from couples across India.</p>
+      <div class="form-row-2">
+        <div><label class="field-label">Full Name</label><input class="field" placeholder="Your Name"></div>
+        <div><label class="field-label">Business Name</label><input class="field" placeholder="Studio / Brand Name"></div>
+      </div>
+      <div class="form-row"><label class="field-label">Category</label>
+        <select class="field">
+          <option>Photographer</option>
+          <option>Videographer</option>
+          <option>Makeup Artist</option>
+          <option>Mehndi Artist</option>
+          <option>Decorator / Florist</option>
+          <option>Caterer</option>
+          <option>DJ / Musician</option>
+          <option>Chef</option>
+          <option>Wedding Planner</option>
+          <option>Venue Owner</option>
+          <option>Bridal Wear Designer</option>
+          <option>Jeweller</option>
+        </select>
+      </div>
+      <div class="form-row-2">
+        <div><label class="field-label">City / Base Location</label><input class="field" placeholder="e.g. Mumbai"></div>
+        <div><label class="field-label">Years of Experience</label><input class="field" type="number" placeholder="5"></div>
+      </div>
+      <div class="form-row"><label class="field-label">Business Email</label><input class="field" type="email" placeholder="studio@email.com"></div>
+      <div class="form-row"><label class="field-label">Phone / WhatsApp</label><input class="field" type="tel" placeholder="+91 98765 43210"></div>
+      <div class="form-row"><label class="field-label">About Your Work</label><textarea class="field" rows="3" placeholder="Tell couples about your style and experience…"></textarea></div>
+      <div class="form-row"><label class="field-label">Starting Price (₹)</label><input class="field" type="number" placeholder="e.g. 25000"></div>
+      <div class="form-row"><label class="field-label">Portfolio / Website URL</label><input class="field" placeholder="https://yourstudio.com"></div>
+      <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="Min. 8 characters"></div>
+      <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="toast('🎉 Submitted! Verification within 24 hrs.');closeModal('vendor-signup-modal')">Submit for Verification →</button>
+      <p style="text-align:center;margin-top:1rem;font-size:.75rem;color:var(--text3);">Verification takes 24–48 hours. You'll receive an email once approved.</p>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+</body>
+
+</html>

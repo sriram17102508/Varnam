@@ -626,43 +626,38 @@
     }
 
     /* ══════════════════════════════════════════
-   FEATURES — 4 × 2 PERFECTLY EQUAL GRID
-   Each card is EXACTLY the same size.
-   We use a 2-row grid where each row has
-   a fixed height, so all 8 cells are
-   pixel-perfect identical.
+   FEATURES — BENTO GRID
    ══════════════════════════════════════════ */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(2, 260px);
-      /* ← FIXED height, both rows identical */
+      grid-template-rows: repeat(2, 180px);
       gap: 1.5rem;
       overflow: hidden;
       margin-top: 3rem;
     }
 
     .feat-card {
-      /* exact same box every time */
       width: 100%;
       height: 100%;
-      background: rgba(212, 168, 67, 0.06);
-      padding: 1.75rem;
-      /* 3-zone layout: number row / icon / text block */
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.005) 100%);
+      padding: 2rem 1.75rem;
       display: grid;
       grid-template-rows: auto 1fr auto;
       gap: 0;
       position: relative;
       overflow: hidden;
       cursor: pointer;
-      transition: background .3s, transform .3s;
-      border: 1px solid rgba(212, 168, 67, 0.15);
-      border-radius: var(--r16);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(212, 168, 67, 0.12);
+      border-radius: var(--r24);
     }
 
     .feat-card:hover {
-      background: rgba(212, 168, 67, 0.12);
-      transform: translateY(-2px);
+      background: linear-gradient(135deg, rgba(212, 168, 67, 0.06) 0%, rgba(212, 168, 67, 0.01) 100%);
+      border-color: rgba(212, 168, 67, 0.35);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     }
 
     .feat-card::after {
@@ -671,69 +666,70 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 2px;
+      height: 3px;
       background: linear-gradient(90deg, var(--gold), var(--rose));
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform .35s;
+      transition: transform .4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .feat-card:hover::after {
       transform: scaleX(1);
     }
 
-    /* highlight removed for uniformity */
-
     /* ── Row 1: number tag (top-right) ── */
     .feat-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      /* sits in grid row 1 */
+      margin-bottom: 1.5rem;
     }
 
     .feat-ico {
-      font-size: 1.8rem;
+      font-size: 2rem;
       line-height: 1;
+      transition: transform 0.3s ease;
+    }
+
+    .feat-card:hover .feat-ico {
+      transform: scale(1.1);
     }
 
     .feat-num {
       font-family: 'DM Mono', monospace;
-      font-size: .55rem;
-      color: var(--text3);
+      font-size: .62rem;
+      color: var(--gold);
+      opacity: 0.6;
       letter-spacing: .15em;
+      border: 1px solid rgba(212, 168, 67, 0.25);
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--r4);
     }
-
-    /* ── Row 2: spacer (icon already in row1, this keeps the gap) ── */
-    /* (empty div .feat-mid not needed — grid-row 1fr handles it) */
 
     /* ── Row 3: text block always pinned to bottom ── */
     .feat-bottom {
       align-self: end;
+      margin-top: 1rem;
     }
 
     .feat-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: .55rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: .4rem;
+      display: none;
+      /* Removed sub-headings as requested */
     }
 
     .feat-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       font-weight: 600;
       color: var(--text);
-      line-height: 1.15;
-      margin-bottom: .35rem;
+      line-height: 1.2;
+      margin-bottom: .5rem;
     }
 
     .feat-desc {
-      font-size: .73rem;
-      color: var(--text3);
-      line-height: 1.65;
+      font-size: .75rem;
+      color: var(--text2);
+      line-height: 1.6;
     }
 
     /* ══════════════════════════════════════════
@@ -1797,7 +1793,13 @@
     @media(max-width:700px) {
       .features-grid {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(8, 220px);
+        grid-template-rows: auto;
+        gap: 1rem;
+      }
+
+      .feat-card {
+        grid-column: span 1 !important;
+        height: 220px;
       }
 
       .themes-grid {
@@ -2788,8 +2790,6 @@
           <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="#">Guest Manager</a></li>
           <li><a href="#">Budget Tracker</a></li>
-          <li><a href="#">Checklist</a></li>
-          <li><a href="#">Wedding Website</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -2798,17 +2798,13 @@
           <li><a href="themes.html">Themes</a></li>
           <li><a href="venues.html">Venues</a></li>
           <li><a href="vendors.html">All Vendors</a></li>
-          <li><a href="vendors.html?cat=photographers">Photographers</a></li>
-          <li><a href="vendors.html?cat=makeup">Makeup Artists</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h5>Company</h5>
         <ul>
-          <li><a href="#">About Varnam</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="about.html">About Varnam</a></li>
+          <li><a href="contact.html">Contact</a></li>
           <li><a href="#" onclick="openModal('vendor-signup-modal')">Vendor Registration</a></li>
         </ul>
       </div>
@@ -3389,20 +3385,20 @@
                 <option value="crimson">Royal Crimson & Gold</option>
                 <option value="pastel">Oceanic Beach Pastel</option>
                 <option value="silk">Classic South Silk Garden</option>
-                <option value="sunset">Sunset Orange & Pink</option>
-                <option value="midnight">Midnight Blue & Silver</option>
+                <option value="rosegold">Rose Gold Romance</option>
+                <option value="emerald">Emerald Luxury</option>
               </optgroup>
               <optgroup label="🖼️ Image / Pattern Styles">
-                <option value="floral">Floral Garden Motif</option>
+                <option value="floral">Classic Mandap Silhouette</option>
                 <option value="mandala">Traditional Mandala Art</option>
                 <option value="marble">Elegant White Marble</option>
-                <option value="vintage">Vintage Sepia Scroll</option>
+                <option value="leaf">Minimal Botanical Leaf</option>
                 <option value="stars">Starry Night Sky</option>
               </optgroup>
             </select>
           </div>
           <button class="btn btn-gold" style="width:100%;justify-content:center;padding:0.85rem;"
-            onclick="toast('🎉 Invitation card saved to downloads!')">
+            onclick="downloadInvite()">
             Save Invitation Card
           </button>
         </div>
@@ -3427,107 +3423,176 @@
 
   <!-- ══ 07. WEBSITE BUILDER (MICROSITE) MODAL ══ -->
   <div class="modal-overlay" id="microsite-modal">
-    <div class="modal" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
-      <div class="modal-header">
-        <div class="modal-title">🌐 Your Wedding Microsite</div>
+    <div class="modal"
+      style="max-width: 850px; max-height: 90vh; overflow-y: auto; padding: 2rem; background: linear-gradient(145deg, #120e18 0%, #0d0a12 100%); border: 1px solid rgba(212,168,67,0.15); box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
+      <div class="modal-header"
+        style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.8rem;">
+          <span style="color: var(--gold);">🌐</span> Your Wedding Microsite
+        </div>
         <button class="modal-close" onclick="closeModal('microsite-modal')">✕</button>
       </div>
 
-      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.5rem;">
-        <div>
-          <div class="form-row">
-            <label class="field-label">Custom Site URL Suffix</label>
-            <div style="display:flex;align-items:center;gap:0.25rem;">
-              <span style="font-size:0.75rem;color:var(--text3);">varnam.wedding/</span>
-              <input class="field" style="padding:0.50rem;" id="site-suffix" value="dhoni-sakshi"
-                oninput="updateMicrositePreview()">
+      <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 2rem;">
+        <!-- Left Side: Form Controls -->
+        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-row" style="margin-bottom: 0;">
+              <label class="field-label" style="color: var(--gold); font-weight: 600;">Couple Names</label>
+              <input class="field" id="site-couple" value="M.S. Dhoni & Sakshi" oninput="updateMicrositePreview()"
+                placeholder="e.g. Arav & Meera"
+                style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08);">
+            </div>
+            <div class="form-row" style="margin-bottom: 0;">
+              <label class="field-label" style="color: var(--gold); font-weight: 600;">Custom Site Suffix</label>
+              <div style="display: flex; align-items: center; position: relative;">
+                <span
+                  style="position: absolute; left: 0.75rem; font-size: 0.75rem; color: var(--text3); font-family: monospace; pointer-events: none;">varnam.wedding/</span>
+                <input class="field" id="site-suffix" value="dhoni-sakshi" oninput="updateMicrositePreview()"
+                  style="padding-left: 7.4rem; background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); font-family: monospace;">
+              </div>
             </div>
           </div>
-          <div class="form-row">
-            <label class="field-label">Our Love Story Header</label>
-            <input class="field" id="site-title" value="A Beautiful Journey Begins..."
-              oninput="updateMicrositePreview()">
-          </div>
-          <div class="form-row">
-            <label class="field-label">Intro Text</label>
-            <textarea class="field" id="site-story" rows="2"
-              oninput="updateMicrositePreview()">Two hearts, one soul, and a lifetime of shared dreams. We invite you to join us on our big day.</textarea>
-          </div>
-          <div class="form-row">
-            <label class="field-label">Dress Code / Theme</label>
-            <input class="field" id="site-dress" value="Traditional Elegance" oninput="updateMicrositePreview()">
-          </div>
-          <div class="form-row" style="display:flex;gap:1rem;">
-            <div style="flex:1;">
-              <label class="field-label">Event 1 (Name - Date)</label>
-              <input class="field" id="site-event1" value="Sangeet - Oct 13" oninput="updateMicrositePreview()">
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-row" style="margin-bottom: 0;">
+              <label class="field-label" style="color: var(--gold); font-weight: 600;">Wedding Date</label>
+              <input class="field" id="site-wedding-date" type="date" value="2026-10-14"
+                oninput="updateMicrositePreview()"
+                style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08);">
             </div>
-            <div style="flex:1;">
-              <label class="field-label">Event 2 (Name - Date)</label>
-              <input class="field" id="site-event2" value="Wedding - Oct 14" oninput="updateMicrositePreview()">
+            <div class="form-row" style="margin-bottom: 0;">
+              <label class="field-label" style="color: var(--gold); font-weight: 600;">Story Header</label>
+              <input class="field" id="site-title" value="A Beautiful Journey Begins..."
+                oninput="updateMicrositePreview()"
+                style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08);">
             </div>
           </div>
-          <div class="form-row">
-            <label class="field-label">Gallery Images (Upload up to 10)</label>
-            <button class="btn btn-ghost" style="width:100%;justify-content:center;padding:0.65rem;"
+
+          <div class="form-row" style="margin-bottom: 0;">
+            <label class="field-label" style="color: var(--gold); font-weight: 600;">Intro Text</label>
+            <textarea class="field" id="site-story" rows="2" oninput="updateMicrositePreview()"
+              style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); resize: none;">Two hearts, one soul, and a lifetime of shared dreams. We invite you to join us on our big day.</textarea>
+          </div>
+
+          <div class="form-row" style="margin-bottom: 0;">
+            <label class="field-label" style="color: var(--gold); font-weight: 600;">Dress Code / Theme</label>
+            <input class="field" id="site-dress" value="Traditional Elegance" oninput="updateMicrositePreview()"
+              style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08);">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-row" style="margin-bottom: 0;">
+              <label class="field-label" style="color: var(--gold); font-weight: 600;">Event 1 (Name - Date)</label>
+              <input class="field" id="site-event1" value="Sangeet — October 13, 2026 · 6:00 PM"
+                oninput="updateMicrositePreview()"
+                style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); font-size: 0.8rem;">
+            </div>
+            <div class="form-row" style="margin-bottom: 0;">
+              <label class="field-label" style="color: var(--gold); font-weight: 600;">Event 2 (Name - Date)</label>
+              <input class="field" id="site-event2" value="Wedding — October 14, 2026 · 10:30 AM"
+                oninput="updateMicrositePreview()"
+                style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); font-size: 0.8rem;">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+            <button class="btn btn-ghost" style="justify-content: center; padding: 0.75rem;"
               onclick="toast('📸 Choose images to upload')">
               + Upload Pre-Wedding Photos
             </button>
-          </div>
-          <button class="btn btn-gold" style="width:100%;justify-content:center;padding:0.85rem;"
-            onclick="toast('🚀 Wedding Microsite successfully published!')">
-            Publish Microsite Live
-          </button>
-        </div>
-
-        <!-- Phone Preview Mock -->
-        <div
-          style="border:8px solid #222;border-radius:24px;background:#0d0a12;overflow-y:auto;min-height:360px;max-height:480px;display:flex;flex-direction:column;position:relative;font-size:0.7rem;box-shadow:inset 0 0 10px rgba(0,0,0,0.8);">
-          <div
-            style="background:#1d1825;padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--gold);font-family:monospace;font-size:0.55rem;position:sticky;top:0;z-index:10;"
-            id="site-prev-url">
-            varnam.wedding/dhoni-sakshi
-          </div>
-          <div
-            style="background:url('https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=600&q=80') center/cover; height:120px; position:relative;">
-            <div style="position:absolute;inset:0;background:rgba(0,0,0,0.4);"></div>
-            <div
-              style="position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;text-shadow:1px 1px 3px rgba(0,0,0,0.8);">
-              SAVE THE DATE</div>
-          </div>
-          <div style="padding:1rem;text-align:center;display:flex;flex-direction:column;gap:0.75rem;">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);"
-              id="site-prev-title">A Beautiful Journey Begins...</div>
-            <p style="color:var(--text2);font-size:0.65rem;line-height:1.4;" id="site-prev-story">Two hearts, one soul,
-              and a lifetime of shared dreams. We invite you to join us on our big day.</p>
-
-            <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:0.5rem;margin-top:0.25rem;">
-              <div style="font-size:0.65rem;color:var(--gold);letter-spacing:1px;margin-bottom:0.4rem;">SCHEDULE</div>
-              <div style="font-size:0.7rem;color:var(--text);margin-bottom:0.2rem;" id="site-prev-e1">Sangeet - Oct 13
-              </div>
-              <div style="font-size:0.7rem;color:var(--text);" id="site-prev-e2">Wedding - Oct 14</div>
-            </div>
-
-            <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:0.5rem;">
-              <div style="font-size:0.65rem;color:var(--gold);letter-spacing:1px;margin-bottom:0.4rem;">DRESS CODE</div>
-              <div style="font-size:0.7rem;color:var(--text);font-style:italic;" id="site-prev-dress">Traditional
-                Elegance</div>
-            </div>
-
-            <div
-              style="border:1px solid rgba(212,168,67,0.3);padding:0.5rem;border-radius:4px;background:rgba(212,168,67,0.02);font-family:monospace;margin-top:0.5rem;">
-              <div>COUNTDOWN</div>
-              <div style="font-size:0.85rem;color:var(--gold);font-weight:600;">132 Days · 04 Hrs</div>
-            </div>
-
-            <button
-              style="background:var(--gold);color:#000;border:none;border-radius:20px;padding:0.5rem;font-weight:700;font-size:0.7rem;margin-top:0.5rem;cursor:pointer;">
-              RSVP NOW
+            <button class="btn btn-gold" id="ms-publish-btn" style="justify-content: center; padding: 0.75rem;"
+              onclick="publishMicrosite()">
+              🚀 Publish Microsite Live
             </button>
           </div>
         </div>
+
+        <!-- Right Side: Phone Preview Mockup -->
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <div
+            style="font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--text3); text-transform: uppercase; margin-bottom: 0.5rem;">
+            Live Mobile Preview
+          </div>
+          <div
+            style="width: 250px; height: 440px; border: 8px solid #2d2636; border-radius: 36px; background: #0d0a12; overflow: hidden; display: flex; flex-direction: column; position: relative; font-size: 0.7rem; box-shadow: 0 15px 35px rgba(0,0,0,0.5), inset 0 0 10px rgba(0,0,0,0.8); border-color: #383042;">
+            <!-- Speaker & Camera Notch -->
+            <div
+              style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 90px; height: 16px; background: #383042; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; z-index: 20; display: flex; justify-content: center; align-items: center;">
+              <div style="width: 35px; height: 3px; background: #222; border-radius: 2px; margin-right: 5px;"></div>
+              <div style="width: 6px; height: 6px; background: #110022; border-radius: 50%;"></div>
+            </div>
+
+            <!-- Phone screen content -->
+            <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; padding-top: 10px;">
+              <a href="microsite.html#dhoni-sakshi" target="_blank" id="site-prev-url"
+                style="display: block; background: #1d1825; padding: 0.6rem 0.5rem 0.4rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--gold); font-family: monospace; font-size: 0.55rem; position: sticky; top: 0; z-index: 10; text-decoration: none; cursor: pointer; transition: background 0.2s;"
+                onmouseover="this.style.background='#2a2235'" onmouseout="this.style.background='#1d1825'">
+                varnam.wedding/dhoni-sakshi
+              </a>
+              <div
+                style="background: url('https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=600&q=80') center/cover; height: 110px; position: relative; flex-shrink: 0;">
+                <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.45);"></div>
+                <div
+                  style="position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; color: #fff; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); letter-spacing: 1px;">
+                  SAVE THE DATE
+                </div>
+              </div>
+              <div
+                style="padding: 1rem; text-align: center; display: flex; flex-direction: column; gap: 0.8rem; flex: 1; justify-content: center;">
+                <div
+                  style="font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); font-weight: 600; line-height: 1.2;"
+                  id="site-prev-title">
+                  A Beautiful Journey Begins...
+                </div>
+                <p style="color: var(--text2); font-size: 0.65rem; line-height: 1.4; margin: 0 auto; max-width: 90%;"
+                  id="site-prev-story">
+                  Two hearts, one soul, and a lifetime of shared dreams. We invite you to join us on our big day.
+                </p>
+
+                <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 0.6rem; margin-top: 0.25rem;">
+                  <div
+                    style="font-size: 0.6rem; color: var(--gold); letter-spacing: 1.5px; margin-bottom: 0.4rem; font-family: 'DM Mono', monospace; font-weight: 600;">
+                    SCHEDULE
+                  </div>
+                  <div style="font-size: 0.65rem; color: var(--text); margin-bottom: 0.25rem; font-weight: 500;"
+                    id="site-prev-e1">
+                    Sangeet — October 13, 2026 · 6:00 PM
+                  </div>
+                  <div style="font-size: 0.65rem; color: var(--text); font-weight: 500;" id="site-prev-e2">
+                    Wedding — October 14, 2026 · 10:30 AM
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Permanent Live Site Link Section at the very bottom -->
+        <div
+          style="grid-column: span 2; margin-top: 0.5rem; padding: 1rem; border-radius: var(--r12); background: rgba(212,168,67,0.04); border: 1px dashed rgba(212,168,67,0.2); display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="font-size: 1.25rem;">🔗</div>
+            <div>
+              <div
+                style="font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--text3); text-transform: uppercase; margin-bottom: 0.15rem;">
+                Your Live Microsite URL
+              </div>
+              <a href="microsite.html#dhoni-sakshi" target="_blank" id="site-prev-url-bottom"
+                style="font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--gold); text-decoration: none; transition: color 0.2s;">
+                varnam.wedding/dhoni-sakshi
+              </a>
+            </div>
+          </div>
+          <a href="microsite.html#dhoni-sakshi" target="_blank" id="ms-view-live-btn" class="btn btn-outline"
+            style="padding: 0.4rem 1rem; font-size: 0.75rem; border-radius: var(--r8); display: flex; align-items: center; gap: 0.25rem; text-decoration: none;">
+            ✨ View Live Site →
+          </a>
+        </div>
       </div>
     </div>
+  </div>
+  </div>
   </div>
 
   <!-- ══ 08. LIVE EVENTS MODAL ══ -->
@@ -3708,7 +3773,7 @@
       const vibe = document.getElementById('ai-vibe').value;
       const budget = document.getElementById('ai-budget-range').value;
 
-      toast('🤖 Varnam AI is processing your request...');
+      toast('🤖 VaranAI is processing your request...');
 
       setTimeout(() => {
         const venues = {
@@ -3869,6 +3934,7 @@
       const preview = document.getElementById('inv-card-preview');
       preview.style.backgroundImage = 'none';
       preview.style.textShadow = 'none';
+      preview.style.border = '1px solid var(--border)';
 
       if (theme === 'crimson') {
         preview.style.background = 'linear-gradient(135deg, #3A0A15, #8B1A2E)';
@@ -3879,26 +3945,26 @@
       } else if (theme === 'silk') {
         preview.style.background = 'linear-gradient(135deg, #0A2A1A, #1A5E38)';
         preview.style.color = '#F5FBEF';
-      } else if (theme === 'sunset') {
-        preview.style.background = 'linear-gradient(135deg, #ff7e5f, #feb47b)';
-        preview.style.color = '#2c0000';
-      } else if (theme === 'midnight') {
-        preview.style.background = 'linear-gradient(135deg, #141e30, #243b55)';
-        preview.style.color = '#fff';
+      } else if (theme === 'rosegold') {
+        preview.style.background = 'linear-gradient(135deg, #B76E79, #E8C3C8)';
+        preview.style.color = '#3C1A20';
+      } else if (theme === 'emerald') {
+        preview.style.background = 'linear-gradient(135deg, #022618, #054C32)';
+        preview.style.color = '#F2E6C9';
       } else if (theme === 'floral') {
-        preview.style.background = 'url("https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80") center/cover';
+        preview.style.background = 'url("https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?auto=format&fit=crop&w=600&q=80") center/cover';
         preview.style.color = '#fff';
         preview.style.textShadow = '1px 1px 4px rgba(0,0,0,0.9)';
       } else if (theme === 'mandala') {
-        preview.style.background = 'url("https://images.unsplash.com/photo-1584488390772-2bb808bfd7fb?auto=format&fit=crop&w=600&q=80") center/cover';
+        preview.style.background = 'url("https://images.unsplash.com/photo-1628144501480-55e148b999b2?auto=format&fit=crop&w=600&q=80") center/cover';
         preview.style.color = '#fff';
         preview.style.textShadow = '1px 1px 4px rgba(0,0,0,0.9)';
       } else if (theme === 'marble') {
-        preview.style.background = 'url("https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=600&q=80") center/cover';
+        preview.style.background = 'url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80") center/cover';
         preview.style.color = '#111';
-      } else if (theme === 'vintage') {
-        preview.style.background = 'url("https://images.unsplash.com/photo-1533038590840-1c79eb46dcf8?auto=format&fit=crop&w=600&q=80") center/cover';
-        preview.style.color = '#3e2723';
+      } else if (theme === 'leaf') {
+        preview.style.background = 'url("https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=600&q=80") center/cover';
+        preview.style.color = '#2A3A1A';
       } else if (theme === 'stars') {
         preview.style.background = 'url("https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=600&q=80") center/cover';
         preview.style.color = '#fff';
@@ -3906,21 +3972,248 @@
       }
     }
 
+    function downloadInvite() {
+      const headline = document.getElementById('inv-headline').value || 'M.S. Dhoni & Sakshi';
+      const datetime = document.getElementById('inv-datetime').value || '14 October 2026';
+      const venue = document.getElementById('inv-venue').value || 'Taj Palace';
+      const theme = document.getElementById('inv-theme-picker').value;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 800;
+      canvas.height = 1200;
+      const ctx = canvas.getContext('2d');
+
+      // Colors
+      let textColor = '#FFFFFF';
+      let accentColor = '#D4A843';
+
+      // Draw background procedurally to bypass cross-origin restrictions
+      if (theme === 'crimson') {
+        const grad = ctx.createLinearGradient(0, 0, 0, 1200);
+        grad.addColorStop(0, '#3A0A15');
+        grad.addColorStop(1, '#8B1A2E');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 800, 1200);
+      } else if (theme === 'pastel') {
+        const grad = ctx.createLinearGradient(0, 0, 0, 1200);
+        grad.addColorStop(0, '#071A2A');
+        grad.addColorStop(1, '#1A4A6B');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 800, 1200);
+        textColor = '#E8EEF5';
+        accentColor = '#B2C5D4';
+      } else if (theme === 'silk') {
+        const grad = ctx.createLinearGradient(0, 0, 0, 1200);
+        grad.addColorStop(0, '#0A2A1A');
+        grad.addColorStop(1, '#1A5E38');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 800, 1200);
+        textColor = '#F5FBEF';
+        accentColor = '#C8A840';
+      } else if (theme === 'rosegold') {
+        const grad = ctx.createLinearGradient(0, 0, 0, 1200);
+        grad.addColorStop(0, '#B76E79');
+        grad.addColorStop(1, '#E8C3C8');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 800, 1200);
+        textColor = '#3C1A20';
+        accentColor = '#7E4E55';
+      } else if (theme === 'emerald') {
+        const grad = ctx.createLinearGradient(0, 0, 0, 1200);
+        grad.addColorStop(0, '#022618');
+        grad.addColorStop(1, '#054C32');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 800, 1200);
+        textColor = '#F2E6C9';
+        accentColor = '#D4A843';
+      } else if (theme === 'floral') {
+        // Procedural floral-like cream background
+        ctx.fillStyle = '#FAF7F2';
+        ctx.fillRect(0, 0, 800, 1200);
+        textColor = '#432E22';
+        accentColor = '#B28864';
+
+        // Draw elegant mandap pillars on sides
+        ctx.fillStyle = '#E5D6C5';
+        ctx.fillRect(80, 200, 40, 900);
+        ctx.fillRect(680, 200, 40, 900);
+        ctx.fillRect(80, 160, 640, 40);
+      } else if (theme === 'mandala') {
+        // Deep saffron/maroon pattern
+        ctx.fillStyle = '#400810';
+        ctx.fillRect(0, 0, 800, 1200);
+        textColor = '#FFF6E0';
+        accentColor = '#FFA500';
+
+        // Draw radial concentric mandala segments in background
+        ctx.strokeStyle = 'rgba(255,165,0,0.1)';
+        ctx.lineWidth = 2;
+        for (let r = 80; r < 400; r += 40) {
+          ctx.beginPath();
+          ctx.arc(400, 600, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      } else if (theme === 'marble') {
+        // Minimal neat white marble style
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, 800, 1200);
+        textColor = '#1E1E1E';
+        accentColor = '#9A8356';
+
+        // Draw subtle grey veins
+        ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(0, 300); ctx.lineTo(300, 700); ctx.lineTo(800, 900);
+        ctx.moveTo(800, 100); ctx.lineTo(500, 400); ctx.lineTo(200, 1200);
+        ctx.stroke();
+      } else if (theme === 'leaf') {
+        // Minimal botanical light background
+        ctx.fillStyle = '#F2EFE8';
+        ctx.fillRect(0, 0, 800, 1200);
+        textColor = '#2A3A1A';
+        accentColor = '#7A9A5C';
+
+        // Draw a minimalist leaf vine outline in the corners
+        ctx.strokeStyle = 'rgba(122,154,92,0.3)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(100, 100, 80, 0, Math.PI * 0.5);
+        ctx.stroke();
+      } else if (theme === 'stars') {
+        // Starry Night Sky
+        ctx.fillStyle = '#080F1D';
+        ctx.fillRect(0, 0, 800, 1200);
+        textColor = '#FFFFFF';
+        accentColor = '#FFDF7E';
+
+        // Render 120 tiny random stars
+        ctx.fillStyle = '#FFFFFF';
+        for (let i = 0; i < 120; i++) {
+          let x = Math.sin(i * 452) * 400 + 400;
+          let y = Math.cos(i * 874) * 600 + 600;
+          ctx.globalAlpha = 0.3 + Math.abs(Math.sin(i)) * 0.7;
+          ctx.fillRect(x, y, 2, 2);
+        }
+        ctx.globalAlpha = 1.0;
+      }
+
+      // Draw premium gold border
+      ctx.strokeStyle = accentColor;
+      ctx.lineWidth = 12;
+      ctx.strokeRect(30, 30, 740, 1140);
+      ctx.lineWidth = 2;
+      ctx.strokeRect(48, 48, 704, 1104);
+
+      // Text rendering setup
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // 1. SUBTITLE
+      ctx.fillStyle = accentColor;
+      ctx.font = "bold 20px 'Manrope', sans-serif";
+      ctx.fillText('THE WEDDING CELEBRATION', 400, 220);
+
+      // 2. HEADLINE (NAMES)
+      ctx.fillStyle = textColor;
+      ctx.font = "italic bold 56px 'Cormorant Garamond', serif";
+      ctx.fillText(headline, 400, 480);
+
+      // 3. SAVE THE DATE LABEL
+      ctx.fillStyle = accentColor;
+      ctx.font = "300 22px 'Outfit', sans-serif";
+      ctx.fillText('SAVE THE DATE', 400, 720);
+
+      // 4. DATETIME
+      ctx.fillStyle = textColor;
+      ctx.font = "bold 30px 'Cormorant Garamond', serif";
+      ctx.fillText(datetime, 400, 830);
+
+      // 5. VENUE
+      ctx.fillStyle = textColor;
+      ctx.font = "italic 26px 'Cormorant Garamond', serif";
+      ctx.fillText(venue, 400, 960);
+
+      // Trigger download
+      const link = document.createElement('a');
+      link.download = headline.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '_invitation.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      toast('🎉 Invitation card downloaded successfully!');
+    }
+
     /* ── 07. MICROSITE LOGIC ── */
     function updateMicrositePreview() {
       const suffix = document.getElementById('site-suffix').value || 'our-wedding';
       const title = document.getElementById('site-title').value || 'A Journey Begins...';
       const story = document.getElementById('site-story').value || 'Two hearts...';
-      const dress = document.getElementById('site-dress').value || 'Traditional Elegance';
       const e1 = document.getElementById('site-event1').value || 'Sangeet';
       const e2 = document.getElementById('site-event2').value || 'Wedding';
 
-      document.getElementById('site-prev-url').innerText = 'varnam.wedding/' + suffix;
-      document.getElementById('site-prev-title').innerText = title;
-      document.getElementById('site-prev-story').innerText = story;
-      document.getElementById('site-prev-dress').innerText = dress;
-      document.getElementById('site-prev-e1').innerText = e1;
-      document.getElementById('site-prev-e2').innerText = e2;
+      const urlEl = document.getElementById('site-prev-url');
+      if (urlEl) {
+        urlEl.innerText = 'varnam.wedding/' + suffix;
+        urlEl.href = 'microsite.html#' + suffix;
+      }
+
+      const urlBottomEl = document.getElementById('site-prev-url-bottom');
+      if (urlBottomEl) {
+        urlBottomEl.innerText = 'varnam.wedding/' + suffix;
+        urlBottomEl.href = 'microsite.html#' + suffix;
+      }
+
+      const viewLiveBtn = document.getElementById('ms-view-live-btn');
+      if (viewLiveBtn) {
+        viewLiveBtn.href = 'microsite.html#' + suffix;
+      }
+
+      const titleEl = document.getElementById('site-prev-title');
+      if (titleEl) titleEl.innerText = title;
+
+      const storyEl = document.getElementById('site-prev-story');
+      if (storyEl) storyEl.innerText = story;
+
+      const e1El = document.getElementById('site-prev-e1');
+      if (e1El) e1El.innerText = e1;
+
+      const e2El = document.getElementById('site-prev-e2');
+      if (e2El) e2El.innerText = e2;
+    }
+
+    function publishMicrosite() {
+      const suffix = document.getElementById('site-suffix').value.trim() || 'our-wedding';
+      const couple = document.getElementById('site-couple').value.trim() || 'Our Wedding';
+      const title = document.getElementById('site-title').value.trim() || 'A Beautiful Journey Begins...';
+      const story = document.getElementById('site-story').value.trim() || 'Two hearts, one soul, and a lifetime of shared dreams.';
+      const dress = document.getElementById('site-dress').value.trim() || 'Traditional Elegance';
+      const e1 = document.getElementById('site-event1').value.trim() || 'Sangeet';
+      const e2 = document.getElementById('site-event2').value.trim() || 'Wedding';
+      const weddingDate = document.getElementById('site-wedding-date').value || '2026-10-14';
+
+      const data = {
+        slug: suffix,
+        coupleName: couple,
+        title: title,
+        story: story,
+        dressCode: dress,
+        weddingDate: weddingDate,
+        event1: e1,
+        event2: e2,
+        publishedAt: new Date().toISOString()
+      };
+
+      localStorage.setItem('varnam_microsite_' + suffix, JSON.stringify(data));
+      toast('🚀 Wedding Microsite published successfully!');
+
+      // Update both top & bottom preview links
+      const urlEl = document.getElementById('site-prev-url');
+      if (urlEl) urlEl.href = 'microsite.html#' + suffix;
+
+      const urlBottomEl = document.getElementById('site-prev-url-bottom');
+      if (urlBottomEl) urlBottomEl.href = 'microsite.html#' + suffix;
+
+      const viewLiveBtn = document.getElementById('ms-view-live-btn');
+      if (viewLiveBtn) viewLiveBtn.href = 'microsite.html#' + suffix;
     }
 
     /* ── 08. LIVE EVENTS LOGIC ── */

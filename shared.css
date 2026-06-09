@@ -1,7 +1,7 @@
 /* ===================================================
    VARNAM — SHARED DESIGN SYSTEM
    =================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&family=Outfit:wght@400;500;600;700&display=swap');
 
 :root {
   --ink:      #080608;
@@ -256,4 +256,77 @@ footer { background:var(--ink); border-top:1px solid var(--border); padding:4rem
 
 @media(max-width:768px) {
   .footer-grid { grid-template-columns:1fr 1fr; gap:2rem; }
+}
+
+.theme-stat-num, .vd-price, .capacity-val, .stat-num, .vc-stat-val, .ms-val, .pkg-price, .capacity-val, .price-font, .outfit-font {
+  font-family: 'Outfit', sans-serif !important;
+}
+
+/* Profile Dropdown & Navigation Styles */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: var(--ink2);
+  border: 1px solid var(--border);
+  border-radius: var(--r8);
+  width: 160px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 600;
+  padding: 0.5rem 0;
+}
+
+.profile-dropdown:hover .profile-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.profile-dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.profile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.profile-menu-item:hover {
+  color: var(--gold);
+  background: rgba(212, 168, 67, 0.07);
+}
+
+.profile-menu-item.logout:hover {
+  color: var(--rose);
+  background: rgba(196, 48, 96, 0.07);
+}
+
+.profile-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0.4rem 0;
+}
+
+/* Notification Dropdown Styles */
+.notification-dropdown.active .notif-menu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
 }

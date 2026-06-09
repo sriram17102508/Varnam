@@ -57,11 +57,24 @@ document.addEventListener('click', e => {
 
 /* ROLE TABS */
 function switchRole(tab, panel) {
-  document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+  const tabsContainer = tab.parentElement;
+  if (tabsContainer) {
+    tabsContainer.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+  }
   tab.classList.add('active');
-  document.querySelectorAll('.role-panel').forEach(p => p.style.display = 'none');
-  const p = document.getElementById(panel);
-  if (p) p.style.display = 'block';
+  
+  const targetPanel = document.getElementById(panel);
+  if (targetPanel) {
+    const parent = targetPanel.parentElement;
+    if (parent) {
+      Array.from(parent.children).forEach(child => {
+        if (child.tagName === 'DIV' && child !== tabsContainer && !child.classList.contains('modal-header')) {
+          child.style.display = 'none';
+        }
+      });
+    }
+    targetPanel.style.display = 'block';
+  }
 }
 
 /* NAV ACTIVE */
@@ -90,6 +103,9 @@ function loginUser(email, isVendor) {
     alert('🎉 Welcome to Varnam!');
   }
   checkAuthState();
+  setTimeout(() => {
+    window.location.href = 'dashboard.html';
+  }, 1000);
 }
 
 function logoutUser(e) {
@@ -196,61 +212,215 @@ function beginJourney(e) {
   window.location.href = 'dashboard.html?setup=1';
 }
 
-/* ── SCROLL TO TOP BUTTON ── */
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.createElement('button');
-  btn.innerHTML = '↑';
-  btn.title = 'Scroll to top';
-  btn.style.cssText = `
-    position: fixed;
-    bottom: 30px;
-    left: 30px;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: var(--gold, #D4A843);
-    color: #000;
-    font-weight: bold;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-  document.body.appendChild(btn);
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-      btn.style.opacity = '1';
-      btn.style.visibility = 'visible';
-      btn.style.transform = 'translateY(0)';
+/* ── UNIVERSAL SEARCH BAR IN HEADER ── */
+document.addEventListener('DOMContentLoaded', () => {
+  const navInner = document.querySelector('nav .inner');
+  if (!navInner) return;
+
+  // Add styles
+  const style = document.createElement('style');
+  style.textContent = `
+    .nav-search-container {
+      position: relative;
+      margin: 0 1.5rem;
+      flex: 1;
+      max-width: 320px;
+    }
+    #universal-search:focus {
+      background: rgba(255,255,255,0.1) !important;
+      border-color: rgba(229,193,88,0.5) !important;
+      box-shadow: 0 0 12px rgba(229,193,88,0.2);
+    }
+    @media(max-width: 768px) {
+      .nav-search-container {
+        margin: 0 0.5rem;
+        max-width: 200px;
+      }
+    }
+    @media(max-width: 480px) {
+      .nav-search-container {
+        display: none !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Create search element
+  const searchContainer = document.createElement('div');
+  searchContainer.className = 'nav-search-container';
+  searchContainer.innerHTML = `
+    <input type="text" id="universal-search" placeholder="Search VaranAI, venues, themes..." style="
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 0.45rem 1rem 0.45rem 2.2rem;
+      color: var(--text, #F0EAE2);
+      font-family: inherit;
+      font-size: 0.8rem;
+      outline: none;
+      transition: all 0.3s;
+    " />
+    <span style="position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text3, #6A5A50); font-size: 0.8rem; pointer-events: none;">🔍</span>
+    <div id="search-suggestions" style="
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 0.5rem;
+      background: var(--ink2, #0f0b10);
+      border: 1px solid rgba(229,193,88,0.25);
+      border-radius: var(--r8, 8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      z-index: 9999;
+      display: none;
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 0.5rem 0;
+    "></div>
+  `;
+
+  // Insert search container before nav-links
+  const navLinks = navInner.querySelector('.nav-links');
+  const navLogo = navInner.querySelector('.nav-logo');
+  if (navLinks) {
+    navInner.insertBefore(searchContainer, navLinks);
+  } else if (navLogo) {
+    navInner.insertBefore(searchContainer, navLogo.nextSibling);
+  } else {
+    navInner.appendChild(searchContainer);
+  }
+
+  const input = document.getElementById('universal-search');
+  const suggestions = document.getElementById('search-suggestions');
+
+  function showSuggestions() {
+    const val = input.value.trim().toLowerCase();
+    if (!val) {
+      suggestions.style.display = 'none';
+      return;
+    }
+    let items = [];
+      // Search venues
+      if (window.VARNAM_KB && window.VARNAM_KB.venues) {
+        window.VARNAM_KB.venues.topVenues.forEach(v => {
+          if (v.name.toLowerCase().includes(val) || v.city.toLowerCase().includes(val) || v.type.toLowerCase().includes(val)) {
+            items.push({ title: `🏰 ${v.name} (${v.city})`, link: "venues.html", type: "Venue" });
+          }
+        });
+      }
+
+      // Search vendors
+      if (window.VARNAM_KB && window.VARNAM_KB.vendors) {
+        window.VARNAM_KB.vendors.featured.forEach(v => {
+          if (v.name.toLowerCase().includes(val) || v.type.toLowerCase().includes(val) || v.city.toLowerCase().includes(val)) {
+            items.push({ title: `🎯 ${v.name} (${v.type})`, link: "vendors.html", type: "Vendor" });
+          }
+        });
+      }
+
+      // Search themes
+      if (window.VARNAM_KB && window.VARNAM_KB.themes) {
+        window.VARNAM_KB.themes.list.forEach(t => {
+          if (t.name.toLowerCase().includes(val) || t.vibe.toLowerCase().includes(val)) {
+            items.push({ title: `🎨 ${t.name}`, link: "themes.html", type: "Theme" });
+          }
+        });
+      }
+
+      // Search features & pages
+      const pages = [
+        { name: "VaranAI Assistant Support", link: "#", keywords: ["chat", "ai", "bot", "assistant", "varanai", "help"], type: "Chatbot", click: () => { toggleChat(); } },
+        { name: "Dashboard & Guest Manager", link: "dashboard.html", keywords: ["dashboard", "guest", "rsvp", "checklist", "timeline"], type: "Page" },
+        { name: "Budget Planning & Expenses", link: "dashboard.html?tab=budget", keywords: ["budget", "tracker", "cost", "payment", "expense"], type: "Page" },
+        { name: "Vendor Registration Portal", link: "dashboard.html?tab=vendors", keywords: ["register", "signup", "join", "vendor", "business"], type: "Page" },
+        { name: "Venues Marketplace", link: "venues.html", keywords: ["venue", "palace", "resort", "hotel", "location"], type: "Page" },
+        { name: "Vendors Marketplace", link: "vendors.html", keywords: ["vendor", "photographer", "makeup", "decor", "caterer"], type: "Page" }
+      ];
+
+      pages.forEach(p => {
+        if (p.name.toLowerCase().includes(val) || p.keywords.some(k => k.includes(val))) {
+          items.push(p);
+        }
+      });
+
+    if (items.length === 0) {
+      suggestions.innerHTML = `
+        <div style="padding: 0.6rem 0.9rem; font-size: 0.8rem; color: var(--text3, #6A5A50);">
+          No results found for "${input.value}"
+        </div>
+      `;
     } else {
-      btn.style.opacity = '0';
-      btn.style.visibility = 'hidden';
-      btn.style.transform = 'translateY(20px)';
+      suggestions.innerHTML = `
+        <div style="padding: 0.35rem 0.9rem; font-size: 0.65rem; color: var(--text3, #6A5A50); font-family: monospace; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.03);">
+          Search Results
+        </div>
+        ${items.slice(0, 7).map((item, idx) => `
+          <a href="${item.link}" id="search-item-${idx}" style="
+            display: block;
+            padding: 0.6rem 0.9rem;
+            font-size: 0.8rem;
+            color: var(--text, #F0EAE2);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          " onmouseover="this.style.background='rgba(229,193,88,0.08)'" onmouseout="this.style.background='transparent'">
+            <span>${item.title || item.name}</span>
+            <span style="font-size: 0.6rem; background: rgba(229,193,88,0.12); color: #E5C158; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: monospace;">${item.type}</span>
+          </a>
+        `).join('')}
+      `;
+
+      // Attach clicks to special features (like opening chatbot)
+      items.slice(0, 7).forEach((item, idx) => {
+        if (item.click) {
+          const el = document.getElementById(`search-item-${idx}`);
+          if (el) {
+            el.addEventListener('click', (e) => {
+              e.preventDefault();
+              item.click();
+              suggestions.style.display = 'none';
+              input.value = '';
+            });
+          }
+        }
+      });
+    }
+    suggestions.style.display = 'block';
+  }
+
+  input.addEventListener('focus', showSuggestions);
+  input.addEventListener('input', showSuggestions);
+
+  // Hide suggestions when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!searchContainer.contains(e.target)) {
+      suggestions.style.display = 'none';
     }
   });
 
-  btn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  btn.addEventListener('mouseenter', () => {
-    btn.style.background = '#F0C96A';
-    btn.style.transform = 'translateY(-3px)';
-  });
-  
-  btn.addEventListener('mouseleave', () => {
-    btn.style.background = 'var(--gold, #D4A843)';
-    btn.style.transform = window.scrollY > 300 ? 'translateY(0)' : 'translateY(20px)';
-  });
+  // Dynamic font overrides for prices and stats
+  function applyOutfitFont() {
+    document.querySelectorAll('.theme-stat-num, .stat-num, .vc-stat-val, .ms-val, .pkg-price, .vd-price, .capacity-val, .price-font, .outfit-font').forEach(el => {
+      el.style.setProperty('font-family', "'Outfit', sans-serif", 'important');
+    });
+    
+    // Scan all div, span, p, td, th for inline styled Cormorant Garamond / serif that contain numbers or ₹
+    document.querySelectorAll('div, span, p, td, th').forEach(el => {
+      if (el.style.fontFamily && (el.style.fontFamily.includes('Cormorant Garamond') || el.style.fontFamily.includes('serif'))) {
+        if (el.textContent.includes('₹') || /\d+/.test(el.textContent)) {
+          el.style.setProperty('font-family', "'Outfit', sans-serif", 'important');
+        }
+      }
+    });
+  }
+  applyOutfitFont();
+  setTimeout(applyOutfitFont, 300);
+  setTimeout(applyOutfitFont, 800);
 });
 
 

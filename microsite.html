@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Microsite — Varnam</title>
+  <meta name="description" content="A beautiful wedding celebration landing page powered by Varnam.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════
+       VARNAM WEDDING MICROSITE — DESIGN SYSTEM
+       ═══════════════════════════════════════ */
+    :root {
+      --ink:      #080608;
+      --ink2:     #0f0b10;
+      --ink3:     #1a1220;
+      --surface:  #120e18;
+      --border:   rgba(255,255,255,0.07);
+      --border2:  rgba(255,255,255,0.13);
+      --gold:     #D4A843;
+      --gold2:    #F0C96A;
+      --gold3:    #8A6A20;
+      --ember:    #E85D30;
+      --rose:     #C43060;
+      --text:     #F0EAE2;
+      --text2:    #A89888;
+      --text3:    #6A5A50;
+      --r4:4px; --r8:8px; --r16:16px; --r24:24px;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Manrope',sans-serif;
+      background:var(--ink);
+      color:var(--text);
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Noise overlay */
+    body::before {
+      content:'';
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity:0.025;
+      pointer-events:none;
+      z-index:1000;
+      mix-blend-mode:overlay;
+    }
+
+    ::-webkit-scrollbar{width:3px;}
+    ::-webkit-scrollbar-track{background:var(--ink);}
+    ::-webkit-scrollbar-thumb{background:var(--gold3);}
+
+    /* ═══ PAGE ENTRANCE LOADER ═══ */
+    #ms-loader {
+      position:fixed; inset:0; z-index:9999;
+      background:var(--ink);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      gap:1.5rem;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #ms-loader.done { opacity:0; visibility:hidden; }
+    .ms-loader-names {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2rem, 5vw, 3.5rem);
+      font-weight:300; font-style:italic;
+      color:var(--gold);
+      opacity:0;
+      animation: loaderFadeIn 1s 0.3s ease forwards;
+    }
+    .ms-loader-tagline {
+      font-family:'DM Mono',monospace;
+      font-size:0.6rem; letter-spacing:0.4em;
+      text-transform:uppercase; color:var(--text3);
+      opacity:0;
+      animation: loaderFadeIn 1s 0.7s ease forwards;
+    }
+    .ms-loader-bar {
+      width:180px; height:1px; background:var(--border);
+      position:relative; overflow:hidden;
+    }
+    .ms-loader-fill {
+      height:100%; background:var(--gold);
+      width:0; transition:width 1.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    @keyframes loaderFadeIn {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ═══ FLOATING NAV BAR ═══ */
+    .ms-nav {
+      position:fixed; top:0; left:0; right:0; z-index:500;
+      height:56px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem;
+      background:rgba(8,6,8,0.7);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--border);
+      transform:translateY(-100%);
+      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    .ms-nav.visible { transform:translateY(0); }
+    .ms-nav-url {
+      font-family:'DM Mono',monospace;
+      font-size:0.65rem; color:var(--gold);
+      letter-spacing:0.08em;
+    }
+    .ms-nav-links {
+      display:flex; gap:0.25rem; list-style:none;
+    }
+    .ms-nav-links a {
+      font-family:'Manrope',sans-serif;
+      font-size:0.7rem; font-weight:600;
+      color:var(--text3); text-decoration:none;
+      padding:0.35rem 0.75rem; border-radius:var(--r4);
+      transition:all 0.2s;
+    }
+    .ms-nav-links a:hover { color:var(--gold); background:rgba(212,168,67,0.07); }
+
+    /* ═══ HERO SECTION ═══ */
+    .ms-hero {
+      position:relative;
+      min-height:100vh;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      text-align:center;
+      overflow:hidden;
+    }
+    .ms-hero-bg {
+      position:absolute; inset:0;
+      background: linear-gradient(135deg, #0a0510 0%, #1a0a20 30%, #0d0818 60%, #080608 100%);
+      z-index:0;
+    }
+    .ms-hero-bg::after {
+      content:'';
+      position:absolute; inset:0;
+      background:radial-gradient(ellipse at 50% 40%, rgba(212,168,67,0.06) 0%, transparent 60%);
+    }
+
+    /* Floating particles canvas */
+    #ms-particles {
+      position:absolute; inset:0; z-index:1;
+      pointer-events:none;
+    }
+
+    /* Hero orbs */
+    .ms-orb {
+      position:absolute; border-radius:50%;
+      filter:blur(100px); pointer-events:none; z-index:1;
+    }
+    .ms-orb-1 {
+      width:450px; height:450px;
+      background:radial-gradient(circle, rgba(212,168,67,0.12) 0%, transparent 70%);
+      top:-5%; right:-8%;
+      animation: orbFloat1 14s ease-in-out infinite;
+    }
+    .ms-orb-2 {
+      width:350px; height:350px;
+      background:radial-gradient(circle, rgba(196,48,96,0.08) 0%, transparent 70%);
+      bottom:10%; left:-8%;
+      animation: orbFloat2 18s ease-in-out infinite;
+    }
+    .ms-orb-3 {
+      width:250px; height:250px;
+      background:radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 70%);
+      top:40%; left:60%;
+      animation: orbFloat3 20s ease-in-out infinite;
+    }
+    @keyframes orbFloat1 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-30px,40px);} }
+    @keyframes orbFloat2 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(40px,-30px);} }
+    @keyframes orbFloat3 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-20px,20px) scale(1.1);} }
+
+    .ms-hero-content {
+      position:relative; z-index:2;
+      max-width:700px; padding:0 2rem;
+    }
+    .ms-hero-label {
+      font-family:'DM Mono',monospace;
+      font-size:0.58rem; letter-spacing:0.5em;
+      text-transform:uppercase; color:var(--gold3);
+      margin-bottom:1.5rem;
+      opacity:0; animation: heroFade 1s 0.2s ease forwards;
+    }
+    .ms-hero-names {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(3rem, 8vw, 6rem);
+      font-weight:300; font-style:italic;
+      line-height:1.05; letter-spacing:-0.02em;
+      color:var(--text);
+      margin-bottom:1rem;
+      opacity:0; animation: heroFade 1.2s 0.4s ease forwards;
+    }
+    .ms-hero-names .ms-amp {
+      color:var(--gold);
+      font-size:0.65em;
+      display:inline-block;
+      margin:0 0.15em;
+    }
+    .ms-hero-date {
+      font-family:'Outfit',sans-serif;
+      font-size:clamp(0.9rem, 2vw, 1.15rem);
+      font-weight:500; letter-spacing:0.15em;
+      color:var(--gold);
+      margin-bottom:2rem;
+      opacity:0; animation: heroFade 1s 0.7s ease forwards;
+    }
+    .ms-hero-divider {
+      width:60px; height:1px;
+      background:linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin:0 auto 2rem;
+      opacity:0; animation: heroFade 1s 0.9s ease forwards;
+    }
+    .ms-hero-scroll-hint {
+      position:absolute; bottom:2.5rem; left:50%;
+      transform:translateX(-50%);
+      display:flex; flex-direction:column;
+      align-items:center; gap:0.5rem; z-index:2;
+      opacity:0; animation: heroFade 1s 1.2s ease forwards;
+    }
+    .ms-hero-scroll-hint span {
+      font-family:'DM Mono',monospace;
+      font-size:0.55rem; letter-spacing:0.25em;
+      color:var(--text3); text-transform:uppercase;
+    }
+    .ms-scroll-arrow {
+      width:20px; height:20px;
+      border-right:1.5px solid var(--gold3);
+      border-bottom:1.5px solid var(--gold3);
+      transform:rotate(45deg);
+      animation:scrollBounce 2s ease-in-out infinite;
+    }
+    @keyframes scrollBounce {
+      0%,100%{ transform:rotate(45deg) translate(0,0); opacity:0.5; }
+      50%{ transform:rotate(45deg) translate(4px,4px); opacity:1; }
+    }
+    @keyframes heroFade {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ═══ SECTION COMMONS ═══ */
+    .ms-section {
+      padding:6rem 2.5rem;
+      position:relative;
+    }
+    .ms-inner { max-width:800px; margin:0 auto; }
+    .ms-sec-label {
+      font-family:'DM Mono',monospace;
+      font-size:0.58rem; letter-spacing:0.35em;
+      text-transform:uppercase; color:var(--gold);
+      display:flex; align-items:center; gap:0.65rem;
+      margin-bottom:1.25rem;
+      text-align:center; justify-content:center;
+    }
+    .ms-sec-label::before, .ms-sec-label::after {
+      content:''; width:22px; height:1px; background:var(--gold3);
+    }
+    .ms-sec-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2rem, 4.5vw, 3.2rem);
+      font-weight:300; line-height:1.1;
+      color:var(--text);
+      text-align:center;
+      margin-bottom:1rem;
+    }
+    .ms-sec-title em { font-style:italic; color:var(--gold); }
+
+    /* Scroll reveal */
+    .ms-reveal {
+      opacity:0; transform:translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .ms-reveal.visible {
+      opacity:1; transform:translateY(0);
+    }
+
+    /* ═══ COUNTDOWN ═══ */
+    .ms-countdown {
+      background:var(--ink2);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+      padding:4rem 2.5rem;
+    }
+    .ms-countdown-grid {
+      display:flex; justify-content:center; gap:1.5rem;
+      flex-wrap:wrap;
+    }
+    .ms-cd-unit {
+      display:flex; flex-direction:column;
+      align-items:center; gap:0.5rem;
+      min-width:100px;
+    }
+    .ms-cd-num {
+      font-family:'Outfit',sans-serif;
+      font-size:clamp(2.5rem, 6vw, 4rem);
+      font-weight:700; color:var(--text);
+      line-height:1;
+      background:var(--ink);
+      border:1px solid var(--border2);
+      border-radius:var(--r16);
+      padding:1rem 1.5rem;
+      min-width:100px; text-align:center;
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4),
+                  inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .ms-cd-num::after {
+      content:'';
+      position:absolute; left:0; right:0;
+      top:50%; height:1px;
+      background:var(--border);
+    }
+    .ms-cd-label {
+      font-family:'DM Mono',monospace;
+      font-size:0.55rem; letter-spacing:0.3em;
+      text-transform:uppercase; color:var(--text3);
+    }
+
+    /* ═══ LOVE STORY ═══ */
+    .ms-story-text {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight:400; line-height:1.9;
+      color:var(--text2);
+      text-align:center;
+      max-width:600px; margin:0 auto;
+      font-style:italic;
+    }
+    .ms-story-decoration {
+      display:flex; align-items:center; justify-content:center;
+      gap:1rem; margin-top:2.5rem;
+    }
+    .ms-story-decoration .ms-deco-line {
+      width:50px; height:1px;
+      background:linear-gradient(90deg, transparent, var(--gold3));
+    }
+    .ms-story-decoration .ms-deco-line:last-child {
+      background:linear-gradient(90deg, var(--gold3), transparent);
+    }
+    .ms-story-decoration .ms-deco-icon {
+      font-size:1.2rem; color:var(--gold);
+    }
+
+    /* ═══ TIMELINE ═══ */
+    .ms-timeline {
+      position:relative;
+      max-width:550px; margin:2.5rem auto 0;
+    }
+    .ms-timeline::before {
+      content:'';
+      position:absolute; left:50%; top:0; bottom:0;
+      width:1px;
+      background:linear-gradient(180deg, transparent, var(--gold3) 15%, var(--gold3) 85%, transparent);
+      transform:translateX(-50%);
+    }
+    .ms-tl-item {
+      display:flex; align-items:flex-start;
+      margin-bottom:3rem;
+      position:relative;
+    }
+    .ms-tl-item:nth-child(odd) { flex-direction:row; }
+    .ms-tl-item:nth-child(even) { flex-direction:row-reverse; }
+
+    .ms-tl-dot {
+      position:absolute; left:50%; top:0.5rem;
+      width:14px; height:14px;
+      background:var(--ink); border:2px solid var(--gold);
+      border-radius:50%;
+      transform:translateX(-50%);
+      z-index:2;
+      box-shadow:0 0 12px rgba(212,168,67,0.25);
+    }
+    .ms-tl-card {
+      width:calc(50% - 2.5rem);
+      background:var(--ink2);
+      border:1px solid var(--border);
+      border-radius:var(--r16);
+      padding:1.25rem 1.5rem;
+      transition:border-color 0.3s;
+    }
+    .ms-tl-card:hover { border-color:rgba(212,168,67,0.25); }
+    .ms-tl-item:nth-child(odd) .ms-tl-card { margin-right:auto; }
+    .ms-tl-item:nth-child(even) .ms-tl-card { margin-left:auto; }
+
+    .ms-tl-name {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.2rem; font-weight:600;
+      color:var(--text); margin-bottom:0.35rem;
+    }
+    .ms-tl-date {
+      font-family:'DM Mono',monospace;
+      font-size:0.6rem; letter-spacing:0.15em;
+      color:var(--gold); margin-bottom:0.5rem;
+    }
+    .ms-tl-venue {
+      font-size:0.78rem; color:var(--text3);
+      line-height:1.5;
+    }
+
+    /* ═══ DRESS CODE ═══ */
+    .ms-dress-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1.5rem;
+      max-width:700px;
+      margin:2.5rem auto 0;
+    }
+    .ms-dress-card {
+      background:var(--ink2);
+      border:1px solid var(--border2);
+      border-radius:var(--r24);
+      padding:2.5rem 2rem;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+      transition:all 0.35s;
+    }
+    .ms-dress-card::before {
+      content:'';
+      position:absolute; inset:-1px;
+      border-radius:var(--r24);
+      background:linear-gradient(135deg, rgba(212,168,67,0.15), transparent 50%, rgba(196,48,96,0.1));
+      z-index:0;
+      opacity:0;
+      transition:opacity 0.4s;
+    }
+    .ms-dress-card:hover { border-color:rgba(212,168,67,0.25); transform:translateY(-4px); }
+    .ms-dress-card:hover::before { opacity:1; }
+    .ms-dress-card > * { position:relative; z-index:1; }
+    .ms-dress-icon {
+      font-size:2.5rem; margin-bottom:1rem;
+    }
+    .ms-dress-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.4rem; font-weight:600;
+      color:var(--gold); margin-bottom:0.5rem;
+    }
+    .ms-dress-value {
+      font-family:'Outfit',sans-serif;
+      font-size:1rem; font-weight:500;
+      color:var(--text); letter-spacing:0.05em;
+    }
+    .ms-dress-hint {
+      font-size:0.72rem; color:var(--text3);
+      margin-top:0.85rem; line-height:1.6;
+    }
+    @media(max-width:600px) {
+      .ms-dress-grid { grid-template-columns:1fr; }
+    }
+
+    /* Shimmer animation */
+    .ms-shimmer {
+      position:relative; overflow:hidden;
+    }
+    .ms-shimmer::after {
+      content:'';
+      position:absolute; top:0; left:-100%; bottom:0;
+      width:60%; 
+      background:linear-gradient(90deg, transparent, rgba(212,168,67,0.06), transparent);
+      animation:shimmer 4s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%{ left:-100%; }
+      50%{ left:100%; }
+      100%{ left:100%; }
+    }
+
+    /* ═══ GALLERY BENTO ═══ */
+    .ms-gallery-grid {
+      display:grid;
+      grid-template-columns:repeat(6, 1fr);
+      grid-template-rows:200px 160px 200px;
+      gap:1.5rem;
+      margin-top:2.5rem;
+    }
+    .ms-gallery-item {
+      border-radius:var(--r16);
+      overflow:hidden;
+      position:relative;
+      cursor:pointer;
+      border:1px solid var(--border);
+      transition:all 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    .ms-gallery-item:hover {
+      transform:scale(1.03);
+      border-color:rgba(212,168,67,0.3);
+      box-shadow:0 12px 40px rgba(0,0,0,0.5);
+    }
+    /* Collage layout matching the requested wireframe exactly */
+    .ms-gallery-item:nth-child(1) { grid-column:1/2; grid-row:1; }
+    .ms-gallery-item:nth-child(2) { grid-column:2/3; grid-row:1; }
+    .ms-gallery-item:nth-child(3) { grid-column:1/3; grid-row:2; }
+    .ms-gallery-item:nth-child(4) { grid-column:1/2; grid-row:3; }
+    .ms-gallery-item:nth-child(5) { grid-column:2/4; grid-row:3; }
+    .ms-gallery-item:nth-child(6) { grid-column:3/7; grid-row:1/3; }
+    .ms-gallery-item:nth-child(7) { grid-column:4/7; grid-row:3; }
+    
+    .ms-gallery-item img {
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      transition:transform 0.6s;
+    }
+    .ms-gallery-item:hover img { transform:scale(1.08); }
+    .ms-gallery-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6));
+      opacity:0; transition:opacity 0.3s;
+      display:flex; align-items:flex-end;
+      padding:1rem;
+    }
+    .ms-gallery-item:hover .ms-gallery-overlay { opacity:1; }
+    .ms-gallery-overlay span {
+      font-family:'DM Mono',monospace;
+      font-size:0.6rem; color:var(--gold);
+      letter-spacing:0.15em; text-transform:uppercase;
+    }
+    @media(max-width:768px) {
+      .ms-gallery-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+        grid-template-rows: auto;
+        gap: 0.75rem;
+      }
+      .ms-gallery-item {
+        grid-column: span 1 !important;
+        grid-row: auto !important;
+        height: 180px;
+      }
+      .ms-gallery-item:nth-child(3),
+      .ms-gallery-item:nth-child(6),
+      .ms-gallery-item:nth-child(7) {
+        grid-column: span 2 !important;
+      }
+    }
+
+    /* ═══ RSVP ═══ */
+    .ms-rsvp-card {
+      max-width:650px; margin:2.5rem auto 0;
+      background:var(--ink2);
+      border:1px solid var(--border2);
+      border-radius:var(--r24);
+      padding:2.5rem 3rem;
+      display:flex;
+      flex-direction:column;
+      gap:1.5rem;
+    }
+    .ms-rsvp-left {
+      display:flex;
+      flex-direction:column;
+      gap:0;
+    }
+    .ms-rsvp-right {
+      display:flex;
+      flex-direction:column;
+      gap:0;
+    }
+    .ms-rsvp-field {
+      background:rgba(255,255,255,0.04);
+      border:1px solid var(--border2);
+      border-radius:var(--r8);
+      padding:0.75rem 1rem;
+      font-size:0.875rem; color:var(--text);
+      font-family:'Manrope',sans-serif;
+      outline:none; width:100%;
+      transition:border-color 0.2s;
+      margin-bottom:1rem;
+    }
+    .ms-rsvp-field:focus { border-color:rgba(212,168,67,0.45); }
+    .ms-rsvp-field::placeholder { color:var(--text3); }
+    .ms-rsvp-label {
+      font-family:'DM Mono',monospace;
+      font-size:0.58rem; letter-spacing:0.2em;
+      text-transform:uppercase; color:var(--text3);
+      margin-bottom:0.4rem; display:block;
+    }
+
+    .ms-rsvp-options {
+      display:flex; gap:0.5rem; margin-bottom:1.5rem;
+    }
+    .ms-rsvp-opt {
+      flex:1; padding:0.75rem;
+      background:rgba(255,255,255,0.03);
+      border:1px solid var(--border);
+      border-radius:var(--r8);
+      font-family:'Manrope',sans-serif;
+      font-size:0.8rem; font-weight:600;
+      color:var(--text2); cursor:pointer;
+      text-align:center; transition:all 0.25s;
+    }
+    .ms-rsvp-opt:hover { border-color:rgba(212,168,67,0.3); color:var(--gold); }
+    .ms-rsvp-opt.selected {
+      background:rgba(212,168,67,0.1);
+      border-color:rgba(212,168,67,0.4);
+      color:var(--gold);
+    }
+    .ms-rsvp-submit {
+      width:100%; padding:0.85rem;
+      background:var(--gold); color:var(--ink);
+      border:none; border-radius:var(--r8);
+      font-family:'Manrope',sans-serif;
+      font-size:0.85rem; font-weight:700;
+      letter-spacing:0.05em; cursor:pointer;
+      transition:all 0.25s;
+    }
+    .ms-rsvp-submit:hover {
+      background:var(--gold2);
+      box-shadow:0 0 30px rgba(212,168,67,0.3);
+      transform:translateY(-2px);
+    }
+
+    .ms-rsvp-responses {
+      margin-top:2rem;
+      border-top:1px solid var(--border);
+      padding-top:1.5rem;
+    }
+    .ms-rsvp-responses:empty {
+      display: none;
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+    .ms-rsvp-responses h4 {
+      font-family:'DM Mono',monospace;
+      font-size:0.58rem; letter-spacing:0.25em;
+      color:var(--text3); text-transform:uppercase;
+      margin-bottom:1rem;
+    }
+    .ms-rsvp-entry {
+      display:flex; justify-content:space-between;
+      align-items:center;
+      padding:0.6rem 0;
+      border-bottom:1px solid var(--border);
+      font-size:0.82rem;
+    }
+    .ms-rsvp-entry-name { color:var(--text); font-weight:600; }
+    .ms-rsvp-entry-status {
+      font-family:'DM Mono',monospace;
+      font-size:0.6rem; letter-spacing:0.12em;
+      padding:0.2rem 0.6rem; border-radius:var(--r4);
+    }
+    .ms-rsvp-yes { background:rgba(58,154,58,0.1); border:1px solid rgba(58,154,58,0.2); color:#5ABA5A; }
+    .ms-rsvp-no { background:rgba(232,93,48,0.1); border:1px solid rgba(232,93,48,0.2); color:#E85D30; }
+    .ms-rsvp-maybe { background:rgba(212,168,67,0.1); border:1px solid rgba(212,168,67,0.2); color:var(--gold); }
+    @media(max-width:768px) {
+      .ms-rsvp-card { grid-template-columns:1fr; padding:2rem 1.5rem; gap:1.5rem; }
+    }
+
+    /* ═══ FOOTER ═══ */
+    .ms-footer {
+      border-top:1px solid var(--border);
+      padding:3rem 2.5rem;
+      text-align:center;
+    }
+    .ms-footer-brand {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.2rem; font-weight:300;
+      font-style:italic; color:var(--gold3);
+      margin-bottom:0.5rem;
+    }
+    .ms-footer-brand a {
+      color:var(--gold); text-decoration:none;
+      transition:color 0.2s;
+    }
+    .ms-footer-brand a:hover { color:var(--gold2); }
+    .ms-footer-copy {
+      font-family:'DM Mono',monospace;
+      font-size:0.55rem; color:var(--text3);
+      letter-spacing:0.12em;
+    }
+    .ms-back-top {
+      display:inline-flex; align-items:center;
+      gap:0.4rem; margin-top:1.5rem;
+      font-family:'Manrope',sans-serif;
+      font-size:0.75rem; font-weight:600;
+      color:var(--text3); text-decoration:none;
+      padding:0.5rem 1.2rem;
+      border:1px solid var(--border);
+      border-radius:var(--r4);
+      transition:all 0.25s; cursor:pointer;
+      background:none;
+    }
+    .ms-back-top:hover { border-color:var(--gold); color:var(--gold); }
+
+    /* ═══ TOAST ═══ */
+    #ms-toast {
+      position:fixed; bottom:2rem; left:50%;
+      transform:translateX(-50%) translateY(80px);
+      background:var(--ink2); border:1px solid rgba(212,168,67,0.3);
+      border-radius:var(--r4); padding:0.75rem 1.75rem;
+      font-family:'DM Mono',monospace; font-size:0.72rem;
+      color:var(--gold); letter-spacing:0.08em;
+      z-index:9990; transition:transform 0.3s cubic-bezier(0.23,1,0.32,1);
+      pointer-events:none; white-space:nowrap;
+    }
+    #ms-toast.show { transform:translateX(-50%) translateY(0); }
+
+    /* ═══ NOT FOUND STATE ═══ */
+    .ms-not-found {
+      min-height:100vh; display:flex;
+      flex-direction:column; align-items:center;
+      justify-content:center; text-align:center;
+      gap:1.5rem; padding:2rem;
+    }
+    .ms-not-found-icon { font-size:3rem; }
+    .ms-not-found h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:2.5rem; font-weight:300;
+      color:var(--text);
+    }
+    .ms-not-found p {
+      font-size:0.9rem; color:var(--text3);
+      max-width:400px; line-height:1.7;
+    }
+    .ms-not-found a {
+      display:inline-flex; padding:0.7rem 2rem;
+      background:var(--gold); color:var(--ink);
+      border-radius:var(--r4); text-decoration:none;
+      font-weight:700; font-size:0.85rem;
+      transition:all 0.25s;
+    }
+    .ms-not-found a:hover {
+      background:var(--gold2);
+      transform:translateY(-2px);
+    }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media(max-width:768px) {
+      .ms-section { padding:4rem 1.25rem; }
+      .ms-nav { padding:0 1.25rem; }
+      .ms-nav-links { display:none; }
+      .ms-gallery-grid { grid-template-columns:1fr 1fr; }
+      .ms-gallery-item:nth-child(1) { grid-row:span 1; }
+      .ms-countdown-grid { gap:0.75rem; }
+      .ms-cd-num { font-size:2rem; padding:0.75rem 1rem; min-width:70px; }
+      .ms-timeline::before { left:1.5rem; }
+      .ms-tl-item { flex-direction:row !important; }
+      .ms-tl-dot { left:1.5rem; }
+      .ms-tl-card { width:calc(100% - 4rem) !important; margin-left:auto !important; margin-right:0 !important; }
+      .ms-rsvp-options { flex-direction:column; }
+    }
+    @media(max-width:480px) {
+      .ms-gallery-grid { grid-template-columns:1fr; }
+      .ms-cd-unit { min-width:60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ PAGE LOADER ═══ -->
+  <div id="ms-loader">
+    <div class="ms-loader-names" id="loader-names">Loading…</div>
+    <div class="ms-loader-tagline">a wedding celebration</div>
+    <div class="ms-loader-bar"><div class="ms-loader-fill" id="loader-fill"></div></div>
+  </div>
+
+  <!-- ═══ FLOATING NAV ═══ -->
+  <nav class="ms-nav" id="ms-nav">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <a href="index.html" style="color: var(--gold); border: 1px solid rgba(212,168,67,0.25); border-radius: var(--r4); padding: 0.35rem 0.75rem; font-size: 0.7rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(212,168,67,0.07)'" onmouseout="this.style.background='transparent'">← Back to Home</a>
+      <div class="ms-nav-url" id="nav-url">varnam.wedding/...</div>
+    </div>
+    <ul class="ms-nav-links">
+      <li><a href="#story">Story</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#rsvp">RSVP</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══ MAIN CONTENT (populated by JS) ═══ -->
+  <main id="ms-main"></main>
+
+  <!-- ═══ TOAST ═══ -->
+  <div id="ms-toast"></div>
+
+  <script>
+    /* ═══════════════════════════════════════
+       VARNAM WEDDING MICROSITE — ENGINE
+       ═══════════════════════════════════════ */
+
+    // Toast
+    let _msToastTimer;
+    function msToast(msg) {
+      const t = document.getElementById('ms-toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(_msToastTimer);
+      _msToastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    // Read slug from URL hash
+    const slug = window.location.hash.replace('#','').trim();
+    if (!slug) {
+      showNotFound();
+    } else {
+      loadMicrosite(slug);
+    }
+
+    function showNotFound() {
+      document.getElementById('ms-loader').classList.add('done');
+      document.getElementById('ms-main').innerHTML = `
+        <div class="ms-not-found">
+          <div class="ms-not-found-icon">💔</div>
+          <h1>Microsite Not Found</h1>
+          <p>This wedding microsite doesn't exist yet. Head back to Varnam to create your own beautiful wedding page.</p>
+          <a href="index.html">← Back to Varnam</a>
+        </div>
+      `;
+    }
+
+    function loadMicrosite(slug) {
+      const key = 'varnam_microsite_' + slug;
+      let data = localStorage.getItem(key);
+
+      if (!data) {
+        // Fallback demo data for dhoni-sakshi
+        if (slug === 'dhoni-sakshi') {
+          data = JSON.stringify({
+            slug: 'dhoni-sakshi',
+            coupleName: 'M.S. Dhoni & Sakshi',
+            title: 'A Beautiful Journey Begins...',
+            story: 'Two hearts, one soul, and a lifetime of shared dreams. We invite you to join us on our big day. From the streets of Ranchi to the world stage, our love story is nothing short of a fairy tale.',
+            dressCode: 'Traditional Elegance',
+            weddingDate: '2026-10-14',
+            event1: 'Sangeet — October 13, 2026 · 6:00 PM',
+            event2: 'Wedding — October 14, 2026 · 10:30 AM',
+            publishedAt: new Date().toISOString()
+          });
+        } else {
+          showNotFound();
+          return;
+        }
+      }
+
+      const site = JSON.parse(data);
+      document.title = site.coupleName + ' — Wedding Microsite · Varnam';
+
+      // Update loader
+      document.getElementById('loader-names').textContent = site.coupleName;
+      document.getElementById('nav-url').textContent = 'varnam.wedding/' + site.slug;
+
+      // Start loader animation
+      setTimeout(() => {
+        document.getElementById('loader-fill').style.width = '100%';
+      }, 100);
+      setTimeout(() => {
+        document.getElementById('ms-loader').classList.add('done');
+      }, 2200);
+
+      // Split couple name
+      const names = site.coupleName.split(/\s*[&]\s*/);
+      const name1 = names[0] || '';
+      const name2 = names[1] || '';
+
+      // Parse events
+      const ev1Parts = site.event1.split(/\s*[—–-]\s*/);
+      const ev2Parts = site.event2.split(/\s*[—–-]\s*/);
+
+      // Calculate countdown
+      const weddingTs = new Date(site.weddingDate + 'T10:30:00').getTime();
+
+      // Build gallery images from project assets
+      const galleryImages = [
+        { src: 'couple_portrait.png', label: 'The Couple' },
+        { src: 'bride_portrait.png', label: 'The Bride' },
+        { src: 'couple_mehendi.png', label: 'Mehendi' },
+        { src: 'couple_sangeet.png', label: 'Sangeet Night' },
+        { src: 'couple_pheras.png', label: 'Sacred Pheras' },
+        { src: 'couple_jaimala.png', label: 'Jaimala' },
+        { src: 'palace.jpg', label: 'The Venue' }
+      ];
+
+      // Render page
+      document.getElementById('ms-main').innerHTML = `
+        <!-- ═══ HERO ═══ -->
+        <section class="ms-hero" id="hero">
+          <div class="ms-hero-bg">
+            <div class="ms-orb ms-orb-1"></div>
+            <div class="ms-orb ms-orb-2"></div>
+            <div class="ms-orb ms-orb-3"></div>
+          </div>
+          <canvas id="ms-particles"></canvas>
+          <div class="ms-hero-content">
+            <div class="ms-hero-label">Save the Date</div>
+            <h1 class="ms-hero-names">
+              ${name1}<span class="ms-amp">&</span>${name2}
+            </h1>
+            <div class="ms-hero-divider"></div>
+            <div class="ms-hero-date">${formatDate(site.weddingDate)}</div>
+          </div>
+          <div class="ms-hero-scroll-hint">
+            <span>Scroll</span>
+            <div class="ms-scroll-arrow"></div>
+          </div>
+        </section>
+
+        <!-- ═══ COUNTDOWN ═══ -->
+        <section class="ms-countdown" id="countdown">
+          <div class="ms-inner ms-reveal">
+            <div class="ms-sec-label">Counting Down To</div>
+            <div class="ms-countdown-grid">
+              <div class="ms-cd-unit">
+                <div class="ms-cd-num" id="cd-days">--</div>
+                <div class="ms-cd-label">Days</div>
+              </div>
+              <div class="ms-cd-unit">
+                <div class="ms-cd-num" id="cd-hours">--</div>
+                <div class="ms-cd-label">Hours</div>
+              </div>
+              <div class="ms-cd-unit">
+                <div class="ms-cd-num" id="cd-mins">--</div>
+                <div class="ms-cd-label">Minutes</div>
+              </div>
+              <div class="ms-cd-unit">
+                <div class="ms-cd-num" id="cd-secs">--</div>
+                <div class="ms-cd-label">Seconds</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ LOVE STORY ═══ -->
+        <section class="ms-section" id="story">
+          <div class="ms-inner ms-reveal">
+            <div class="ms-sec-label">Our Story</div>
+            <h2 class="ms-sec-title">${site.title}</h2>
+            <p class="ms-story-text">"${site.story}"</p>
+            <div class="ms-story-decoration">
+              <div class="ms-deco-line"></div>
+              <div class="ms-deco-icon">💍</div>
+              <div class="ms-deco-line"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ EVENTS TIMELINE ═══ -->
+        <section class="ms-section" id="events" style="background:var(--ink2);">
+          <div class="ms-inner ms-reveal">
+            <div class="ms-sec-label">Wedding Events</div>
+            <h2 class="ms-sec-title">The <em>Celebration</em></h2>
+            <div class="ms-timeline">
+              <div class="ms-tl-item ms-reveal">
+                <div class="ms-tl-dot"></div>
+                <div class="ms-tl-card ms-shimmer">
+                  <div class="ms-tl-name">${ev1Parts[0] || 'Event 1'}</div>
+                  <div class="ms-tl-date">${ev1Parts.slice(1).join(' — ') || ''}</div>
+                  <div class="ms-tl-venue">A night of music, dance, and celebration with family and friends.</div>
+                </div>
+              </div>
+              <div class="ms-tl-item ms-reveal">
+                <div class="ms-tl-dot"></div>
+                <div class="ms-tl-card ms-shimmer">
+                  <div class="ms-tl-name">${ev2Parts[0] || 'Event 2'}</div>
+                  <div class="ms-tl-date">${ev2Parts.slice(1).join(' — ') || ''}</div>
+                  <div class="ms-tl-venue">The grand ceremony uniting two families in timeless tradition.</div>
+                </div>
+              </div>
+              <div class="ms-tl-item ms-reveal">
+                <div class="ms-tl-dot"></div>
+                <div class="ms-tl-card ms-shimmer">
+                  <div class="ms-tl-name">Reception</div>
+                  <div class="ms-tl-date">Evening Celebration</div>
+                  <div class="ms-tl-venue">An evening of joy, feasting, and unforgettable memories together.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ DRESS CODE ═══ -->
+        <section class="ms-section" id="dresscode">
+          <div class="ms-inner ms-reveal" style="text-align:center;">
+            <div class="ms-sec-label">Attire</div>
+            <h2 class="ms-sec-title">What to <em>Wear</em></h2>
+            <div class="ms-dress-grid">
+              <div class="ms-dress-card ms-shimmer">
+                <div class="ms-dress-icon">👰</div>
+                <div class="ms-dress-title">For the Bride's Side</div>
+                <div class="ms-dress-value">${site.dressCode}</div>
+                <div class="ms-dress-hint">Elegant sarees, lehengas, or anarkalis in vibrant jewel tones. Think rich silks, zari, and traditional gold jewelry.</div>
+              </div>
+              <div class="ms-dress-card ms-shimmer">
+                <div class="ms-dress-icon">🤵</div>
+                <div class="ms-dress-title">For the Groom's Side</div>
+                <div class="ms-dress-value">${site.dressCode}</div>
+                <div class="ms-dress-hint">Classic sherwanis, kurta-pajamas, or bandhgalas in complementary tones. Turbans and pocket squares encouraged.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ GALLERY ═══ -->
+        <section class="ms-section" id="gallery" style="background:var(--ink2);">
+          <div class="ms-inner ms-reveal" style="max-width: 100%;">
+            <div class="ms-sec-label">Moments</div>
+            <h2 class="ms-sec-title">Our <em>Gallery</em></h2>
+            <div class="ms-gallery-grid">
+              ${galleryImages.map(img => `
+                <div class="ms-gallery-item ms-reveal">
+                  <img src="${img.src}" alt="${img.label}" loading="lazy">
+                  <div class="ms-gallery-overlay"><span>${img.label}</span></div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ RSVP ═══ -->
+        <section class="ms-section" id="rsvp">
+          <div class="ms-inner ms-reveal">
+            <div class="ms-sec-label">Respond</div>
+            <h2 class="ms-sec-title">Will You <em>Join Us?</em></h2>
+            <div class="ms-rsvp-card" style="display: flex; flex-direction: column; max-width: 650px; padding: 2.5rem 3rem;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; width: 100%;">
+                <div style="grid-column: span 1;">
+                  <label class="ms-rsvp-label">Your Full Name</label>
+                  <input class="ms-rsvp-field" id="rsvp-name" placeholder="Enter your name" type="text" style="margin-bottom:0;">
+                </div>
+                <div style="grid-column: span 1;">
+                  <label class="ms-rsvp-label">Number of Guests</label>
+                  <input class="ms-rsvp-field" id="rsvp-guests" placeholder="e.g. 2" type="number" min="1" max="10" value="1" style="margin-bottom:0;">
+                </div>
+                <div style="grid-column: span 2;">
+                  <label class="ms-rsvp-label">Will You Attend?</label>
+                  <div class="ms-rsvp-options" id="rsvp-options" style="margin-bottom:0;">
+                    <button class="ms-rsvp-opt" data-val="yes" onclick="selectRsvp(this)">🎉 Yes!</button>
+                    <button class="ms-rsvp-opt" data-val="maybe" onclick="selectRsvp(this)">🤔 Maybe</button>
+                    <button class="ms-rsvp-opt" data-val="no" onclick="selectRsvp(this)">😔 Can't</button>
+                  </div>
+                </div>
+                <div style="grid-column: span 2;">
+                  <label class="ms-rsvp-label">Message for the Couple</label>
+                  <input class="ms-rsvp-field" id="rsvp-message" placeholder="Send your wishes..." type="text" style="margin-bottom:0;">
+                </div>
+              </div>
+              
+              <!-- Centered Submit Button -->
+              <div style="display: flex; justify-content: center; width: 100%; margin-top: 1rem;">
+                <button class="ms-rsvp-submit" onclick="submitRsvp()" style="max-width: 320px; width: 100%;">Confirm RSVP →</button>
+              </div>
+              
+              <div class="ms-rsvp-responses" id="rsvp-responses"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ FOOTER ═══ -->
+        <footer class="ms-footer">
+          <div class="ms-footer-brand">Made with ❤️ on <a href="index.html">Varnam</a></div>
+          <div class="ms-footer-copy">© 2026 VARNAM · THE PREMIUM INDIAN WEDDING PLATFORM</div>
+          <button class="ms-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Back to Top</button>
+        </footer>
+      `;
+
+      // ── Initialize all features ──
+      initCountdown(weddingTs);
+      initParticles();
+      initScrollReveal();
+      initNavReveal();
+      loadRsvpResponses();
+    }
+
+    /* ── Helpers ── */
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T00:00:00');
+      const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    /* ── Countdown ── */
+    function initCountdown(targetTs) {
+      function update() {
+        const now = Date.now();
+        const diff = Math.max(0, targetTs - now);
+        const days = Math.floor(diff / (1000*60*60*24));
+        const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+        const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+        const secs = Math.floor((diff % (1000*60)) / 1000);
+
+        const dEl = document.getElementById('cd-days');
+        const hEl = document.getElementById('cd-hours');
+        const mEl = document.getElementById('cd-mins');
+        const sEl = document.getElementById('cd-secs');
+        if (dEl) dEl.textContent = String(days).padStart(2,'0');
+        if (hEl) hEl.textContent = String(hours).padStart(2,'0');
+        if (mEl) mEl.textContent = String(mins).padStart(2,'0');
+        if (sEl) sEl.textContent = String(secs).padStart(2,'0');
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    /* ── Floating Particles ── */
+    function initParticles() {
+      const canvas = document.getElementById('ms-particles');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w, h;
+      const particles = [];
+      const COUNT = 50;
+
+      function resize() {
+        const hero = canvas.parentElement;
+        w = canvas.width = hero.offsetWidth;
+        h = canvas.height = hero.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      for (let i = 0; i < COUNT; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 2 + 0.5,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3 - 0.15,
+          alpha: Math.random() * 0.5 + 0.1
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(212,168,67,${p.alpha})`;
+          ctx.fill();
+
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0) p.x = w;
+          if (p.x > w) p.x = 0;
+          if (p.y < 0) p.y = h;
+          if (p.y > h) p.y = 0;
+
+          // Twinkle
+          p.alpha += (Math.random() - 0.5) * 0.01;
+          p.alpha = Math.max(0.05, Math.min(0.6, p.alpha));
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    /* ── Scroll Reveal ── */
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, idx) => {
+          if (entry.isIntersecting) {
+            // Stagger the reveal
+            const delay = idx * 100;
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, delay);
+          }
+        });
+      }, { threshold: 0.08 });
+
+      document.querySelectorAll('.ms-reveal').forEach(el => observer.observe(el));
+    }
+
+    /* ── Nav show on scroll ── */
+    function initNavReveal() {
+      const nav = document.getElementById('ms-nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > window.innerHeight * 0.6) {
+          nav.classList.add('visible');
+        } else {
+          nav.classList.remove('visible');
+        }
+      });
+    }
+
+    /* ── RSVP ── */
+    let selectedRsvp = '';
+
+    function selectRsvp(btn) {
+      document.querySelectorAll('.ms-rsvp-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedRsvp = btn.dataset.val;
+    }
+
+    function submitRsvp() {
+      const name = document.getElementById('rsvp-name').value.trim();
+      const guests = document.getElementById('rsvp-guests').value || '1';
+      const message = document.getElementById('rsvp-message').value.trim();
+
+      if (!name) { msToast('Please enter your name.'); return; }
+      if (!selectedRsvp) { msToast('Please select your attendance.'); return; }
+
+      const rsvpKey = 'varnam_rsvp_' + slug;
+      let responses = JSON.parse(localStorage.getItem(rsvpKey) || '[]');
+      
+      // Check if already responded
+      const existing = responses.findIndex(r => r.name.toLowerCase() === name.toLowerCase());
+      if (existing >= 0) {
+        responses[existing] = { name, status: selectedRsvp, guests, message, time: new Date().toISOString() };
+      } else {
+        responses.push({ name, status: selectedRsvp, guests, message, time: new Date().toISOString() });
+      }
+      localStorage.setItem(rsvpKey, JSON.stringify(responses));
+
+      // Reset form
+      document.getElementById('rsvp-name').value = '';
+      document.getElementById('rsvp-guests').value = '1';
+      document.getElementById('rsvp-message').value = '';
+      document.querySelectorAll('.ms-rsvp-opt').forEach(b => b.classList.remove('selected'));
+      selectedRsvp = '';
+
+      const statusMap = { yes: '🎉 Attending', no: '😔 Declined', maybe: '🤔 Maybe' };
+      msToast(`Thank you, ${name}! RSVP: ${statusMap[responses[responses.length-1].status]}`);
+      loadRsvpResponses();
+    }
+
+    function loadRsvpResponses() {
+      const container = document.getElementById('rsvp-responses');
+      if (!container) return;
+      const rsvpKey = 'varnam_rsvp_' + slug;
+      const responses = JSON.parse(localStorage.getItem(rsvpKey) || '[]');
+
+      if (responses.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      const statusClasses = { yes: 'ms-rsvp-yes', no: 'ms-rsvp-no', maybe: 'ms-rsvp-maybe' };
+      const statusLabels = { yes: 'ATTENDING', no: 'DECLINED', maybe: 'MAYBE' };
+
+      container.innerHTML = `
+        <h4>Responses (${responses.length})</h4>
+        ${responses.map(r => `
+          <div class="ms-rsvp-entry">
+            <span class="ms-rsvp-entry-name">${r.name} ${r.guests > 1 ? '(+' + (r.guests-1) + ')' : ''}</span>
+            <span class="ms-rsvp-entry-status ${statusClasses[r.status]}">${statusLabels[r.status]}</span>
+          </div>
+        `).join('')}
+      `;
+    }
+  </script>
+</body>
+</html>

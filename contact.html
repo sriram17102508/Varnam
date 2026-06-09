@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Varnam | India's Premier Wedding Platform</title>
+  <meta name="description" content="Get in touch with Varnam. Contact our celebration concierge or support desk to plan your dream wedding.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    /* Page Specific Styling */
+    .contact-hero {
+      position: relative;
+      padding: 130px 2.5rem 5rem;
+      background: linear-gradient(180deg, var(--ink2) 0%, var(--ink) 100%);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      align-items: start;
+      margin-top: 3rem;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border2);
+      border-radius: var(--r24);
+      padding: 3rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: var(--r24);
+      background: linear-gradient(135deg, rgba(212, 168, 67, 0.12), transparent 40%, rgba(196, 48, 96, 0.08));
+      z-index: -1;
+    }
+
+    .info-item {
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .info-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--r8);
+      background: rgba(212, 168, 67, 0.08);
+      border: 1px solid rgba(212, 168, 67, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .info-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 0.4rem;
+    }
+
+    .info-value {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .info-value a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .info-value a:hover {
+      color: var(--gold);
+    }
+
+    /* FAQ ACCORDION */
+    .faq-container {
+      margin-top: 6rem;
+      border-top: 1px solid var(--border);
+      padding-top: 5rem;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 0;
+    }
+
+    .faq-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .faq-question {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+
+    .faq-header:hover .faq-question {
+      color: var(--gold);
+    }
+
+    .faq-toggle {
+      font-size: 0.8rem;
+      color: var(--text3);
+      transition: transform 0.3s ease;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+      color: var(--text2);
+      font-size: 0.88rem;
+      line-height: 1.75;
+      padding-right: 2rem;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 1000px;
+      padding-top: 1rem;
+      transition: max-height 0.3s ease-in-out, padding 0.3s ease;
+    }
+
+    .faq-item.active .faq-toggle {
+      transform: rotate(180deg);
+      color: var(--gold);
+    }
+
+    @media(max-width: 900px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-logo">Varnam</div>
+    <div class="loader-bar">
+      <div class="loader-fill" id="loader-fill"></div>
+    </div>
+    <div class="loader-txt">Weaving your celebration</div>
+  </div>
+  <div id="toast"></div>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="inner" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+      <a class="nav-logo" href="index.html">Varnam<sup>™</sup></a>
+      <ul class="nav-links">
+        <li><a href="venues.html">Venues</a></li>
+        <li><a href="vendors.html">Vendors</a></li>
+        <li><a href="themes.html">Themes</a></li>
+      </ul>
+      <div class="nav-right" id="nav-auth-section">
+        <button class="btn btn-ghost" onclick="openModal('login-modal')">Sign In</button>
+        <button class="btn btn-gold" onclick="openModal('signup-modal')">Get Started</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── CONTACT HERO ── -->
+  <section class="contact-hero">
+    <div class="orb orb1" style="top: -20%; right: 10%;"></div>
+    <div class="orb orb2" style="bottom: -10%; left: 10%;"></div>
+    <div class="inner">
+      <div class="contact-grid">
+        <!-- Left details -->
+        <div>
+          <div class="sec-label">GET IN TOUCH</div>
+          <h1 class="sec-title" style="font-size: clamp(2.5rem, 5vw, 4.2rem); margin-bottom: 2rem; line-height: 1.05;">
+            Let's Begin Your <em style="font-style: italic; color: var(--gold);">Celebration</em>
+          </h1>
+          <p style="color: var(--text2); font-size: 0.95rem; line-height: 1.8; margin-bottom: 3rem; max-width: 450px;">
+            Whether you seek custom themes, support with vendor selection, or have questions about our digital planner — our celebration team is here to assist you at every step.
+          </p>
+
+          <!-- Info Details -->
+          <div class="info-item">
+            <div class="info-icon">✉</div>
+            <div>
+              <div class="info-title">Support Desk</div>
+              <div class="info-value"><a href="mailto:concierge@varnam.wedding">concierge@varnam.wedding</a></div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">✦</div>
+            <div>
+              <div class="info-title">Partnerships & Vendors</div>
+              <div class="info-value"><a href="mailto:partners@varnam.wedding">partners@varnam.wedding</a></div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📞</div>
+            <div>
+              <div class="info-title">Toll-Free Helpline</div>
+              <div class="info-value outfit-font" style="font-weight: 600;"><a href="tel:+9118004198760">+91 1800-419-8760</a></div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div>
+              <div class="info-title">Headquarters</div>
+              <div class="info-value">The Varnam Pavilions, Level 4,<br>Bandra Kurla Complex, Mumbai, MH - 400051</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form Card -->
+        <div>
+          <div class="contact-card">
+            <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 500; color: var(--text); margin-bottom: 1.5rem;">Send a Message</h3>
+            
+            <form id="contactForm" onsubmit="handleContactSubmit(event)">
+              <div class="form-row">
+                <label class="field-label">Full Name</label>
+                <input class="field" type="text" id="c-name" required placeholder="e.g. Arundhati Roy">
+              </div>
+              <div class="form-row-2">
+                <div>
+                  <label class="field-label">Email Address</label>
+                  <input class="field" type="email" id="c-email" required placeholder="name@domain.com">
+                </div>
+                <div>
+                  <label class="field-label">Phone Number</label>
+                  <input class="field" type="tel" id="c-phone" placeholder="e.g. +91 98765 43210">
+                </div>
+              </div>
+              <div class="form-row-2">
+                <div>
+                  <label class="field-label">Event Type</label>
+                  <select class="field" id="c-event">
+                    <option>Wedding Ceremony</option>
+                    <option>Sangeet / Mehendi</option>
+                    <option>Engagement / Roka</option>
+                    <option>Reception Gala</option>
+                    <option>Anniversary / Party</option>
+                    <option>Other Event</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label">Proposed Date</label>
+                  <input class="field" type="date" id="c-date">
+                </div>
+              </div>
+              <div class="form-row">
+                <label class="field-label">Your Message</label>
+                <textarea class="field" id="c-message" rows="4" required placeholder="Describe your dream aesthetic, guest count, or questions..."></textarea>
+              </div>
+              <button class="btn btn-gold" type="submit" style="width: 100%; justify-content: center; padding: 0.9rem; font-size: 0.85rem; font-weight: 700;">
+                Send Message →
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ SECTION -->
+      <div class="faq-container">
+        <div style="text-align: center; max-width: 600px; margin: 0 auto 3rem;">
+          <div class="sec-label" style="justify-content: center;">FAQS</div>
+          <h2 class="sec-title">Commonly <em>Asked</em></h2>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+          <div class="faq-item">
+            <div class="faq-header" onclick="toggleFaq(this)">
+              <div class="faq-question">How does Varnam curate its vendors and venues?</div>
+              <div class="faq-toggle">▼</div>
+            </div>
+            <div class="faq-answer">
+              Every partner listed on Varnam goes through a strict verification process. We evaluate their portfolio quality, guest reviews, past delivery speed, pricing transparency, and business registration. Only the top 10% of luxury service providers in each region make it onto our directory.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-header" onclick="toggleFaq(this)">
+              <div class="faq-question">Is the wedding planning dashboard free to use?</div>
+              <div class="faq-toggle">▼</div>
+            </div>
+            <div class="faq-answer">
+              Yes, Varnam's core planning tools—including the budget estimator, guest list manager, checklist, and basic wedding website templates—are entirely free for couples. Premium customized designer templates and concierge services are available under bespoke upgrades.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-header" onclick="toggleFaq(this)">
+              <div class="faq-question">How do I setup my wedding microsite?</div>
+              <div class="faq-toggle">▼</div>
+            </div>
+            <div class="faq-answer">
+              Simply navigate to your dashboard and look for the 'Your Wedding Microsite' option. Add your story, select from our stunning themes (such as Palace, Boho, Minimalist, or Fairytale), input your schedule details, and click 'Publish'. Your microsite becomes active instantly under a premium layout.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-header" onclick="toggleFaq(this)">
+              <div class="faq-question">How do I register as an organizer or vendor?</div>
+              <div class="faq-toggle">▼</div>
+            </div>
+            <div class="faq-answer">
+              You can click the 'Vendor Registration' option in the footer of any page. Fill out your business credentials, starting prices, and portfolio link. Our curation committee will review your submission and notify you via email within 24 to 48 hours once approved.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Varnam</div>
+        <p class="footer-desc">India's most elegant wedding platform — weaving traditions, dreams, and celebrations into one breathtaking journey.</p>
+        <div class="footer-nl">
+          <input id="footer-email" placeholder="Your email address">
+          <button onclick="footerSubscribe()">Subscribe</button>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Planning</h5>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#">Guest Manager</a></li>
+          <li><a href="#">Budget Tracker</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Discover</h5>
+        <ul>
+          <li><a href="themes.html">Themes</a></li>
+          <li><a href="venues.html">Venues</a></li>
+          <li><a href="vendors.html">All Vendors</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About Varnam</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#" onclick="openModal('vendor-signup-modal')">Vendor Registration</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 VARNAM · MADE WITH ❤ IN INDIA</div>
+      <div class="footer-socials">
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.163c-.272-1.015-1.074-1.817-2.09-2.09C17.914 3.5 12 3.5 12 3.5s-5.914 0-9.408.573c-1.016.273-1.818 1.075-2.09 2.09C0 9.657 0 12 0 12s0 2.343.502 5.837c.272 1.016 1.074 1.818 2.09 2.09C6.086 20.5 12 20.5 12 20.5s5.914 0 9.408-.573c1.016-.272 1.818-1.074 2.09-2.09C24 14.343 24 12 24 12s0-2.343-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        <a href="#" aria-label="X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+        <a href="#" aria-label="Gmail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══ LOGIN MODAL ══ -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Welcome Back</div><button class="modal-close" onclick="closeModal('login-modal')">✕</button>
+      </div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="switchRole(this,'lu')">👰 Couple / Guest</button>
+        <button class="role-tab" onclick="switchRole(this,'lv')">🎯 Organizer / Vendor</button>
+      </div>
+      <div id="lu">
+        <div class="form-row"><label class="field-label">Email</label><input class="field" type="email" placeholder="your@email.com"></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="••••••••"></div>
+        <div style="text-align:right;margin-bottom:1.25rem;"><a href="#" style="font-size:.78rem;color:var(--gold);text-decoration:none;">Forgot password?</a></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.querySelector('#lu input[type=email]').value, false);closeModal('login-modal')">Sign In →</button>
+        <div class="divider"><span>or continue with</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google login…')">🔵 Google</button><button class="social-auth-btn" onclick="toast('OTP sent…')">📱 OTP</button></div>
+        <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--text3);">No account? <a href="#" style="color:var(--gold);text-decoration:none;" onclick="closeModal('login-modal');openModal('signup-modal')">Sign Up</a></p>
+      </div>
+      <div id="lv" style="display:none">
+        <div class="form-row"><label class="field-label">Business Email</label><input class="field" type="email" placeholder="studio@email.com"></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="••••••••"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.querySelector('#lv input[type=email]').value, true);closeModal('login-modal')">Sign In as Organizer →</button>
+        <div class="divider"><span>or</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google…')">🔵 Google</button></div>
+        <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--text3);">New vendor? <a href="#" style="color:var(--gold);text-decoration:none;" onclick="closeModal('login-modal');openModal('vendor-signup-modal')">Register business</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ USER SIGNUP MODAL ══ -->
+  <div class="modal-overlay" id="signup-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Create Account</div><button class="modal-close" onclick="closeModal('signup-modal')">✕</button>
+      </div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="switchRole(this,'su')">👰 Couple / Guest</button>
+        <button class="role-tab" onclick="switchRole(this,'sv')">🎯 Organizer / Vendor</button>
+      </div>
+      <div id="su" class="role-panel">
+        <div class="form-row-2">
+          <div><label class="field-label">First Name</label><input class="field" placeholder="Sita"></div>
+          <div><label class="field-label">Last Name</label><input class="field" placeholder="Sharma"></div>
+        </div>
+        <div class="form-row"><label class="field-label">Email</label><input class="field" type="email" placeholder="your@email.com"></div>
+        <div class="form-row"><label class="field-label">Phone</label><input class="field" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="form-row"><label class="field-label">Role</label><select class="field">
+            <option>Bride</option>
+            <option>Groom</option>
+            <option>Family Member</option>
+            <option>Guest</option>
+          </select></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="Min. 8 characters"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.querySelector('#su input[type=email]').value, false);closeModal('signup-modal')">Create Account →</button>
+        <div class="divider"><span>or sign up with</span></div>
+        <div class="social-auth"><button class="social-auth-btn" onclick="toast('Google…')">🔵 Google</button><button class="social-auth-btn" onclick="toast('OTP sent…')">📱 OTP</button></div>
+      </div>
+      <div id="sv" class="role-panel" style="display:none">
+        <div class="form-row-2">
+          <div><label class="field-label">First Name</label><input class="field" id="v-su-fname" placeholder="First Name"></div>
+          <div><label class="field-label">Last Name</label><input class="field" id="v-su-lname" placeholder="Last Name"></div>
+        </div>
+        <div class="form-row"><label class="field-label">Email</label><input class="field" id="v-su-email" type="email" placeholder="studio@email.com"></div>
+        <div class="form-row"><label class="field-label">Phone</label><input class="field" id="v-su-phone" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="form-row"><label class="field-label">Vendor Category</label><select class="field" id="v-su-role">
+            <option>Photographer</option>
+            <option>Videographer</option>
+            <option>Makeup Artist</option>
+            <option>Mehndi Artist</option>
+            <option>Decorator / Florist</option>
+            <option>Caterer</option>
+            <option>DJ / Musician</option>
+            <option>Wedding Planner</option>
+            <option>Venue Owner</option>
+          </select></div>
+        <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="Min. 8 characters"></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="loginUser(document.getElementById('v-su-email').value, true);closeModal('signup-modal')">Create Account →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ VENDOR SIGNUP MODAL ══ -->
+  <div class="modal-overlay" id="vendor-signup-modal">
+    <div class="modal" style="max-width:560px;">
+      <div class="modal-header">
+        <div class="modal-title">Register Your Business</div><button class="modal-close" onclick="closeModal('vendor-signup-modal')">✕</button>
+      </div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:1.75rem;line-height:1.6;">Join 12,000+ verified professionals on Varnam. Create your profile and start receiving enquiries from couples across India.</p>
+      <div class="form-row-2">
+        <div><label class="field-label">Full Name</label><input class="field" placeholder="Your Name"></div>
+        <div><label class="field-label">Business Name</label><input class="field" placeholder="Studio / Brand Name"></div>
+      </div>
+      <div class="form-row"><label class="field-label">Category</label>
+        <select class="field">
+          <option>Photographer</option>
+          <option>Videographer</option>
+          <option>Makeup Artist</option>
+          <option>Mehndi Artist</option>
+          <option>Decorator / Florist</option>
+          <option>Caterer</option>
+          <option>DJ / Musician</option>
+          <option>Chef</option>
+          <option>Wedding Planner</option>
+          <option>Venue Owner</option>
+          <option>Bridal Wear Designer</option>
+          <option>Jeweller</option>
+        </select>
+      </div>
+      <div class="form-row-2">
+        <div><label class="field-label">City / Base Location</label><input class="field" placeholder="e.g. Mumbai"></div>
+        <div><label class="field-label">Years of Experience</label><input class="field" type="number" placeholder="5"></div>
+      </div>
+      <div class="form-row"><label class="field-label">Business Email</label><input class="field" type="email" placeholder="studio@email.com"></div>
+      <div class="form-row"><label class="field-label">Phone / WhatsApp</label><input class="field" type="tel" placeholder="+91 98765 43210"></div>
+      <div class="form-row"><label class="field-label">About Your Work</label><textarea class="field" rows="3" placeholder="Tell couples about your style and experience…"></textarea></div>
+      <div class="form-row"><label class="field-label">Starting Price (₹)</label><input class="field" type="number" placeholder="e.g. 25000"></div>
+      <div class="form-row"><label class="field-label">Portfolio / Website URL</label><input class="field" placeholder="https://yourstudio.com"></div>
+      <div class="form-row"><label class="field-label">Password</label><input class="field" type="password" placeholder="Min. 8 characters"></div>
+      <button class="btn btn-gold" style="width:100%;justify-content:center;padding:.9rem;" onclick="toast('🎉 Submitted! Verification within 24 hrs.');closeModal('vendor-signup-modal')">Submit for Verification →</button>
+      <p style="text-align:center;margin-top:1rem;font-size:.75rem;color:var(--text3);">Verification takes 24–48 hours. You'll receive an email once approved.</p>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script>
+    // FAQ Toggle
+    function toggleFaq(header) {
+      const item = header.parentElement;
+      const isActive = item.classList.contains('active');
+      
+      // Close all other items
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+      
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    }
+
+    // Contact Form Submit Handling
+    function handleContactSubmit(event) {
+      event.preventDefault();
+      const name = document.getElementById('c-name').value.trim();
+      const email = document.getElementById('c-email').value.trim();
+      const phone = document.getElementById('c-phone').value.trim();
+      const eventType = document.getElementById('c-event').value;
+      const eventDate = document.getElementById('c-date').value;
+      const message = document.getElementById('c-message').value.trim();
+
+      // Simple local storage log of contact inquiries
+      const inquiries = JSON.parse(localStorage.getItem('varnam_contact_inquiries') || '[]');
+      inquiries.push({
+        name,
+        email,
+        phone,
+        eventType,
+        eventDate,
+        message,
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem('varnam_contact_inquiries', JSON.stringify(inquiries));
+
+      // Toast Success
+      toast('✦ Message sent! Our celebration concierge will contact you within 2 hrs.');
+
+      // Reset form
+      document.getElementById('contactForm').reset();
+    }
+  </script>
+</body>
+
+</html>

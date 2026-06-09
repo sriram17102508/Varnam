@@ -1996,6 +1996,7 @@
           Manager</span></button>
       <button class="nav-item" onclick="showTab('vendors-dash', this)"><span class="ico">🏛️</span><span>My
           Vendors</span></button>
+      <button class="nav-item" onclick="showTab('wishlist', this)"><span class="ico">❤️</span><span>Wishlist</span></button>
       <button class="nav-item" onclick="showTab('messages', this)"><span class="ico">💬</span><span>Messages</span><span
           class="badge-count">3</span></button>
 
@@ -2995,6 +2996,17 @@
         </div>
       </div>
 
+      <!-- ── WISHLIST TAB ── -->
+      <div id="tab-wishlist" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <h2 style="font-family:'Outfit',sans-serif;font-size:2rem;font-weight:300;">My <em style="font-style:italic;color:var(--gold);">Wishlist</em></h2>
+          <button class="tb-btn tb-btn-gold" onclick="window.location='venues.html'">Browse Venues</button>
+        </div>
+        <div id="wishlist-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
     </div><!-- /page-content -->
 
     <!-- ADD EXPENSE MODAL -->
@@ -3792,7 +3804,7 @@
     updateCountdown(); setInterval(updateCountdown, 1000);
 
     /* TABS */
-    var tabs = ['overview', 'checklist', 'guests', 'vendors-dash', 'messages', 'timeline', 'budget', 'profile', 'notifications', 'settings'];
+    var tabs = ['overview', 'checklist', 'guests', 'vendors-dash', 'messages', 'timeline', 'budget', 'profile', 'notifications', 'settings', 'wishlist'];
     function showTab(id, btn) {
       tabs.forEach(t => { var el = document.getElementById('tab-' + t); if (el) el.style.display = 'none'; });
       var el = document.getElementById('tab-' + id);
@@ -3825,10 +3837,56 @@
         'budget': 'Budget Tracker',
         'profile': 'My Profile',
         'notifications': 'Notifications',
-        'settings': 'Account Settings'
+        'settings': 'Account Settings',
+        'wishlist': 'My Wishlist ❤️'
       };
       document.getElementById('page-title').textContent = titles[id] || 'Dashboard';
+      
+      if (id === 'wishlist') renderWishlist();
     }
+
+    /* WISHLIST */
+    var wishlist = localStorage.getItem('varnam_wishlist') ? JSON.parse(localStorage.getItem('varnam_wishlist')) : [
+      { id: 'umaid', name: 'Umaid Bhawan Palace', type: 'Venue', city: 'Jodhpur', price: '₹8L–₹25L /day', rating: '⭐ 4.9', ico: '🏰', bg: 'linear-gradient(135deg,#3A0A15,#8B1A2E)' },
+      { id: 'radhik', name: 'Joseph Radhik', type: 'Photographer', city: 'Mumbai', price: '₹1,50,000 Starting', rating: '⭐ 4.9', ico: '📸', bg: 'linear-gradient(135deg,#1A0A15,#5A2A3A)' }
+    ];
+    
+    function renderWishlist() {
+      var wg = document.getElementById('wishlist-grid');
+      if (!wg) return;
+      if (wishlist.length === 0) {
+        wg.innerHTML = `<div style="grid-column: span 3; text-align:center; color:var(--text3); padding:4rem; font-size:0.9rem; font-family:monospace; border:1px dashed var(--border); border-radius:var(--r16);">Your wishlist is empty. Browse venues and vendors to add items!</div>`;
+        return;
+      }
+      wg.innerHTML = wishlist.map((item, idx) => `
+        <div style="background:var(--ink2);border:1px solid var(--border);border-radius:var(--r16);padding:1.5rem;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(212,168,67,.25)'" onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
+          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
+            <div style="width:44px;height:44px;border-radius:var(--r8);background:rgba(212,168,67,.08);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;">${item.ico}</div>
+            <div>
+              <div style="font-size:.875rem;font-weight:700;color:var(--text);">${item.name}</div>
+              <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--text3);letter-spacing:.06em;">${item.type} · ${item.city}</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+            <span class="price-font" style="font-size:1.1rem;font-weight:700;color:var(--gold);">${item.price}</span>
+            <span style="font-size:.78rem;color:var(--gold);font-weight:600;">${item.rating}</span>
+          </div>
+          <div style="display:flex;gap:.5rem;margin-top:1.5rem;">
+            <button onclick="toast('Opening inquiry with ${item.name}…')" style="flex:2;padding:.55rem;background:var(--gold);border:none;border-radius:var(--r4);font-size:.75rem;color:var(--ink);font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">💬 Send Inquiry</button>
+            <button onclick="removeFromWishlist(${idx})" style="flex:1;padding:.55rem;background:rgba(196,48,96,0.1);border:1px solid rgba(196,48,96,0.25);border-radius:var(--r4);font-size:.75rem;color:var(--rose);cursor:pointer;font-family:'Manrope',sans-serif;">❌ Remove</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function removeFromWishlist(idx) {
+      const name = wishlist[idx].name;
+      wishlist.splice(idx, 1);
+      localStorage.setItem('varnam_wishlist', JSON.stringify(wishlist));
+      renderWishlist();
+      toast(`Removed ${name} from Wishlist.`);
+    }
+    renderWishlist();
 
     /* BUDGET TRACKER DATA & FUNCTIONS */
     var budgetTotal = parseInt(localStorage.getItem('varnam_budget_total')) || 4000000;
