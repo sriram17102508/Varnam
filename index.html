@@ -631,26 +631,31 @@
     .features-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(2, 180px);
-      gap: 1.5rem;
-      overflow: hidden;
-      margin-top: 3rem;
+      grid-template-rows: auto;
+      gap: 0.85rem;
+      margin-top: 2rem;
+    }
+
+    /* All 8 cards equal square size — no spans */
+    .feat-card:nth-child(n) {
+      grid-column: span 1;
+      aspect-ratio: 4 / 3;
     }
 
     .feat-card {
       width: 100%;
-      height: 100%;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.005) 100%);
-      padding: 2rem 1.75rem;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 0;
+      padding: 1.5rem 1.1rem 1.1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 4rem;
       position: relative;
       overflow: hidden;
       cursor: pointer;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       border: 1px solid rgba(212, 168, 67, 0.12);
-      border-radius: var(--r24);
+      border-radius: var(--r16);
     }
 
     .feat-card:hover {
@@ -682,11 +687,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0;
     }
 
     .feat-ico {
-      font-size: 2rem;
+      font-size: 1.5rem;
       line-height: 1;
       transition: transform 0.3s ease;
     }
@@ -708,8 +713,7 @@
 
     /* ── Row 3: text block always pinned to bottom ── */
     .feat-bottom {
-      align-self: end;
-      margin-top: 1rem;
+      margin-top: 0;
     }
 
     .feat-tag {
@@ -719,17 +723,17 @@
 
     .feat-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
+      font-size: 1.05rem;
       font-weight: 600;
       color: var(--text);
       line-height: 1.2;
-      margin-bottom: .5rem;
+      margin-bottom: 0.1rem;
     }
 
     .feat-desc {
-      font-size: .75rem;
+      font-size: .65rem;
       color: var(--text2);
-      line-height: 1.6;
+      line-height: 1.4;
     }
 
     /* ══════════════════════════════════════════
@@ -1792,14 +1796,14 @@
 
     @media(max-width:700px) {
       .features-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
         gap: 1rem;
       }
 
       .feat-card {
         grid-column: span 1 !important;
-        height: 220px;
+        aspect-ratio: 1 / 1;
       }
 
       .themes-grid {
