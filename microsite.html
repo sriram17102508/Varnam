@@ -1,537 +1,1120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wedding Microsite — Varnam</title>
   <meta name="description" content="A beautiful wedding celebration landing page powered by Varnam.">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Outfit:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <style>
     /* ═══════════════════════════════════════
        VARNAM WEDDING MICROSITE — DESIGN SYSTEM
        ═══════════════════════════════════════ */
     :root {
-      --ink:      #080608;
-      --ink2:     #0f0b10;
-      --ink3:     #1a1220;
-      --surface:  #120e18;
-      --border:   rgba(255,255,255,0.07);
-      --border2:  rgba(255,255,255,0.13);
-      --gold:     #D4A843;
-      --gold2:    #F0C96A;
-      --gold3:    #8A6A20;
-      --ember:    #E85D30;
-      --rose:     #C43060;
-      --text:     #F0EAE2;
-      --text2:    #A89888;
-      --text3:    #6A5A50;
-      --r4:4px; --r8:8px; --r16:16px; --r24:24px;
+      --ink: #080608;
+      --ink2: #0f0b10;
+      --ink3: #1a1220;
+      --surface: #120e18;
+      --border: rgba(255, 255, 255, 0.07);
+      --border2: rgba(255, 255, 255, 0.13);
+      --gold: #D4A843;
+      --gold2: #F0C96A;
+      --gold3: #8A6A20;
+      --ember: #E85D30;
+      --rose: #C43060;
+      --text: #F0EAE2;
+      --text2: #A89888;
+      --text3: #6A5A50;
+      --r4: 4px;
+      --r8: 8px;
+      --r16: 16px;
+      --r24: 24px;
     }
 
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family:'Manrope',sans-serif;
-      background:var(--ink);
-      color:var(--text);
-      overflow-x:hidden;
-      -webkit-font-smoothing:antialiased;
+      font-family: 'Manrope', sans-serif;
+      background: var(--ink);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* Noise overlay */
     body::before {
-      content:'';
-      position:fixed; inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity:0.025;
-      pointer-events:none;
-      z-index:1000;
-      mix-blend-mode:overlay;
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 1000;
+      mix-blend-mode: overlay;
     }
 
-    ::-webkit-scrollbar{width:3px;}
-    ::-webkit-scrollbar-track{background:var(--ink);}
-    ::-webkit-scrollbar-thumb{background:var(--gold3);}
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--ink);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold3);
+    }
 
     /* ═══ PAGE ENTRANCE LOADER ═══ */
     #ms-loader {
-      position:fixed; inset:0; z-index:9999;
-      background:var(--ink);
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      gap:1.5rem;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
       transition: opacity 0.8s ease, visibility 0.8s ease;
     }
-    #ms-loader.done { opacity:0; visibility:hidden; }
+
+    #ms-loader.done {
+      opacity: 0;
+      visibility: hidden;
+    }
+
     .ms-loader-names {
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(2rem, 5vw, 3.5rem);
-      font-weight:300; font-style:italic;
-      color:var(--gold);
-      opacity:0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gold);
+      opacity: 0;
       animation: loaderFadeIn 1s 0.3s ease forwards;
     }
+
     .ms-loader-tagline {
-      font-family:'DM Mono',monospace;
-      font-size:0.6rem; letter-spacing:0.4em;
-      text-transform:uppercase; color:var(--text3);
-      opacity:0;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text3);
+      opacity: 0;
       animation: loaderFadeIn 1s 0.7s ease forwards;
     }
+
     .ms-loader-bar {
-      width:180px; height:1px; background:var(--border);
-      position:relative; overflow:hidden;
+      width: 180px;
+      height: 1px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
     }
+
     .ms-loader-fill {
-      height:100%; background:var(--gold);
-      width:0; transition:width 1.4s cubic-bezier(0.23,1,0.32,1);
+      height: 100%;
+      background: var(--gold);
+      width: 0;
+      transition: width 1.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
+
     @keyframes loaderFadeIn {
-      from { opacity:0; transform:translateY(10px); }
-      to   { opacity:1; transform:translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* ═══ FLOATING NAV BAR ═══ */
     .ms-nav {
-      position:fixed; top:0; left:0; right:0; z-index:500;
-      height:56px;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:0 2.5rem;
-      background:rgba(8,6,8,0.7);
-      backdrop-filter:blur(20px);
-      -webkit-backdrop-filter:blur(20px);
-      border-bottom:1px solid var(--border);
-      transform:translateY(-100%);
-      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(8, 6, 8, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transform: translateY(-100%);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .ms-nav.visible { transform:translateY(0); }
+
+    .ms-nav.visible {
+      transform: translateY(0);
+    }
+
     .ms-nav-url {
-      font-family:'DM Mono',monospace;
-      font-size:0.65rem; color:var(--gold);
-      letter-spacing:0.08em;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
     }
+
     .ms-nav-links {
-      display:flex; gap:0.25rem; list-style:none;
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
     }
+
     .ms-nav-links a {
-      font-family:'Manrope',sans-serif;
-      font-size:0.7rem; font-weight:600;
-      color:var(--text3); text-decoration:none;
-      padding:0.35rem 0.75rem; border-radius:var(--r4);
-      transition:all 0.2s;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text3);
+      text-decoration: none;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--r4);
+      transition: all 0.2s;
     }
-    .ms-nav-links a:hover { color:var(--gold); background:rgba(212,168,67,0.07); }
+
+    .ms-nav-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 168, 67, 0.07);
+    }
 
     /* ═══ HERO SECTION ═══ */
     .ms-hero {
-      position:relative;
-      min-height:100vh;
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      text-align:center;
-      overflow:hidden;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
     }
+
     .ms-hero-bg {
-      position:absolute; inset:0;
+      position: absolute;
+      inset: 0;
       background: linear-gradient(135deg, #0a0510 0%, #1a0a20 30%, #0d0818 60%, #080608 100%);
-      z-index:0;
+      z-index: 0;
     }
+
     .ms-hero-bg::after {
-      content:'';
-      position:absolute; inset:0;
-      background:radial-gradient(ellipse at 50% 40%, rgba(212,168,67,0.06) 0%, transparent 60%);
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(212, 168, 67, 0.06) 0%, transparent 60%);
     }
 
     /* Floating particles canvas */
     #ms-particles {
-      position:absolute; inset:0; z-index:1;
-      pointer-events:none;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
     }
 
     /* Hero orbs */
     .ms-orb {
-      position:absolute; border-radius:50%;
-      filter:blur(100px); pointer-events:none; z-index:1;
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 1;
     }
+
     .ms-orb-1 {
-      width:450px; height:450px;
-      background:radial-gradient(circle, rgba(212,168,67,0.12) 0%, transparent 70%);
-      top:-5%; right:-8%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(212, 168, 67, 0.12) 0%, transparent 70%);
+      top: -5%;
+      right: -8%;
       animation: orbFloat1 14s ease-in-out infinite;
     }
+
     .ms-orb-2 {
-      width:350px; height:350px;
-      background:radial-gradient(circle, rgba(196,48,96,0.08) 0%, transparent 70%);
-      bottom:10%; left:-8%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(196, 48, 96, 0.08) 0%, transparent 70%);
+      bottom: 10%;
+      left: -8%;
       animation: orbFloat2 18s ease-in-out infinite;
     }
+
     .ms-orb-3 {
-      width:250px; height:250px;
-      background:radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 70%);
-      top:40%; left:60%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(212, 168, 67, 0.08) 0%, transparent 70%);
+      top: 40%;
+      left: 60%;
       animation: orbFloat3 20s ease-in-out infinite;
     }
-    @keyframes orbFloat1 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-30px,40px);} }
-    @keyframes orbFloat2 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(40px,-30px);} }
-    @keyframes orbFloat3 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-20px,20px) scale(1.1);} }
+
+    @keyframes orbFloat1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(-30px, 40px);
+      }
+    }
+
+    @keyframes orbFloat2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(40px, -30px);
+      }
+    }
+
+    @keyframes orbFloat3 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(-20px, 20px) scale(1.1);
+      }
+    }
 
     .ms-hero-content {
-      position:relative; z-index:2;
-      max-width:700px; padding:0 2rem;
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      padding: 0 2rem;
     }
+
     .ms-hero-label {
-      font-family:'DM Mono',monospace;
-      font-size:0.58rem; letter-spacing:0.5em;
-      text-transform:uppercase; color:var(--gold3);
-      margin-bottom:1.5rem;
-      opacity:0; animation: heroFade 1s 0.2s ease forwards;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--gold3);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: textReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
+
     .ms-hero-names {
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(3rem, 8vw, 6rem);
-      font-weight:300; font-style:italic;
-      line-height:1.05; letter-spacing:-0.02em;
-      color:var(--text);
-      margin-bottom:1rem;
-      opacity:0; animation: heroFade 1.2s 0.4s ease forwards;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: titleExpand 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transition: text-shadow 0.4s ease, transform 0.4s ease;
+      cursor: default;
     }
+
+    .ms-hero-names:hover {
+      text-shadow: 0 0 15px rgba(212, 168, 67, 0.4);
+      transform: scale(1.02);
+    }
+
     .ms-hero-names .ms-amp {
-      color:var(--gold);
-      font-size:0.65em;
-      display:inline-block;
-      margin:0 0.15em;
+      color: var(--gold);
+      font-size: 0.65em;
+      display: inline-block;
+      margin: 0 0.15em;
     }
+
     .ms-hero-date {
-      font-family:'Outfit',sans-serif;
-      font-size:clamp(0.9rem, 2vw, 1.15rem);
-      font-weight:500; letter-spacing:0.15em;
-      color:var(--gold);
-      margin-bottom:2rem;
-      opacity:0; animation: heroFade 1s 0.7s ease forwards;
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(0.9rem, 2vw, 1.15rem);
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: textReveal 1.4s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
+
     .ms-hero-divider {
-      width:60px; height:1px;
-      background:linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin:0 auto 2rem;
-      opacity:0; animation: heroFade 1s 0.9s ease forwards;
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 2rem;
+      opacity: 0;
+      animation: heroFade 1s 0.9s ease forwards;
     }
+
     .ms-hero-scroll-hint {
-      position:absolute; bottom:2.5rem; left:50%;
-      transform:translateX(-50%);
-      display:flex; flex-direction:column;
-      align-items:center; gap:0.5rem; z-index:2;
-      opacity:0; animation: heroFade 1s 1.2s ease forwards;
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 2;
+      opacity: 0;
+      animation: heroFade 1s 1.2s ease forwards;
     }
+
     .ms-hero-scroll-hint span {
-      font-family:'DM Mono',monospace;
-      font-size:0.55rem; letter-spacing:0.25em;
-      color:var(--text3); text-transform:uppercase;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      color: var(--text3);
+      text-transform: uppercase;
     }
+
     .ms-scroll-arrow {
-      width:20px; height:20px;
-      border-right:1.5px solid var(--gold3);
-      border-bottom:1.5px solid var(--gold3);
-      transform:rotate(45deg);
-      animation:scrollBounce 2s ease-in-out infinite;
+      width: 20px;
+      height: 20px;
+      border-right: 1.5px solid var(--gold3);
+      border-bottom: 1.5px solid var(--gold3);
+      transform: rotate(45deg);
+      animation: scrollBounce 2s ease-in-out infinite;
     }
+
     @keyframes scrollBounce {
-      0%,100%{ transform:rotate(45deg) translate(0,0); opacity:0.5; }
-      50%{ transform:rotate(45deg) translate(4px,4px); opacity:1; }
+
+      0%,
+      100% {
+        transform: rotate(45deg) translate(0, 0);
+        opacity: 0.5;
+      }
+
+      50% {
+        transform: rotate(45deg) translate(4px, 4px);
+        opacity: 1;
+      }
     }
+
+    /* Blinking CSS Stars */
+    .ms-star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 4px white;
+      animation: starTwinkle 3s infinite ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .ms-star-1 { top: 20%; left: 15%; animation-delay: 0s; width: 3px; height: 3px; }
+    .ms-star-2 { top: 35%; left: 80%; animation-delay: 0.5s; }
+    .ms-star-3 { top: 75%; left: 22%; animation-delay: 1s; width: 4px; height: 4px; }
+    .ms-star-4 { top: 50%; left: 90%; animation-delay: 1.5s; }
+    .ms-star-5 { top: 15%; left: 72%; animation-delay: 2s; }
+    .ms-star-6 { top: 80%; left: 75%; animation-delay: 2.5s; width: 3px; height: 3px; }
+
+    @keyframes starTwinkle {
+      0%, 100% {
+        opacity: 0.15;
+        transform: scale(0.8);
+      }
+      50% {
+        opacity: 0.95;
+        transform: scale(1.3);
+        box-shadow: 0 0 8px var(--gold);
+      }
+    }
+
     @keyframes heroFade {
-      from { opacity:0; transform:translateY(20px); }
-      to   { opacity:1; transform:translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes textReveal {
+      from {
+        opacity: 0;
+        letter-spacing: 0.3em;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        letter-spacing: 0.15em;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes titleExpand {
+      from {
+        opacity: 0;
+        transform: scale(0.96) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
     /* ═══ SECTION COMMONS ═══ */
     .ms-section {
-      padding:6rem 2.5rem;
-      position:relative;
+      padding: 6rem 2.5rem;
+      position: relative;
     }
-    .ms-inner { max-width:800px; margin:0 auto; }
+
+    .ms-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    #story {
+      position: relative;
+      background-image: linear-gradient(rgba(8, 6, 8, 0.88), rgba(8, 6, 8, 0.88)), url('e0.jfif');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      z-index: 1;
+    }
+
     .ms-sec-label {
-      font-family:'DM Mono',monospace;
-      font-size:0.58rem; letter-spacing:0.35em;
-      text-transform:uppercase; color:var(--gold);
-      display:flex; align-items:center; gap:0.65rem;
-      margin-bottom:1.25rem;
-      text-align:center; justify-content:center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 1.25rem;
+      text-align: center;
+      justify-content: center;
     }
-    .ms-sec-label::before, .ms-sec-label::after {
-      content:''; width:22px; height:1px; background:var(--gold3);
+
+    .ms-sec-label::before,
+    .ms-sec-label::after {
+      content: '';
+      width: 22px;
+      height: 1px;
+      background: var(--gold3);
     }
+
     .ms-sec-title {
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(2rem, 4.5vw, 3.2rem);
-      font-weight:300; line-height:1.1;
-      color:var(--text);
-      text-align:center;
-      margin-bottom:1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 1rem;
     }
-    .ms-sec-title em { font-style:italic; color:var(--gold); }
+
+    .ms-sec-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
 
     /* Scroll reveal */
     .ms-reveal {
-      opacity:0; transform:translateY(30px);
+      opacity: 0;
+      transform: translateY(30px);
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
+
     .ms-reveal.visible {
-      opacity:1; transform:translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* ═══ COUNTDOWN ═══ */
     .ms-countdown {
-      background:var(--ink2);
-      border-top:1px solid var(--border);
-      border-bottom:1px solid var(--border);
-      padding:4rem 2.5rem;
+      background: var(--ink2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 2.5rem;
     }
+
     .ms-countdown-grid {
-      display:flex; justify-content:center; gap:1.5rem;
-      flex-wrap:wrap;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
     }
+
     .ms-cd-unit {
-      display:flex; flex-direction:column;
-      align-items:center; gap:0.5rem;
-      min-width:100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 100px;
     }
+
     .ms-cd-num {
-      font-family:'Outfit',sans-serif;
-      font-size:clamp(2.5rem, 6vw, 4rem);
-      font-weight:700; color:var(--text);
-      line-height:1;
-      background:var(--ink);
-      border:1px solid var(--border2);
-      border-radius:var(--r16);
-      padding:1rem 1.5rem;
-      min-width:100px; text-align:center;
-      position:relative;
-      overflow:hidden;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4),
-                  inset 0 1px 0 rgba(255,255,255,0.04);
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+      background: var(--ink);
+      border: 1px solid var(--border2);
+      border-radius: var(--r16);
+      padding: 1rem 1.5rem;
+      min-width: 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
     }
+
     .ms-cd-num::after {
-      content:'';
-      position:absolute; left:0; right:0;
-      top:50%; height:1px;
-      background:var(--border);
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: var(--border);
     }
+
     .ms-cd-label {
-      font-family:'DM Mono',monospace;
-      font-size:0.55rem; letter-spacing:0.3em;
-      text-transform:uppercase; color:var(--text3);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text3);
     }
 
     /* ═══ LOVE STORY ═══ */
     .ms-story-text {
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(1.1rem, 2.5vw, 1.4rem);
-      font-weight:400; line-height:1.9;
-      color:var(--text2);
-      text-align:center;
-      max-width:600px; margin:0 auto;
-      font-style:italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 400;
+      line-height: 1.9;
+      color: var(--text2);
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      font-style: italic;
     }
+
     .ms-story-decoration {
-      display:flex; align-items:center; justify-content:center;
-      gap:1rem; margin-top:2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2.5rem;
     }
+
     .ms-story-decoration .ms-deco-line {
-      width:50px; height:1px;
-      background:linear-gradient(90deg, transparent, var(--gold3));
+      width: 50px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold3));
     }
+
     .ms-story-decoration .ms-deco-line:last-child {
-      background:linear-gradient(90deg, var(--gold3), transparent);
+      background: linear-gradient(90deg, var(--gold3), transparent);
     }
+
     .ms-story-decoration .ms-deco-icon {
-      font-size:1.2rem; color:var(--gold);
+      font-size: 1.2rem;
+      color: var(--gold);
     }
 
     /* ═══ TIMELINE ═══ */
     .ms-timeline {
-      position:relative;
-      max-width:550px; margin:2.5rem auto 0;
+      position: relative;
+      max-width: 550px;
+      margin: 2.5rem auto 0;
     }
+
     .ms-timeline::before {
-      content:'';
-      position:absolute; left:50%; top:0; bottom:0;
-      width:1px;
-      background:linear-gradient(180deg, transparent, var(--gold3) 15%, var(--gold3) 85%, transparent);
-      transform:translateX(-50%);
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, var(--gold3) 15%, var(--gold3) 85%, transparent);
+      transform: translateX(-50%);
     }
+
     .ms-tl-item {
-      display:flex; align-items:flex-start;
-      margin-bottom:3rem;
-      position:relative;
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 3rem;
+      position: relative;
     }
-    .ms-tl-item:nth-child(odd) { flex-direction:row; }
-    .ms-tl-item:nth-child(even) { flex-direction:row-reverse; }
+
+    .ms-tl-item:nth-child(odd) {
+      flex-direction: row;
+    }
+
+    .ms-tl-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
 
     .ms-tl-dot {
-      position:absolute; left:50%; top:0.5rem;
-      width:14px; height:14px;
-      background:var(--ink); border:2px solid var(--gold);
-      border-radius:50%;
-      transform:translateX(-50%);
-      z-index:2;
-      box-shadow:0 0 12px rgba(212,168,67,0.25);
+      position: absolute;
+      left: 50%;
+      top: 0.5rem;
+      width: 14px;
+      height: 14px;
+      background: var(--ink);
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      box-shadow: 0 0 12px rgba(212, 168, 67, 0.25);
     }
+
+    .ms-tl-connector {
+      display: none;
+    }
+
     .ms-tl-card {
-      width:calc(50% - 2.5rem);
-      background:var(--ink2);
-      border:1px solid var(--border);
-      border-radius:var(--r16);
-      padding:1.25rem 1.5rem;
-      transition:border-color 0.3s;
+      width: calc(50% - 2.5rem);
+      background: var(--ink2);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      padding: 1.25rem 1.5rem;
+      transition: border-color 0.3s;
+      text-align: center;
     }
-    .ms-tl-card:hover { border-color:rgba(212,168,67,0.25); }
-    .ms-tl-item:nth-child(odd) .ms-tl-card { margin-right:auto; }
-    .ms-tl-item:nth-child(even) .ms-tl-card { margin-left:auto; }
+
+    .ms-tl-card:hover {
+      border-color: rgba(212, 168, 67, 0.25);
+    }
+
+    .ms-tl-item:nth-child(odd) .ms-tl-card {
+      margin-right: auto;
+    }
+
+    .ms-tl-item:nth-child(even) .ms-tl-card {
+      margin-left: auto;
+    }
 
     .ms-tl-name {
-      font-family:'Cormorant Garamond',serif;
-      font-size:1.2rem; font-weight:600;
-      color:var(--text); margin-bottom:0.35rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.35rem;
     }
+
     .ms-tl-date {
-      font-family:'DM Mono',monospace;
-      font-size:0.6rem; letter-spacing:0.15em;
-      color:var(--gold); margin-bottom:0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
     }
+
     .ms-tl-venue {
-      font-size:0.78rem; color:var(--text3);
-      line-height:1.5;
+      font-size: 0.78rem;
+      color: var(--text3);
+      line-height: 1.5;
+    }
+
+    .ms-tl-img-wrapper {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      padding: 3px;
+      background: var(--ink2);
+      margin: 0 auto 0.75rem;
+    }
+
+    .ms-tl-img-wrapper::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px dashed var(--gold3);
+      transform: translate(3px, 3px);
+      z-index: -1;
+      transition: transform 0.3s ease;
+    }
+
+    .ms-tl-card:hover .ms-tl-img-wrapper::after {
+      transform: translate(0px, 0px) rotate(45deg);
+    }
+
+    .ms-tl-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    @media(min-width: 769px) {
+      .ms-timeline {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        max-width: 1050px;
+        margin: 6rem auto;
+        height: 480px;
+      }
+
+      .ms-timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 3px;
+        background: var(--gold);
+        transform: translateY(-50%);
+        z-index: 1;
+      }
+
+      .ms-tl-item {
+        position: relative;
+        width: 30%;
+        height: 0;
+        top: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 2;
+        margin-bottom: 0;
+      }
+
+      .ms-tl-dot {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 14px;
+        height: 14px;
+        background: var(--ink);
+        border: 2.5px solid var(--gold);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        box-shadow: 0 0 10px rgba(212, 168, 67, 0.6);
+      }
+
+      .ms-tl-connector {
+        display: block;
+      }
+
+      /* Odd items: card placed above the line */
+      .ms-tl-item:nth-child(odd) .ms-tl-card {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 280px;
+        margin: 0;
+      }
+
+      .ms-tl-item:nth-child(odd) .ms-tl-connector {
+        position: absolute;
+        bottom: 0;
+        height: 40px;
+        left: 50%;
+        width: 1px;
+        border-left: 1.5px dashed var(--gold);
+        z-index: 1;
+      }
+
+      /* Even items: card placed below the line */
+      .ms-tl-item:nth-child(even) .ms-tl-card {
+        position: absolute;
+        top: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 280px;
+        margin: 0;
+      }
+
+      .ms-tl-item:nth-child(even) .ms-tl-connector {
+        position: absolute;
+        top: 0;
+        height: 40px;
+        left: 50%;
+        width: 1px;
+        border-left: 1.5px dashed var(--gold);
+        z-index: 1;
+      }
     }
 
     /* ═══ DRESS CODE ═══ */
     .ms-dress-grid {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:1.5rem;
-      max-width:700px;
-      margin:2.5rem auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 800px;
+      margin: 2.5rem auto 0;
     }
+
     .ms-dress-card {
-      background:var(--ink2);
-      border:1px solid var(--border2);
-      border-radius:var(--r24);
-      padding:2.5rem 2rem;
-      text-align:center;
-      position:relative;
-      overflow:hidden;
-      transition:all 0.35s;
+      background: var(--ink2);
+      border: 1px solid var(--border2);
+      border-radius: var(--r24);
+      padding: 2rem;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
     }
+
+    .ms-dress-info {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .ms-dress-img-wrapper {
+      flex: 0.8;
+      height: 180px;
+      border-radius: var(--r16);
+      overflow: hidden;
+      border: 1px solid var(--border2);
+      position: relative;
+      background: var(--ink);
+    }
+
+    .ms-dress-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
     .ms-dress-card::before {
-      content:'';
-      position:absolute; inset:-1px;
-      border-radius:var(--r24);
-      background:linear-gradient(135deg, rgba(212,168,67,0.15), transparent 50%, rgba(196,48,96,0.1));
-      z-index:0;
-      opacity:0;
-      transition:opacity 0.4s;
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: var(--r24);
+      background: linear-gradient(135deg, rgba(212, 168, 67, 0.15), transparent 50%, rgba(196, 48, 96, 0.1));
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.4s;
     }
-    .ms-dress-card:hover { border-color:rgba(212,168,67,0.25); transform:translateY(-4px); }
-    .ms-dress-card:hover::before { opacity:1; }
-    .ms-dress-card > * { position:relative; z-index:1; }
+
+    .ms-dress-card:hover {
+      border-color: rgba(212, 168, 67, 0.25);
+      transform: translateY(-4px);
+    }
+
+    .ms-dress-card:hover::before {
+      opacity: 1;
+    }
+
+    .ms-dress-card:hover .ms-dress-img {
+      transform: scale(1.1);
+    }
+
+    .ms-dress-card>* {
+      position: relative;
+      z-index: 1;
+    }
+
     .ms-dress-icon {
-      font-size:2.5rem; margin-bottom:1rem;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
     }
+
     .ms-dress-title {
-      font-family:'Cormorant Garamond',serif;
-      font-size:1.4rem; font-weight:600;
-      color:var(--gold); margin-bottom:0.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 0.25rem;
     }
+
     .ms-dress-value {
-      font-family:'Outfit',sans-serif;
-      font-size:1rem; font-weight:500;
-      color:var(--text); letter-spacing:0.05em;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.05em;
     }
+
     .ms-dress-hint {
-      font-size:0.72rem; color:var(--text3);
-      margin-top:0.85rem; line-height:1.6;
+      font-size: 0.72rem;
+      color: var(--text3);
+      line-height: 1.6;
     }
+
     @media(max-width:600px) {
-      .ms-dress-grid { grid-template-columns:1fr; }
+      .ms-dress-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* Shimmer animation */
     .ms-shimmer {
-      position:relative; overflow:hidden;
+      position: relative;
+      overflow: hidden;
     }
+
     .ms-shimmer::after {
-      content:'';
-      position:absolute; top:0; left:-100%; bottom:0;
-      width:60%; 
-      background:linear-gradient(90deg, transparent, rgba(212,168,67,0.06), transparent);
-      animation:shimmer 4s ease-in-out infinite;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      bottom: 0;
+      width: 60%;
+      background: linear-gradient(90deg, transparent, rgba(212, 168, 67, 0.06), transparent);
+      animation: shimmer 4s ease-in-out infinite;
     }
+
     @keyframes shimmer {
-      0%{ left:-100%; }
-      50%{ left:100%; }
-      100%{ left:100%; }
+      0% {
+        left: -100%;
+      }
+
+      50% {
+        left: 100%;
+      }
+
+      100% {
+        left: 100%;
+      }
     }
 
     /* ═══ GALLERY BENTO ═══ */
     .ms-gallery-grid {
-      display:grid;
-      grid-template-columns:repeat(6, 1fr);
-      grid-template-rows:200px 160px 200px;
-      gap:1.5rem;
-      margin-top:2.5rem;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: 200px 160px 200px;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
     }
+
     .ms-gallery-item {
-      border-radius:var(--r16);
-      overflow:hidden;
-      position:relative;
-      cursor:pointer;
-      border:1px solid var(--border);
-      transition:all 0.4s cubic-bezier(0.23,1,0.32,1);
+      border-radius: var(--r16);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
+
     .ms-gallery-item:hover {
-      transform:scale(1.03);
-      border-color:rgba(212,168,67,0.3);
-      box-shadow:0 12px 40px rgba(0,0,0,0.5);
+      transform: scale(1.03);
+      border-color: rgba(212, 168, 67, 0.3);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     }
+
     /* Collage layout matching the requested wireframe exactly */
-    .ms-gallery-item:nth-child(1) { grid-column:1/2; grid-row:1; }
-    .ms-gallery-item:nth-child(2) { grid-column:2/3; grid-row:1; }
-    .ms-gallery-item:nth-child(3) { grid-column:1/3; grid-row:2; }
-    .ms-gallery-item:nth-child(4) { grid-column:1/2; grid-row:3; }
-    .ms-gallery-item:nth-child(5) { grid-column:2/4; grid-row:3; }
-    .ms-gallery-item:nth-child(6) { grid-column:3/7; grid-row:1/3; }
-    .ms-gallery-item:nth-child(7) { grid-column:4/7; grid-row:3; }
-    
+    .ms-gallery-item:nth-child(1) {
+      grid-column: 1/2;
+      grid-row: 1;
+    }
+
+    .ms-gallery-item:nth-child(2) {
+      grid-column: 2/3;
+      grid-row: 1;
+    }
+
+    .ms-gallery-item:nth-child(3) {
+      grid-column: 1/3;
+      grid-row: 2;
+    }
+
+    .ms-gallery-item:nth-child(4) {
+      grid-column: 1/2;
+      grid-row: 3;
+    }
+
+    .ms-gallery-item:nth-child(5) {
+      grid-column: 2/4;
+      grid-row: 3;
+    }
+
+    .ms-gallery-item:nth-child(6) {
+      grid-column: 3/7;
+      grid-row: 1/3;
+    }
+
+    .ms-gallery-item:nth-child(7) {
+      grid-column: 4/7;
+      grid-row: 3;
+    }
+
     .ms-gallery-item img {
-      width:100%; height:100%;
-      object-fit:cover;
-      display:block;
-      transition:transform 0.6s;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s;
     }
-    .ms-gallery-item:hover img { transform:scale(1.08); }
+
+    .ms-gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
     .ms-gallery-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6));
-      opacity:0; transition:opacity 0.3s;
-      display:flex; align-items:flex-end;
-      padding:1rem;
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.6));
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
     }
-    .ms-gallery-item:hover .ms-gallery-overlay { opacity:1; }
+
+    .ms-gallery-item:hover .ms-gallery-overlay {
+      opacity: 1;
+    }
+
     .ms-gallery-overlay span {
-      font-family:'DM Mono',monospace;
-      font-size:0.6rem; color:var(--gold);
-      letter-spacing:0.15em; text-transform:uppercase;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
     }
+
     @media(max-width:768px) {
-      .ms-gallery-grid { 
-        grid-template-columns: repeat(2, 1fr); 
+      .ms-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
         gap: 0.75rem;
       }
+
       .ms-gallery-item {
         grid-column: span 1 !important;
         grid-row: auto !important;
         height: 180px;
       }
+
       .ms-gallery-item:nth-child(3),
       .ms-gallery-item:nth-child(6),
       .ms-gallery-item:nth-child(7) {
@@ -541,212 +1124,395 @@
 
     /* ═══ RSVP ═══ */
     .ms-rsvp-card {
-      max-width:650px; margin:2.5rem auto 0;
-      background:var(--ink2);
-      border:1px solid var(--border2);
-      border-radius:var(--r24);
-      padding:2.5rem 3rem;
-      display:flex;
-      flex-direction:column;
-      gap:1.5rem;
+      max-width: 650px;
+      margin: 2.5rem auto 0;
+      background: var(--ink2);
+      border: 1px solid var(--border2);
+      border-radius: var(--r24);
+      padding: 2.5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
+
     .ms-rsvp-left {
-      display:flex;
-      flex-direction:column;
-      gap:0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
+
     .ms-rsvp-right {
-      display:flex;
-      flex-direction:column;
-      gap:0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
+
     .ms-rsvp-field {
-      background:rgba(255,255,255,0.04);
-      border:1px solid var(--border2);
-      border-radius:var(--r8);
-      padding:0.75rem 1rem;
-      font-size:0.875rem; color:var(--text);
-      font-family:'Manrope',sans-serif;
-      outline:none; width:100%;
-      transition:border-color 0.2s;
-      margin-bottom:1rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border2);
+      border-radius: var(--r8);
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+      margin-bottom: 1rem;
     }
-    .ms-rsvp-field:focus { border-color:rgba(212,168,67,0.45); }
-    .ms-rsvp-field::placeholder { color:var(--text3); }
+
+    .ms-rsvp-field:focus {
+      border-color: rgba(212, 168, 67, 0.45);
+    }
+
+    .ms-rsvp-field::placeholder {
+      color: var(--text3);
+    }
+
     .ms-rsvp-label {
-      font-family:'DM Mono',monospace;
-      font-size:0.58rem; letter-spacing:0.2em;
-      text-transform:uppercase; color:var(--text3);
-      margin-bottom:0.4rem; display:block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 0.4rem;
+      display: block;
     }
 
     .ms-rsvp-options {
-      display:flex; gap:0.5rem; margin-bottom:1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
+
     .ms-rsvp-opt {
-      flex:1; padding:0.75rem;
-      background:rgba(255,255,255,0.03);
-      border:1px solid var(--border);
-      border-radius:var(--r8);
-      font-family:'Manrope',sans-serif;
-      font-size:0.8rem; font-weight:600;
-      color:var(--text2); cursor:pointer;
-      text-align:center; transition:all 0.25s;
+      flex: 1;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--r8);
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text2);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.25s;
     }
-    .ms-rsvp-opt:hover { border-color:rgba(212,168,67,0.3); color:var(--gold); }
+
+    .ms-rsvp-opt:hover {
+      border-color: rgba(212, 168, 67, 0.3);
+      color: var(--gold);
+    }
+
     .ms-rsvp-opt.selected {
-      background:rgba(212,168,67,0.1);
-      border-color:rgba(212,168,67,0.4);
-      color:var(--gold);
+      background: rgba(212, 168, 67, 0.1);
+      border-color: rgba(212, 168, 67, 0.4);
+      color: var(--gold);
     }
+
     .ms-rsvp-submit {
-      width:100%; padding:0.85rem;
-      background:var(--gold); color:var(--ink);
-      border:none; border-radius:var(--r8);
-      font-family:'Manrope',sans-serif;
-      font-size:0.85rem; font-weight:700;
-      letter-spacing:0.05em; cursor:pointer;
-      transition:all 0.25s;
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      border-radius: var(--r8);
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.25s;
     }
+
     .ms-rsvp-submit:hover {
-      background:var(--gold2);
-      box-shadow:0 0 30px rgba(212,168,67,0.3);
-      transform:translateY(-2px);
+      background: var(--gold2);
+      box-shadow: 0 0 30px rgba(212, 168, 67, 0.3);
+      transform: translateY(-2px);
     }
 
     .ms-rsvp-responses {
-      margin-top:2rem;
-      border-top:1px solid var(--border);
-      padding-top:1.5rem;
+      margin-top: 2rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
     }
+
     .ms-rsvp-responses:empty {
       display: none;
       margin-top: 0;
       padding-top: 0;
       border-top: none;
     }
+
     .ms-rsvp-responses h4 {
-      font-family:'DM Mono',monospace;
-      font-size:0.58rem; letter-spacing:0.25em;
-      color:var(--text3); text-transform:uppercase;
-      margin-bottom:1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.25em;
+      color: var(--text3);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
     }
+
     .ms-rsvp-entry {
-      display:flex; justify-content:space-between;
-      align-items:center;
-      padding:0.6rem 0;
-      border-bottom:1px solid var(--border);
-      font-size:0.82rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
     }
-    .ms-rsvp-entry-name { color:var(--text); font-weight:600; }
+
+    .ms-rsvp-entry-name {
+      color: var(--text);
+      font-weight: 600;
+    }
+
     .ms-rsvp-entry-status {
-      font-family:'DM Mono',monospace;
-      font-size:0.6rem; letter-spacing:0.12em;
-      padding:0.2rem 0.6rem; border-radius:var(--r4);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--r4);
     }
-    .ms-rsvp-yes { background:rgba(58,154,58,0.1); border:1px solid rgba(58,154,58,0.2); color:#5ABA5A; }
-    .ms-rsvp-no { background:rgba(232,93,48,0.1); border:1px solid rgba(232,93,48,0.2); color:#E85D30; }
-    .ms-rsvp-maybe { background:rgba(212,168,67,0.1); border:1px solid rgba(212,168,67,0.2); color:var(--gold); }
+
+    .ms-rsvp-yes {
+      background: rgba(58, 154, 58, 0.1);
+      border: 1px solid rgba(58, 154, 58, 0.2);
+      color: #5ABA5A;
+    }
+
+    .ms-rsvp-no {
+      background: rgba(232, 93, 48, 0.1);
+      border: 1px solid rgba(232, 93, 48, 0.2);
+      color: #E85D30;
+    }
+
+    .ms-rsvp-maybe {
+      background: rgba(212, 168, 67, 0.1);
+      border: 1px solid rgba(212, 168, 67, 0.2);
+      color: var(--gold);
+    }
+
     @media(max-width:768px) {
-      .ms-rsvp-card { grid-template-columns:1fr; padding:2rem 1.5rem; gap:1.5rem; }
+      .ms-rsvp-card {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
+      }
     }
 
     /* ═══ FOOTER ═══ */
     .ms-footer {
-      border-top:1px solid var(--border);
-      padding:3rem 2.5rem;
-      text-align:center;
+      border-top: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      text-align: center;
     }
+
     .ms-footer-brand {
-      font-family:'Cormorant Garamond',serif;
-      font-size:1.2rem; font-weight:300;
-      font-style:italic; color:var(--gold3);
-      margin-bottom:0.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gold3);
+      margin-bottom: 0.5rem;
     }
+
     .ms-footer-brand a {
-      color:var(--gold); text-decoration:none;
-      transition:color 0.2s;
+      color: var(--gold);
+      text-decoration: none;
+      transition: color 0.2s;
     }
-    .ms-footer-brand a:hover { color:var(--gold2); }
+
+    .ms-footer-brand a:hover {
+      color: var(--gold2);
+    }
+
     .ms-footer-copy {
-      font-family:'DM Mono',monospace;
-      font-size:0.55rem; color:var(--text3);
-      letter-spacing:0.12em;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text3);
+      letter-spacing: 0.12em;
     }
+
     .ms-back-top {
-      display:inline-flex; align-items:center;
-      gap:0.4rem; margin-top:1.5rem;
-      font-family:'Manrope',sans-serif;
-      font-size:0.75rem; font-weight:600;
-      color:var(--text3); text-decoration:none;
-      padding:0.5rem 1.2rem;
-      border:1px solid var(--border);
-      border-radius:var(--r4);
-      transition:all 0.25s; cursor:pointer;
-      background:none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.5rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text3);
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: var(--r4);
+      transition: all 0.25s;
+      cursor: pointer;
+      background: none;
     }
-    .ms-back-top:hover { border-color:var(--gold); color:var(--gold); }
+
+    .ms-back-top:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
 
     /* ═══ TOAST ═══ */
     #ms-toast {
-      position:fixed; bottom:2rem; left:50%;
-      transform:translateX(-50%) translateY(80px);
-      background:var(--ink2); border:1px solid rgba(212,168,67,0.3);
-      border-radius:var(--r4); padding:0.75rem 1.75rem;
-      font-family:'DM Mono',monospace; font-size:0.72rem;
-      color:var(--gold); letter-spacing:0.08em;
-      z-index:9990; transition:transform 0.3s cubic-bezier(0.23,1,0.32,1);
-      pointer-events:none; white-space:nowrap;
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--ink2);
+      border: 1px solid rgba(212, 168, 67, 0.3);
+      border-radius: var(--r4);
+      padding: 0.75rem 1.75rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      z-index: 9990;
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      pointer-events: none;
+      white-space: nowrap;
     }
-    #ms-toast.show { transform:translateX(-50%) translateY(0); }
+
+    #ms-toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
 
     /* ═══ NOT FOUND STATE ═══ */
     .ms-not-found {
-      min-height:100vh; display:flex;
-      flex-direction:column; align-items:center;
-      justify-content:center; text-align:center;
-      gap:1.5rem; padding:2rem;
-    }
-    .ms-not-found-icon { font-size:3rem; }
-    .ms-not-found h1 {
-      font-family:'Cormorant Garamond',serif;
-      font-size:2.5rem; font-weight:300;
-      color:var(--text);
-    }
-    .ms-not-found p {
-      font-size:0.9rem; color:var(--text3);
-      max-width:400px; line-height:1.7;
-    }
-    .ms-not-found a {
-      display:inline-flex; padding:0.7rem 2rem;
-      background:var(--gold); color:var(--ink);
-      border-radius:var(--r4); text-decoration:none;
-      font-weight:700; font-size:0.85rem;
-      transition:all 0.25s;
-    }
-    .ms-not-found a:hover {
-      background:var(--gold2);
-      transform:translateY(-2px);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 1.5rem;
+      padding: 2rem;
     }
 
-    /* ═══ RESPONSIVE ═══ */
-    @media(max-width:768px) {
-      .ms-section { padding:4rem 1.25rem; }
-      .ms-nav { padding:0 1.25rem; }
-      .ms-nav-links { display:none; }
-      .ms-gallery-grid { grid-template-columns:1fr 1fr; }
-      .ms-gallery-item:nth-child(1) { grid-row:span 1; }
-      .ms-countdown-grid { gap:0.75rem; }
-      .ms-cd-num { font-size:2rem; padding:0.75rem 1rem; min-width:70px; }
-      .ms-timeline::before { left:1.5rem; }
-      .ms-tl-item { flex-direction:row !important; }
-      .ms-tl-dot { left:1.5rem; }
-      .ms-tl-card { width:calc(100% - 4rem) !important; margin-left:auto !important; margin-right:0 !important; }
-      .ms-rsvp-options { flex-direction:column; }
+    .ms-not-found-icon {
+      font-size: 3rem;
     }
+
+    .ms-not-found h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--text);
+    }
+
+    .ms-not-found p {
+      font-size: 0.9rem;
+      color: var(--text3);
+      max-width: 400px;
+      line-height: 1.7;
+    }
+
+    .ms-not-found a {
+      display: inline-flex;
+      padding: 0.    /* ═══ RESPONSIVE ═══ */
+    @media(max-width:768px) {
+      .ms-section {
+        padding: 4rem 1.25rem;
+      }
+
+      .ms-nav {
+        padding: 0 1.25rem;
+      }
+
+      .ms-nav-links {
+        display: none;
+      }
+
+      .ms-gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .ms-gallery-item:nth-child(1) {
+        grid-row: span 1;
+      }
+
+      .ms-countdown-grid {
+        gap: 0.75rem;
+      }
+
+      .ms-cd-num {
+        font-size: 2rem;
+        padding: 0.75rem 1rem;
+        min-width: 70px;
+      }
+
+      .ms-timeline::before {
+        left: 1.5rem;
+      }
+
+      .ms-tl-item {
+        flex-direction: row !important;
+        width: 100% !important;
+        height: auto !important;
+        margin-bottom: 2.5rem;
+        padding: 0 !important;
+        justify-content: flex-start !important;
+      }
+
+      .ms-tl-dot {
+        left: 1.5rem !important;
+        top: 2rem !important;
+        transform: translate(-50%, -50%) !important;
+      }
+
+      .ms-tl-connector {
+        display: none !important;
+      }
+
+      .ms-tl-card {
+        width: calc(100% - 4.5rem) !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        text-align: left !important;
+      }
+
+      .ms-tl-img-wrapper {
+        margin: 0 0 1rem 0 !important;
+      }
+
+      .ms-rsvp-options {
+        flex-direction: column;
+      }
+
+      .ms-dress-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ms-dress-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .ms-dress-img-wrapper {
+        height: 220px;
+        flex: none;
+        width: 100%;
+      }
+      
+      .ms-dress-info {
+        flex: none;
+        width: 100%;
+      }
+    }
+
     @media(max-width:480px) {
-      .ms-gallery-grid { grid-template-columns:1fr; }
-      .ms-cd-unit { min-width:60px; }
+      .ms-gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ms-cd-unit {
+        min-width: 60px;
+      }
     }
 
     /* Flower Confetti Petal */
@@ -758,51 +1524,69 @@
       user-select: none;
       animation: fallAndRotate 4s linear forwards;
     }
+
     @keyframes fallAndRotate {
       0% {
         transform: translate3d(0, 0, 0) rotate(0deg);
         opacity: 1;
       }
+
       90% {
         opacity: 1;
       }
+
       100% {
         transform: translate3d(var(--drift-x), 100vh, 0) rotate(var(--rot-deg));
         opacity: 0;
       }
     }
 
-    /* Floating Flower Popper Button */
-    #confetti-trigger-btn {
+    /* Floating Flower Popper Buttons */
+    .ms-float-btn {
       position: fixed;
       bottom: 2rem;
-      right: 2rem;
       z-index: 4000;
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--rose));
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: var(--ink2);
+      border: 1.5px solid var(--gold);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    #confetti-trigger-btn:hover {
-      transform: scale(1.15) rotate(15deg);
-      box-shadow: 0 12px 32px rgba(212, 168, 67, 0.4);
+
+    .ms-float-btn-right {
+      right: 2rem;
     }
-    #confetti-trigger-btn:active {
+
+    .ms-float-btn-left {
+      left: 2rem;
+    }
+
+    .ms-float-btn:hover {
+      transform: scale(1.12) translateY(-2px);
+      background: var(--gold);
+      box-shadow: 0 8px 24px rgba(212, 168, 67, 0.3);
+    }
+
+    .ms-float-btn:active {
       transform: scale(0.95);
     }
-    #confetti-trigger-btn span {
-      font-size: 1.5rem;
+
+    .ms-float-btn span {
+      font-size: 1.1rem;
       transition: transform 0.2s;
       display: inline-block;
     }
 
+    .ms-float-btn:hover span {
+      transform: rotate(15deg);
+      filter: brightness(1.2);
+    }
 
     /* Flower Confetti Popper Exploding */
     .flower-petal-pop {
@@ -813,15 +1597,18 @@
       user-select: none;
       animation: popOut 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
     }
+
     @keyframes popOut {
       0% {
         transform: translate3d(0, 0, 0) scale(0) rotate(0deg);
         opacity: 0;
       }
+
       15% {
         opacity: 1;
         transform: translate3d(var(--pop-x), var(--pop-y), 0) scale(1.2) rotate(var(--rot-deg-mid));
       }
+
       100% {
         transform: translate3d(calc(var(--pop-x) * 1.3), calc(var(--pop-y) + 150px), 0) scale(0.8) rotate(var(--rot-deg));
         opacity: 0;
@@ -829,19 +1616,25 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- ═══ PAGE LOADER ═══ -->
   <div id="ms-loader">
     <div class="ms-loader-names" id="loader-names">Loading…</div>
     <div class="ms-loader-tagline">a wedding celebration</div>
-    <div class="ms-loader-bar"><div class="ms-loader-fill" id="loader-fill"></div></div>
+    <div class="ms-loader-bar">
+      <div class="ms-loader-fill" id="loader-fill"></div>
+    </div>
   </div>
 
   <!-- ═══ FLOATING NAV ═══ -->
   <nav class="ms-nav" id="ms-nav">
     <div style="display: flex; align-items: center; gap: 1rem;">
-      <a href="index.html" style="color: var(--gold); border: 1px solid rgba(212,168,67,0.25); border-radius: var(--r4); padding: 0.35rem 0.75rem; font-size: 0.7rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(212,168,67,0.07)'" onmouseout="this.style.background='transparent'">← Back to Home</a>
+      <a href="index.html"
+        style="color: var(--gold); border: 1px solid rgba(212,168,67,0.25); border-radius: var(--r4); padding: 0.35rem 0.75rem; font-size: 0.7rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem; transition: all 0.2s;"
+        onmouseover="this.style.background='rgba(212,168,67,0.07)'" onmouseout="this.style.background='transparent'">←
+        Back to Home</a>
       <div class="ms-nav-url" id="nav-url">varnam.wedding/...</div>
     </div>
     <ul class="ms-nav-links">
@@ -858,8 +1651,11 @@
   <!-- ═══ TOAST ═══ -->
   <div id="ms-toast"></div>
 
-  <!-- ═══ FLOATING FLOWER POPPER ═══ -->
-  <button id="confetti-trigger-btn" onclick="triggerFlowerPopper(true)" title="Celebrate with flowers!">
+  <!-- ═══ FLOATING FLOWER POPPERS ═══ -->
+  <button id="confetti-trigger-btn-left" class="ms-float-btn ms-float-btn-left" onclick="triggerFlowerPopper(true, 'left')" title="Celebrate with flowers!">
+    <span>🌸</span>
+  </button>
+  <button id="confetti-trigger-btn" class="ms-float-btn ms-float-btn-right" onclick="triggerFlowerPopper(true, 'right')" title="Celebrate with flowers!">
     <span>🌸</span>
   </button>
 
@@ -879,7 +1675,7 @@
     }
 
     // Read slug from URL hash
-    const slug = window.location.hash.replace('#','').trim();
+    const slug = window.location.hash.replace('#', '').trim();
     if (!slug) {
       showNotFound();
     } else {
@@ -962,10 +1758,24 @@
           } else if (name.toLowerCase().includes('reception')) {
             venueText = 'An evening of joy, feasting, and unforgettable memories together.';
           }
+
+          let imgUrl = 'couple_portrait.png';
+          if (name.toLowerCase().includes('sangeet')) {
+            imgUrl = 'couple_sangeet.png';
+          } else if (name.toLowerCase().includes('wedding') || name.toLowerCase().includes('marriage') || name.toLowerCase().includes('pheras')) {
+            imgUrl = 'couple_pheras.png';
+          } else if (name.toLowerCase().includes('reception') || name.toLowerCase().includes('party')) {
+            imgUrl = 'couple_jaimala.png';
+          }
+
           eventsHtml += `
             <div class="ms-tl-item ms-reveal">
               <div class="ms-tl-dot"></div>
+              <div class="ms-tl-connector"></div>
               <div class="ms-tl-card ms-shimmer">
+                <div class="ms-tl-img-wrapper">
+                  <img class="ms-tl-img" src="${imgUrl}" alt="${name}">
+                </div>
                 <div class="ms-tl-name">${name}</div>
                 <div class="ms-tl-date">${details}</div>
                 <div class="ms-tl-venue">${venueText}</div>
@@ -976,11 +1786,15 @@
       } else {
         const ev1Parts = (site.event1 || '').split(/\s*[—–-]\s*/);
         const ev2Parts = (site.event2 || '').split(/\s*[—–-]\s*/);
-        
+
         eventsHtml += `
           <div class="ms-tl-item ms-reveal">
             <div class="ms-tl-dot"></div>
+            <div class="ms-tl-connector"></div>
             <div class="ms-tl-card ms-shimmer">
+              <div class="ms-tl-img-wrapper">
+                <img class="ms-tl-img" src="couple_sangeet.png" alt="Sangeet">
+              </div>
               <div class="ms-tl-name">${ev1Parts[0] || 'Event 1'}</div>
               <div class="ms-tl-date">${ev1Parts.slice(1).join(' — ') || ''}</div>
               <div class="ms-tl-venue">A night of music, dance, and celebration with family and friends.</div>
@@ -988,7 +1802,11 @@
           </div>
           <div class="ms-tl-item ms-reveal">
             <div class="ms-tl-dot"></div>
+            <div class="ms-tl-connector"></div>
             <div class="ms-tl-card ms-shimmer">
+              <div class="ms-tl-img-wrapper">
+                <img class="ms-tl-img" src="couple_pheras.png" alt="Wedding">
+              </div>
               <div class="ms-tl-name">${ev2Parts[0] || 'Event 2'}</div>
               <div class="ms-tl-date">${ev2Parts.slice(1).join(' — ') || ''}</div>
               <div class="ms-tl-venue">The grand ceremony uniting two families in timeless tradition.</div>
@@ -996,7 +1814,11 @@
           </div>
           <div class="ms-tl-item ms-reveal">
             <div class="ms-tl-dot"></div>
+            <div class="ms-tl-connector"></div>
             <div class="ms-tl-card ms-shimmer">
+              <div class="ms-tl-img-wrapper">
+                <img class="ms-tl-img" src="couple_jaimala.png" alt="Reception">
+              </div>
               <div class="ms-tl-name">Reception</div>
               <div class="ms-tl-date">Evening Celebration</div>
               <div class="ms-tl-venue">An evening of joy, feasting, and unforgettable memories together.</div>
@@ -1024,6 +1846,12 @@
             <div class="ms-orb ms-orb-1"></div>
             <div class="ms-orb ms-orb-2"></div>
             <div class="ms-orb ms-orb-3"></div>
+            <div class="ms-star ms-star-1"></div>
+            <div class="ms-star ms-star-2"></div>
+            <div class="ms-star ms-star-3"></div>
+            <div class="ms-star ms-star-4"></div>
+            <div class="ms-star ms-star-5"></div>
+            <div class="ms-star ms-star-6"></div>
           </div>
           <canvas id="ms-particles"></canvas>
           <div class="ms-hero-content">
@@ -1095,19 +1923,27 @@
         <section class="ms-section" id="dresscode">
           <div class="ms-inner ms-reveal" style="text-align:center;">
             <div class="ms-sec-label">Attire</div>
-            <h2 class="ms-sec-title">What to <em>Wear</em></h2>
+            <h2 class="ms-sec-title">What We <em>Wear</em></h2>
             <div class="ms-dress-grid">
               <div class="ms-dress-card ms-shimmer">
-                <div class="ms-dress-icon">👰</div>
-                <div class="ms-dress-title">For the Bride's Side</div>
-                <div class="ms-dress-value">${site.dressCode}</div>
-                <div class="ms-dress-hint">Elegant sarees, lehengas, or anarkalis in vibrant jewel tones. Think rich silks, zari, and traditional gold jewelry.</div>
+                <div class="ms-dress-info">
+                  <div class="ms-dress-title">For the Bride's Side</div>
+                  <div class="ms-dress-value">${site.dressCode}</div>
+                  <div class="ms-dress-hint">Elegant sarees, lehengas, or anarkalis in vibrant jewel tones. Think rich silks, zari, and traditional gold jewelry.</div>
+                </div>
+                <div class="ms-dress-img-wrapper">
+                  <img class="ms-dress-img" src="bride_dress.png" alt="Bridal Attire">
+                </div>
               </div>
               <div class="ms-dress-card ms-shimmer">
-                <div class="ms-dress-icon">🤵</div>
-                <div class="ms-dress-title">For the Groom's Side</div>
-                <div class="ms-dress-value">${site.dressCode}</div>
-                <div class="ms-dress-hint">Classic sherwanis, kurta-pajamas, or bandhgalas in complementary tones. Turbans and pocket squares encouraged.</div>
+                <div class="ms-dress-info">
+                  <div class="ms-dress-title">For the Groom's Side</div>
+                  <div class="ms-dress-value">${site.dressCode}</div>
+                  <div class="ms-dress-hint">Classic sherwanis, kurta-pajamas, or bandhgalas in complementary tones. Turbans and pocket squares encouraged.</div>
+                </div>
+                <div class="ms-dress-img-wrapper">
+                  <img class="ms-dress-img" src="groom_dress.png" alt="Groom Attire">
+                </div>
               </div>
             </div>
           </div>
@@ -1162,8 +1998,6 @@
               <div style="display: flex; justify-content: center; width: 100%; margin-top: 1rem;">
                 <button class="ms-rsvp-submit" onclick="submitRsvp()" style="max-width: 320px; width: 100%;">Confirm RSVP →</button>
               </div>
-              
-              <div class="ms-rsvp-responses" id="rsvp-responses"></div>
             </div>
           </div>
         </section>
@@ -1181,13 +2015,12 @@
       initParticles();
       initScrollReveal();
       initNavReveal();
-      loadRsvpResponses();
     }
 
     /* ── Helpers ── */
     function formatDate(dateStr) {
       const d = new Date(dateStr + 'T00:00:00');
-      const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
     }
 
@@ -1196,19 +2029,19 @@
       function update() {
         const now = Date.now();
         const diff = Math.max(0, targetTs - now);
-        const days = Math.floor(diff / (1000*60*60*24));
-        const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-        const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
-        const secs = Math.floor((diff % (1000*60)) / 1000);
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
         const dEl = document.getElementById('cd-days');
         const hEl = document.getElementById('cd-hours');
         const mEl = document.getElementById('cd-mins');
         const sEl = document.getElementById('cd-secs');
-        if (dEl) dEl.textContent = String(days).padStart(2,'0');
-        if (hEl) hEl.textContent = String(hours).padStart(2,'0');
-        if (mEl) mEl.textContent = String(mins).padStart(2,'0');
-        if (sEl) sEl.textContent = String(secs).padStart(2,'0');
+        if (dEl) dEl.textContent = String(days).padStart(2, '0');
+        if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+        if (mEl) mEl.textContent = String(mins).padStart(2, '0');
+        if (sEl) sEl.textContent = String(secs).padStart(2, '0');
       }
       update();
       setInterval(update, 1000);
@@ -1236,19 +2069,37 @@
           x: Math.random() * w,
           y: Math.random() * h,
           r: Math.random() * 2 + 0.5,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3 - 0.15,
-          alpha: Math.random() * 0.5 + 0.1
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.5) * 0.2 - 0.1,
+          alpha: Math.random() * 0.6 + 0.1,
+          isStar: Math.random() > 0.65,
+          twinkleSpeed: Math.random() * 0.015 + 0.005,
+          twinkleDir: Math.random() > 0.5 ? 1 : -1
         });
       }
 
       function draw() {
         ctx.clearRect(0, 0, w, h);
         particles.forEach(p => {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(212,168,67,${p.alpha})`;
-          ctx.fill();
+          if (p.isStar) {
+            // Draw a small 4-point star
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y - p.r * 2.5);
+            ctx.lineTo(p.x + p.r * 0.6, p.y - p.r * 0.6);
+            ctx.lineTo(p.x + p.r * 2.5, p.y);
+            ctx.lineTo(p.x + p.r * 0.6, p.y + p.r * 0.6);
+            ctx.lineTo(p.x, p.y + p.r * 2.5);
+            ctx.lineTo(p.x - p.r * 0.6, p.y + p.r * 0.6);
+            ctx.lineTo(p.x - p.r * 2.5, p.y);
+            ctx.lineTo(p.x - p.r * 0.6, p.y - p.r * 0.6);
+            ctx.closePath();
+            ctx.fill();
+          } else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+          }
 
           p.x += p.vx;
           p.y += p.vy;
@@ -1258,9 +2109,15 @@
           if (p.y < 0) p.y = h;
           if (p.y > h) p.y = 0;
 
-          // Twinkle
-          p.alpha += (Math.random() - 0.5) * 0.01;
-          p.alpha = Math.max(0.05, Math.min(0.6, p.alpha));
+          // Twinkle logic
+          p.alpha += p.twinkleSpeed * p.twinkleDir;
+          if (p.alpha >= 0.75) {
+            p.alpha = 0.75;
+            p.twinkleDir = -1;
+          } else if (p.alpha <= 0.08) {
+            p.alpha = 0.08;
+            p.twinkleDir = 1;
+          }
         });
         requestAnimationFrame(draw);
       }
@@ -1315,7 +2172,7 @@
 
       const rsvpKey = 'varnam_rsvp_' + slug;
       let responses = JSON.parse(localStorage.getItem(rsvpKey) || '[]');
-      
+
       // Check if already responded
       const existing = responses.findIndex(r => r.name.toLowerCase() === name.toLowerCase());
       if (existing >= 0) {
@@ -1333,12 +2190,10 @@
       selectedRsvp = '';
 
       const statusMap = { yes: '🎉 Attending', no: '😔 Declined', maybe: '🤔 Maybe' };
-      msToast(`Thank you, ${name}! RSVP: ${statusMap[responses[responses.length-1].status]}`);
-      
+      msToast(`Thank you, ${name}! RSVP: ${statusMap[responses[responses.length - 1].status]}`);
+
       // Rain down flowers upon RSVP confirmation
       triggerFlowerPopper(false);
-      
-      loadRsvpResponses();
     }
 
     function loadRsvpResponses() {
@@ -1359,7 +2214,7 @@
         <h4>Responses (${responses.length})</h4>
         ${responses.map(r => `
           <div class="ms-rsvp-entry">
-            <span class="ms-rsvp-entry-name">${r.name} ${r.guests > 1 ? '(+' + (r.guests-1) + ')' : ''}</span>
+            <span class="ms-rsvp-entry-name">${r.name} ${r.guests > 1 ? '(+' + (r.guests - 1) + ')' : ''}</span>
             <span class="ms-rsvp-entry-status ${statusClasses[r.status]}">${statusLabels[r.status]}</span>
           </div>
         `).join('')}
@@ -1367,77 +2222,83 @@
     }
 
     /* ── Flower Confetti Popper ── */
-    function triggerFlowerPopper(fromButton = false) {
+    function triggerFlowerPopper(fromButton = false, side = 'right') {
       const flowers = ['🌸', '🌹', '🌺', '🌷', '🌼', '✨'];
       const container = document.body;
       const count = fromButton ? 35 : 45;
 
       for (let i = 0; i < count; i++) {
         const petal = document.createElement('div');
-        
+
         if (fromButton) {
           petal.className = 'flower-petal-pop';
           petal.textContent = flowers[Math.floor(Math.random() * flowers.length)];
-          
-          // Position at the bottom right corner (near the floating button)
-          petal.style.right = '3rem';
-          petal.style.bottom = '3rem';
-          
+
+          if (side === 'left') {
+            petal.style.left = '3rem';
+            petal.style.bottom = '3rem';
+            petal.style.right = 'auto';
+          } else {
+            petal.style.right = '3rem';
+            petal.style.bottom = '3rem';
+            petal.style.left = 'auto';
+          }
+
           // Generate angle between 15 and 75 degrees, converting to radians
-          const angle = (Math.random() * 60 + 15) * (Math.PI / 180); 
+          const angle = (Math.random() * 60 + 15) * (Math.PI / 180);
           const velocity = Math.random() * 450 + 200; // velocity in px
-          
-          // Calculate explosion vector (x is negative because it shoots left, y is negative because it shoots up)
-          const popX = -Math.cos(angle) * velocity;
+
+          // Calculate explosion vector (x is positive shoots right, negative shoots left)
+          const popX = (side === 'left' ? 1 : -1) * Math.cos(angle) * velocity;
           const popY = -Math.sin(angle) * velocity;
-          
+
           const rotMid = Math.random() * 180 - 90;
           const rotEnd = Math.random() * 360 - 180;
-          
+
           petal.style.setProperty('--pop-x', popX + 'px');
           petal.style.setProperty('--pop-y', popY + 'px');
           petal.style.setProperty('--rot-deg-mid', rotMid + 'deg');
           petal.style.setProperty('--rot-deg', rotEnd + 'deg');
-          
+
           // Scale sizing
           const size = Math.random() * 0.8 + 0.8;
           petal.style.fontSize = size + 'rem';
-          
+
           const duration = Math.random() * 1.5 + 1.5; // 1.5s to 3s
           petal.style.animationDuration = duration + 's';
-          
+
           container.appendChild(petal);
-          
+
           setTimeout(() => {
             petal.remove();
           }, duration * 1000);
-          
+
         } else {
           petal.className = 'flower-petal';
           petal.textContent = flowers[Math.floor(Math.random() * flowers.length)];
-          
+
           const startLeft = Math.random() * 100;
           petal.style.left = startLeft + 'vw';
-          
+
           const startTop = -(Math.random() * 20 + 20);
           petal.style.top = startTop + 'px';
-          
+
           const drift = (Math.random() * 40 - 20) * 10;
           const rotation = Math.random() * 720 - 360;
           petal.style.setProperty('--drift-x', drift + 'px');
           petal.style.setProperty('--rot-deg', rotation + 'deg');
-          
+
           const size = Math.random() * 1.2 + 0.8;
           petal.style.fontSize = size + 'rem';
-          
+
           const duration = Math.random() * 3 + 3;
           petal.style.animationDuration = duration + 's';
-          
+
           const delay = Math.random() * 2;
           petal.style.animationDelay = delay + 's';
-          
+
           container.appendChild(petal);
-          
+
           setTimeout(() => {
             petal.remove();
           }, (duration + delay) * 1000);
@@ -1446,4 +2307,5 @@
     }
   </script>
 </body>
+
 </html>
