@@ -427,18 +427,56 @@
       z-index: 1;
     }
 
-    .ms-star-1 { top: 20%; left: 15%; animation-delay: 0s; width: 3px; height: 3px; }
-    .ms-star-2 { top: 35%; left: 80%; animation-delay: 0.5s; }
-    .ms-star-3 { top: 75%; left: 22%; animation-delay: 1s; width: 4px; height: 4px; }
-    .ms-star-4 { top: 50%; left: 90%; animation-delay: 1.5s; }
-    .ms-star-5 { top: 15%; left: 72%; animation-delay: 2s; }
-    .ms-star-6 { top: 80%; left: 75%; animation-delay: 2.5s; width: 3px; height: 3px; }
+    .ms-star-1 {
+      top: 20%;
+      left: 15%;
+      animation-delay: 0s;
+      width: 3px;
+      height: 3px;
+    }
+
+    .ms-star-2 {
+      top: 35%;
+      left: 80%;
+      animation-delay: 0.5s;
+    }
+
+    .ms-star-3 {
+      top: 75%;
+      left: 22%;
+      animation-delay: 1s;
+      width: 4px;
+      height: 4px;
+    }
+
+    .ms-star-4 {
+      top: 50%;
+      left: 90%;
+      animation-delay: 1.5s;
+    }
+
+    .ms-star-5 {
+      top: 15%;
+      left: 72%;
+      animation-delay: 2s;
+    }
+
+    .ms-star-6 {
+      top: 80%;
+      left: 75%;
+      animation-delay: 2.5s;
+      width: 3px;
+      height: 3px;
+    }
 
     @keyframes starTwinkle {
-      0%, 100% {
+
+      0%,
+      100% {
         opacity: 0.15;
         transform: scale(0.8);
       }
+
       50% {
         opacity: 0.95;
         transform: scale(1.3);
@@ -464,6 +502,7 @@
         letter-spacing: 0.3em;
         transform: translateY(15px);
       }
+
       to {
         opacity: 1;
         letter-spacing: 0.15em;
@@ -476,6 +515,7 @@
         opacity: 0;
         transform: scale(0.96) translateY(20px);
       }
+
       to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1414,206 +1454,208 @@
 
     .ms-not-found a {
       display: inline-flex;
-      padding: 0.    /* ═══ RESPONSIVE ═══ */
-    @media(max-width:768px) {
-      .ms-section {
-        padding: 4rem 1.25rem;
+      padding: 0.
+
+      /* ═══ RESPONSIVE ═══ */
+      @media(max-width:768px) {
+        .ms-section {
+          padding: 4rem 1.25rem;
+        }
+
+        .ms-nav {
+          padding: 0 1.25rem;
+        }
+
+        .ms-nav-links {
+          display: none;
+        }
+
+        .ms-gallery-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .ms-gallery-item:nth-child(1) {
+          grid-row: span 1;
+        }
+
+        .ms-countdown-grid {
+          gap: 0.75rem;
+        }
+
+        .ms-cd-num {
+          font-size: 2rem;
+          padding: 0.75rem 1rem;
+          min-width: 70px;
+        }
+
+        .ms-timeline::before {
+          left: 1.5rem;
+        }
+
+        .ms-tl-item {
+          flex-direction: row !important;
+          width: 100% !important;
+          height: auto !important;
+          margin-bottom: 2.5rem;
+          padding: 0 !important;
+          justify-content: flex-start !important;
+        }
+
+        .ms-tl-dot {
+          left: 1.5rem !important;
+          top: 2rem !important;
+          transform: translate(-50%, -50%) !important;
+        }
+
+        .ms-tl-connector {
+          display: none !important;
+        }
+
+        .ms-tl-card {
+          width: calc(100% - 4.5rem) !important;
+          margin-left: auto !important;
+          margin-right: 0 !important;
+          text-align: left !important;
+        }
+
+        .ms-tl-img-wrapper {
+          margin: 0 0 1rem 0 !important;
+        }
+
+        .ms-rsvp-options {
+          flex-direction: column;
+        }
+
+        .ms-dress-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .ms-dress-card {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .ms-dress-img-wrapper {
+          height: 220px;
+          flex: none;
+          width: 100%;
+        }
+
+        .ms-dress-info {
+          flex: none;
+          width: 100%;
+        }
       }
 
-      .ms-nav {
-        padding: 0 1.25rem;
+      @media(max-width:480px) {
+        .ms-gallery-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .ms-cd-unit {
+          min-width: 60px;
+        }
       }
 
-      .ms-nav-links {
-        display: none;
+      /* Flower Confetti Petal */
+      .flower-petal {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        font-size: 1.5rem;
+        user-select: none;
+        animation: fallAndRotate 4s linear forwards;
       }
 
-      .ms-gallery-grid {
-        grid-template-columns: 1fr 1fr;
+      @keyframes fallAndRotate {
+        0% {
+          transform: translate3d(0, 0, 0) rotate(0deg);
+          opacity: 1;
+        }
+
+        90% {
+          opacity: 1;
+        }
+
+        100% {
+          transform: translate3d(var(--drift-x), 100vh, 0) rotate(var(--rot-deg));
+          opacity: 0;
+        }
       }
 
-      .ms-gallery-item:nth-child(1) {
-        grid-row: span 1;
+      /* Floating Flower Popper Buttons */
+      .ms-float-btn {
+        position: fixed;
+        bottom: 2rem;
+        z-index: 4000;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--ink2);
+        border: 1.5px solid var(--gold);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      .ms-countdown-grid {
-        gap: 0.75rem;
+      .ms-float-btn-right {
+        right: 2rem;
       }
 
-      .ms-cd-num {
-        font-size: 2rem;
-        padding: 0.75rem 1rem;
-        min-width: 70px;
+      .ms-float-btn-left {
+        left: 2rem;
       }
 
-      .ms-timeline::before {
-        left: 1.5rem;
+      .ms-float-btn:hover {
+        transform: scale(1.12) translateY(-2px);
+        background: var(--gold);
+        box-shadow: 0 8px 24px rgba(212, 168, 67, 0.3);
       }
 
-      .ms-tl-item {
-        flex-direction: row !important;
-        width: 100% !important;
-        height: auto !important;
-        margin-bottom: 2.5rem;
-        padding: 0 !important;
-        justify-content: flex-start !important;
+      .ms-float-btn:active {
+        transform: scale(0.95);
       }
 
-      .ms-tl-dot {
-        left: 1.5rem !important;
-        top: 2rem !important;
-        transform: translate(-50%, -50%) !important;
+      .ms-float-btn span {
+        font-size: 1.1rem;
+        transition: transform 0.2s;
+        display: inline-block;
       }
 
-      .ms-tl-connector {
-        display: none !important;
+      .ms-float-btn:hover span {
+        transform: rotate(15deg);
+        filter: brightness(1.2);
       }
 
-      .ms-tl-card {
-        width: calc(100% - 4.5rem) !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        text-align: left !important;
+      /* Flower Confetti Popper Exploding */
+      .flower-petal-pop {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        font-size: 1.5rem;
+        user-select: none;
+        animation: popOut 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
       }
 
-      .ms-tl-img-wrapper {
-        margin: 0 0 1rem 0 !important;
+      @keyframes popOut {
+        0% {
+          transform: translate3d(0, 0, 0) scale(0) rotate(0deg);
+          opacity: 0;
+        }
+
+        15% {
+          opacity: 1;
+          transform: translate3d(var(--pop-x), var(--pop-y), 0) scale(1.2) rotate(var(--rot-deg-mid));
+        }
+
+        100% {
+          transform: translate3d(calc(var(--pop-x) * 1.3), calc(var(--pop-y) + 150px), 0) scale(0.8) rotate(var(--rot-deg));
+          opacity: 0;
+        }
       }
-
-      .ms-rsvp-options {
-        flex-direction: column;
-      }
-
-      .ms-dress-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .ms-dress-card {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .ms-dress-img-wrapper {
-        height: 220px;
-        flex: none;
-        width: 100%;
-      }
-      
-      .ms-dress-info {
-        flex: none;
-        width: 100%;
-      }
-    }
-
-    @media(max-width:480px) {
-      .ms-gallery-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .ms-cd-unit {
-        min-width: 60px;
-      }
-    }
-
-    /* Flower Confetti Petal */
-    .flower-petal {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      font-size: 1.5rem;
-      user-select: none;
-      animation: fallAndRotate 4s linear forwards;
-    }
-
-    @keyframes fallAndRotate {
-      0% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
-        opacity: 1;
-      }
-
-      90% {
-        opacity: 1;
-      }
-
-      100% {
-        transform: translate3d(var(--drift-x), 100vh, 0) rotate(var(--rot-deg));
-        opacity: 0;
-      }
-    }
-
-    /* Floating Flower Popper Buttons */
-    .ms-float-btn {
-      position: fixed;
-      bottom: 2rem;
-      z-index: 4000;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--ink2);
-      border: 1.5px solid var(--gold);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .ms-float-btn-right {
-      right: 2rem;
-    }
-
-    .ms-float-btn-left {
-      left: 2rem;
-    }
-
-    .ms-float-btn:hover {
-      transform: scale(1.12) translateY(-2px);
-      background: var(--gold);
-      box-shadow: 0 8px 24px rgba(212, 168, 67, 0.3);
-    }
-
-    .ms-float-btn:active {
-      transform: scale(0.95);
-    }
-
-    .ms-float-btn span {
-      font-size: 1.1rem;
-      transition: transform 0.2s;
-      display: inline-block;
-    }
-
-    .ms-float-btn:hover span {
-      transform: rotate(15deg);
-      filter: brightness(1.2);
-    }
-
-    /* Flower Confetti Popper Exploding */
-    .flower-petal-pop {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      font-size: 1.5rem;
-      user-select: none;
-      animation: popOut 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-    }
-
-    @keyframes popOut {
-      0% {
-        transform: translate3d(0, 0, 0) scale(0) rotate(0deg);
-        opacity: 0;
-      }
-
-      15% {
-        opacity: 1;
-        transform: translate3d(var(--pop-x), var(--pop-y), 0) scale(1.2) rotate(var(--rot-deg-mid));
-      }
-
-      100% {
-        transform: translate3d(calc(var(--pop-x) * 1.3), calc(var(--pop-y) + 150px), 0) scale(0.8) rotate(var(--rot-deg));
-        opacity: 0;
-      }
-    }
   </style>
 </head>
 
@@ -1652,10 +1694,12 @@
   <div id="ms-toast"></div>
 
   <!-- ═══ FLOATING FLOWER POPPERS ═══ -->
-  <button id="confetti-trigger-btn-left" class="ms-float-btn ms-float-btn-left" onclick="triggerFlowerPopper(true, 'left')" title="Celebrate with flowers!">
+  <button id="confetti-trigger-btn-left" class="ms-float-btn ms-float-btn-left"
+    onclick="triggerFlowerPopper(true, 'left')" title="Celebrate with flowers!">
     <span>🌸</span>
   </button>
-  <button id="confetti-trigger-btn" class="ms-float-btn ms-float-btn-right" onclick="triggerFlowerPopper(true, 'right')" title="Celebrate with flowers!">
+  <button id="confetti-trigger-btn" class="ms-float-btn ms-float-btn-right" onclick="triggerFlowerPopper(true, 'right')"
+    title="Celebrate with flowers!">
     <span>🌸</span>
   </button>
 
@@ -1829,12 +1873,12 @@
 
       // Build gallery images from project assets
       const galleryImages = [
-        { src: 'couple_portrait.png', label: 'The Couple' },
-        { src: 'bride_portrait.png', label: 'The Bride' },
-        { src: 'couple_mehendi.png', label: 'Mehendi' },
-        { src: 'couple_sangeet.png', label: 'Sangeet Night' },
-        { src: 'couple_pheras.png', label: 'Sacred Pheras' },
-        { src: 'couple_jaimala.png', label: 'Jaimala' },
+        { src: 'e1.jfif', label: 'Engaged' },
+        { src: 'COUPLES.jpg', label: 'Couples' },
+        { src: 'e7.jpg', label: 'Proposal' },
+        { src: 'e9.jpg', label: 'Couple Shoot' },
+        { src: 'rec.jpg', label: 'Reception Shoot' },
+        { src: 'ring.jpg', label: 'Ring' },
         { src: 'palace.jpg', label: 'The Venue' }
       ];
 
