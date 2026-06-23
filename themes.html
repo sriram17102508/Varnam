@@ -230,6 +230,17 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:4rem 2.5
 .role-tabs{display:flex;gap:0.5rem;margin-bottom:1.75rem;}
 .role-tab{flex:1;padding:0.7rem;border:1px solid var(--border);border-radius:var(--r8);background:transparent;color:var(--text2);font-family:'Manrope',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;}
 .role-tab.active{background:rgba(212,168,67,0.1);border-color:rgba(212,168,67,0.3);color:var(--gold);}
+select.field, select, .filter-sel {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A89888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  padding-right: 2.5rem !important;
+  cursor:pointer;
+}
+select.field option, select option, .filter-sel option { background:var(--ink2); }
 </style>
 <style>@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap'); .cd-num, .stat-num, .vc-stat-val, .ms-val, .pkg-price, .vd-price, .capacity-val { font-family: 'Outfit', sans-serif !important; }</style>
 </head>
@@ -257,7 +268,7 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:4rem 2.5
   <div class="hero-inner">
     <div class="ph-label">Wedding Themes</div>
     <h1 class="ph-title">Find your <em>visual identity</em></h1>
-    <p class="ph-sub">20 curated wedding aesthetics — from regal palace grandeur to intimate candlelight ceremonies. Every theme comes with colour palettes, venue suggestions, vendor recommendations, and décor inspiration.</p>
+    <p class="ph-sub">20 curated wedding aesthetics — from regal palace grandeur to intimate candlelight ceremonies. Every theme comes with colour palettes, venue suggestions, and vendor recommendations.</p>
     <div class="theme-stat-row">
       <div class="theme-stat"><div class="theme-stat-num">20</div><div class="theme-stat-lbl">Curated Themes</div></div>
       <div class="theme-stat"><div class="theme-stat-num">5K+</div><div class="theme-stat-lbl">Themed Weddings Planned</div></div>
@@ -324,10 +335,6 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:4rem 2.5
           <div class="tm-section-label">Recommended Vendors</div>
           <div class="vendor-chips" id="tm-vendors"></div>
 
-          <div style="margin-top:1.5rem;">
-            <div class="tm-section-label">Décor Inspiration</div>
-            <div class="inspiration-grid" id="tm-inspiration"></div>
-          </div>
         </div>
       </div>
 
@@ -818,10 +825,13 @@ function openTheme(idx){
       </div>
     </div>`).join('');
   // Inspiration
-  document.getElementById('tm-inspiration').innerHTML=t.inspo.map(i=>`
-    <div class="inspo-item" style="background:${i.bg};" onclick="toast('Saving inspiration…')">
-      <span style="font-size:1.75rem;">${i.ico}</span>
-    </div>`).join('');
+  const inspEl = document.getElementById('tm-inspiration');
+  if (inspEl) {
+    inspEl.innerHTML=t.inspo.map(i=>`
+      <div class="inspo-item" style="background:${i.bg};" onclick="toast('Saving inspiration…')">
+        <span style="font-size:1.75rem;">${i.ico}</span>
+      </div>`).join('');
+  }
   // Open
   document.getElementById('theme-modal').classList.add('open');
   document.body.style.overflow='hidden';

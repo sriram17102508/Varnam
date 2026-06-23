@@ -1576,11 +1576,18 @@
       color: var(--text3);
     }
 
-    select.field {
+    select.field, select, .filter-sel {
+      appearance: none !important;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A89888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+      background-repeat: no-repeat !important;
+      background-position: right 1rem center !important;
+      padding-right: 2.5rem !important;
       cursor: pointer;
     }
 
-    select.field option {
+    select.field option, select option, .filter-sel option {
       background: var(--ink2);
     }
 
@@ -3296,15 +3303,33 @@
         <div>
           <label class="field-label">Primary Vibe Theme</label>
           <select class="field" id="ai-vibe">
-            <option value="royal">Palatial Royal Grandeur</option>
+            <option value="south-indian">South Indian Traditional</option>
+            <option value="royal" selected>Royal Palace</option>
             <option value="beach">Sunset Beach Ceremony</option>
-            <option value="traditional">Traditional Silk & Jasmine</option>
-            <option value="minimalist">Modern Korean Minimalist</option>
+            <option value="garden">Lush Garden Ceremony</option>
+            <option value="destination">Exotic Destination</option>
+            <option value="rustic">Rustic Charming Village</option>
+            <option value="white-gold">White & Gold Elegant</option>
+            <option value="modern-luxury">Modern Luxury Opulence</option>
+            <option value="boho">Boho Chic vibe</option>
+            <option value="minimalist">Minimalist Contemporary</option>
+            <option value="red-gold">Red & Gold Traditional</option>
+            <option value="floral-garden">Floral Garden Bloom</option>
+            <option value="candlelight">Intimate Candlelight</option>
+            <option value="fairytale">Enchanted Fairytale</option>
+            <option value="old-money">Old Money Aesthetic</option>
+            <option value="korean-minimal">Korean Minimalist</option>
+            <option value="pastel">Soft Pastel Romantic</option>
+            <option value="luxury-resort">Luxury Resort Wedding</option>
+            <option value="temple">Sacred Temple theme</option>
+            <option value="sunset-cocktail">Sunset Cocktail vibe</option>
           </select>
         </div>
         <div>
           <label class="field-label">Total Estimated Budget</label>
           <select class="field" id="ai-budget-range">
+            <option value="10L-below">Below ₹10L</option>
+            <option value="10L-15L">₹10L – ₹15L</option>
             <option value="20L">₹15L – ₹25L</option>
             <option value="40L" selected>₹30L – ₹50L</option>
             <option value="80L">₹60L – ₹1Cr</option>
@@ -3889,6 +3914,30 @@
       toast('🤖 VaranAI is processing your request...');
 
       setTimeout(() => {
+        const vibeMap = {
+          'south-indian': 'traditional',
+          'royal': 'royal',
+          'beach': 'beach',
+          'garden': 'beach',
+          'destination': 'beach',
+          'rustic': 'traditional',
+          'white-gold': 'royal',
+          'modern-luxury': 'minimalist',
+          'boho': 'beach',
+          'minimalist': 'minimalist',
+          'red-gold': 'royal',
+          'floral-garden': 'beach',
+          'candlelight': 'minimalist',
+          'fairytale': 'royal',
+          'old-money': 'royal',
+          'korean-minimal': 'minimalist',
+          'pastel': 'beach',
+          'luxury-resort': 'minimalist',
+          'temple': 'traditional',
+          'sunset-cocktail': 'minimalist'
+        };
+        const activeVibe = vibeMap[vibe] || 'royal';
+
         const venues = {
           royal: ['Samode Palace, Jaipur (Heritage)', 'Umaid Bhawan Palace, Jodhpur', 'Taj Falaknuma Palace, Hyderabad'],
           beach: ['The Leela Beach Resort, Goa', 'Taj Green Cove, Kovalam, Kerala', 'Marari Beach Resort, Mararikulam'],
@@ -3897,6 +3946,8 @@
         };
 
         const budgetDivision = {
+          '10L-below': ['Venue & Food: ₹4L (50%)', 'Decor & Styling: ₹1.2L (15%)', 'Photography & Video: ₹1L (12.5%)', 'Attire & Jewelry: ₹1L (12.5%)', 'Miscellaneous: ₹0.8L (10%)'],
+          '10L-15L': ['Venue & Food: ₹6L (50%)', 'Decor & Styling: ₹1.8L (15%)', 'Photography & Video: ₹1.5L (12.5%)', 'Attire & Jewelry: ₹1.5L (12.5%)', 'Miscellaneous: ₹1.2L (10%)'],
           '20L': ['Venue & Food: ₹10L (50%)', 'Decor & Styling: ₹3L (15%)', 'Photography & Video: ₹2.5L (12.5%)', 'Attire & Jewelry: ₹2.5L (12.5%)', 'Miscellaneous: ₹2L (10%)'],
           '40L': ['Venue & Food: ₹20L (50%)', 'Decor & Styling: ₹6L (15%)', 'Photography & Video: ₹5L (12.5%)', 'Attire & Jewelry: ₹5L (12.5%)', 'Miscellaneous: ₹4L (10%)'],
           '80L': ['Venue & Food: ₹40L (50%)', 'Decor & Styling: ₹12L (15%)', 'Photography & Video: ₹10L (12.5%)', 'Attire & Jewelry: ₹10L (12.5%)', 'Miscellaneous: ₹8L (10%)'],
@@ -3912,7 +3963,7 @@
 
         // Populate lists
         const vList = document.getElementById('ai-rec-venues');
-        vList.innerHTML = venues[vibe].map(v => `<li style="margin-bottom:0.3rem;"><a href="venues.html" style="color:var(--gold);text-decoration:none;transition:color 0.2s;display:inline-flex;align-items:center;gap:0.3rem;" onmouseover="this.style.color='#F0C96A'" onmouseout="this.style.color='var(--gold)'" title="View details in Venues marketplace">${v} <span style="font-size:0.75rem;">↗</span></a></li>`).join('');
+        vList.innerHTML = venues[activeVibe].map(v => `<li style="margin-bottom:0.3rem;"><a href="venues.html" style="color:var(--gold);text-decoration:none;transition:color 0.2s;display:inline-flex;align-items:center;gap:0.3rem;" onmouseover="this.style.color='#F0C96A'" onmouseout="this.style.color='var(--gold)'" title="View details in Venues marketplace">${v} <span style="font-size:0.75rem;">↗</span></a></li>`).join('');
 
         const bList = document.getElementById('ai-rec-budget');
         bList.innerHTML = budgetDivision[budget].map(b => `<li>${b}</li>`).join('');

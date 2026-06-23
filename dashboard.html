@@ -266,18 +266,17 @@
     }
 
     .topbar {
-      height: 64px;
-      background: rgba(8, 6, 8, .9);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 2rem;
-      gap: 1rem;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(20px);
+      display: none !important;
+    }
+
+    select, select.field, .filter-sel {
+      appearance: none !important;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A89888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+      background-repeat: no-repeat !important;
+      background-position: right 1rem center !important;
+      padding-right: 2.5rem !important;
     }
 
     .topbar-left {
@@ -1386,7 +1385,7 @@
     .progress-step-dot.active {
       border-color: var(--gold);
       color: var(--gold);
-      background: rgba(212, 168, 67, 0.12);
+      background: var(--ink2);
       box-shadow: 0 0 15px rgba(212, 168, 67, 0.3);
     }
 
@@ -1612,35 +1611,40 @@
 
         <h4 style="margin-top:1.5rem; margin-bottom:0.75rem; font-size:0.9rem; color:var(--gold);">Wedding Timeline
           Events</h4>
-        <div class="form-row-2">
-          <div>
-            <label class="field-label">Engagement Date</label>
-            <input class="field" type="date" id="setup-date-engagement">
+        <div id="setup-timeline-events-container">
+          <div class="form-row-2">
+            <div>
+              <label class="field-label">Engagement Date</label>
+              <input class="field" type="date" id="setup-date-engagement">
+            </div>
+            <div>
+              <label class="field-label">Mehndi Date</label>
+              <input class="field" type="date" id="setup-date-mehndi">
+            </div>
           </div>
-          <div>
-            <label class="field-label">Mehndi Date</label>
-            <input class="field" type="date" id="setup-date-mehndi">
+          <div class="form-row-2">
+            <div>
+              <label class="field-label">Haldi Date</label>
+              <input class="field" type="date" id="setup-date-haldi">
+            </div>
+            <div>
+              <label class="field-label">Sangeet Date</label>
+              <input class="field" type="date" id="setup-date-sangeet">
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div>
+              <label class="field-label">Wedding Date</label>
+              <input class="field" type="date" id="setup-date-wedding">
+            </div>
+            <div>
+              <label class="field-label">Reception Date</label>
+              <input class="field" type="date" id="setup-date-reception">
+            </div>
           </div>
         </div>
-        <div class="form-row-2">
-          <div>
-            <label class="field-label">Haldi Date</label>
-            <input class="field" type="date" id="setup-date-haldi">
-          </div>
-          <div>
-            <label class="field-label">Sangeet Date</label>
-            <input class="field" type="date" id="setup-date-sangeet">
-          </div>
-        </div>
-        <div class="form-row-2">
-          <div>
-            <label class="field-label">Wedding Date</label>
-            <input class="field" type="date" id="setup-date-wedding">
-          </div>
-          <div>
-            <label class="field-label">Reception Date</label>
-            <input class="field" type="date" id="setup-date-reception">
-          </div>
+        <div style="margin-top: 1rem; margin-bottom: 1.5rem; display: flex; justify-content: flex-end;">
+          <button type="button" class="btn btn-ghost" style="border-color: var(--gold); color: var(--gold); font-size: 0.75rem; padding: 0.45rem 1rem;" onclick="addNewCustomEventInput()">+ Add Custom Event</button>
         </div>
         <div class="step-actions">
           <button class="btn btn-ghost" onclick="setupPrevStep(2)">← Previous</button>
@@ -1864,23 +1868,22 @@
                 onclick="document.getElementById('setup-guest-import-file').click()">📤 Import CSV</button>
             </div>
           </div>
-          <div
-            style="display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr 1fr auto; gap:0.4rem; align-items:flex-end;">
+          <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:0.75rem; margin-bottom:0.75rem; align-items:flex-end;">
             <div>
               <label class="field-label" style="font-size:0.65rem;">Name</label>
-              <input class="field" style="padding:0.55rem;" id="setup-guest-name" placeholder="e.g. Rohan Mehra">
+              <input class="field" style="padding:0.6rem 0.8rem;" id="setup-guest-name" placeholder="e.g. Rohan Mehra">
             </div>
             <div>
-              <label class="field-label" style="font-size:0.65rem;">RSVP</label>
-              <select class="field" style="padding:0.55rem;" id="setup-guest-rsvp">
+              <label class="field-label" style="font-size:0.65rem;">RSVP Status</label>
+              <select class="field" style="padding:0.6rem 0.8rem;" id="setup-guest-rsvp">
                 <option value="Confirmed">Confirmed</option>
                 <option value="Pending">Pending</option>
                 <option value="Declined">Declined</option>
               </select>
             </div>
             <div>
-              <label class="field-label" style="font-size:0.65rem;">Event</label>
-              <select class="field" style="padding:0.55rem;" id="setup-guest-event">
+              <label class="field-label" style="font-size:0.65rem;">Event Access</label>
+              <select class="field" style="padding:0.6rem 0.8rem;" id="setup-guest-event">
                 <option value="All">All Events</option>
                 <option value="Wedding">Wedding</option>
                 <option value="Sangeet">Sangeet</option>
@@ -1889,19 +1892,21 @@
                 <option value="Haldi">Haldi</option>
               </select>
             </div>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr auto; gap:0.75rem; align-items:flex-end;">
             <div>
-              <label class="field-label" style="font-size:0.65rem;">Diet</label>
-              <select class="field" style="padding:0.55rem;" id="setup-guest-diet">
+              <label class="field-label" style="font-size:0.65rem;">Diet Preference</label>
+              <select class="field" style="padding:0.6rem 0.8rem;" id="setup-guest-diet">
                 <option value="Veg">Veg</option>
                 <option value="Non-Veg">Non-Veg</option>
                 <option value="Jain">Jain</option>
               </select>
             </div>
             <div>
-              <label class="field-label" style="font-size:0.65rem;">Table</label>
-              <input class="field" style="padding:0.55rem;" id="setup-guest-table" placeholder="e.g. A1">
+              <label class="field-label" style="font-size:0.65rem;">Table Number</label>
+              <input class="field" style="padding:0.6rem 0.8rem;" id="setup-guest-table" placeholder="e.g. A1">
             </div>
-            <button class="btn btn-gold" style="padding:0.55rem 1rem;" onclick="addSetupGuest()">Add</button>
+            <button class="btn btn-gold" style="padding:0.6rem 2rem; height:38px; display:flex; align-items:center; justify-content:center;" onclick="addSetupGuest()">Add Guest</button>
           </div>
         </div>
 
@@ -2342,7 +2347,7 @@
               onclick="showTab('timeline')">View All →</button>
           </div>
           <div class="panel-body">
-            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;">
+            <div id="dash-timeline-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:1rem;">
               <div
                 style="text-align:center;padding:1rem;background:rgba(58,154,90,.06);border:1px solid rgba(58,154,90,.2);border-radius:var(--r8);">
                 <div style="font-size:1.5rem;margin-bottom:.4rem;">💍</div>
@@ -2746,9 +2751,12 @@
         </div>
 
         <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:1.5rem;">
-          <div class="stat-card" style="--accent:var(--gold)">
+          <div class="stat-card" style="--accent:var(--gold); position:relative;">
+            <div id="budget-edit-icon-btn" onclick="startBudgetEdit()" style="position:absolute; top:0.75rem; right:0.75rem; cursor:pointer; color:var(--text3); display:flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,0.03); border:1px solid var(--border); transition:all 0.2s;" onmouseover="this.style.color='var(--gold)'; this.style.borderColor='var(--gold)';" onmouseout="this.style.color='var(--text3)'; this.style.borderColor='var(--border)';">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+            </div>
             <div class="stat-icon">💰</div>
-            <div class="stat-val" id="budget-total-val" style="display:flex;align-items:center;gap:0.5rem;">
+            <div class="stat-val" id="budget-total-val">
               <span>₹40.0L</span>
             </div>
             <div class="stat-lbl">Total Budget Limit</div>
@@ -3067,6 +3075,13 @@
           <label class="field-label">Due Date / Timeframe</label>
           <input class="field" id="task-in-due" placeholder="e.g. Jan 25 or 2 weeks left">
         </div>
+        <div class="form-row">
+          <label class="field-label">Status</label>
+          <select class="field" id="task-in-status">
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
         <button class="tb-btn tb-btn-gold" style="width:100%;justify-content:center;padding:0.75rem;margin-top:1rem;"
           onclick="addChecklistItem()">Add Task →</button>
       </div>
@@ -3138,6 +3153,30 @@
     // ── ONBOARDING SETUP STATE & ACTIONS ──
     var setupGuests = [];
 
+    function addNewCustomEventInput(name = '', date = '') {
+      const container = document.getElementById('setup-timeline-events-container');
+      if (!container) return;
+
+      const row = document.createElement('div');
+      row.className = 'form-row-2 custom-event-row';
+      row.style.marginBottom = '1rem';
+
+      row.innerHTML = `
+        <div>
+          <label class="field-label">Event Name</label>
+          <input class="field custom-event-name" placeholder="e.g. Cocktail Party" value="${name}">
+        </div>
+        <div>
+          <label class="field-label">Event Date</label>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <input class="field custom-event-date" type="date" value="${date}">
+            <button type="button" class="btn-delete-row" onclick="this.closest('.custom-event-row').remove()" style="font-size:1.1rem; padding:0 0.5rem; color:var(--rose);">✕</button>
+          </div>
+        </div>
+      `;
+      container.appendChild(row);
+    }
+
     function saveOnboardingDraftSilent() {
       const bride = document.getElementById('setup-bride-name').value.trim();
       const groom = document.getElementById('setup-groom-name').value.trim();
@@ -3172,13 +3211,23 @@
       localStorage.setItem('varnam_draft_groom_mother', gmother);
       localStorage.setItem('varnam_draft_family_notes', famnotes);
 
+      const customEvents = [];
+      document.querySelectorAll('.custom-event-row').forEach(row => {
+        const nameVal = row.querySelector('.custom-event-name').value.trim();
+        const dateVal = row.querySelector('.custom-event-date').value;
+        if (nameVal) {
+          customEvents.push({ name: nameVal, date: dateVal });
+        }
+      });
+
       const dates = {
         engagement: document.getElementById('setup-date-engagement').value,
         mehndi: document.getElementById('setup-date-mehndi').value,
         haldi: document.getElementById('setup-date-haldi').value,
         sangeet: document.getElementById('setup-date-sangeet').value,
         wedding: document.getElementById('setup-date-wedding').value,
-        reception: document.getElementById('setup-date-reception').value
+        reception: document.getElementById('setup-date-reception').value,
+        custom: customEvents
       };
       localStorage.setItem('varnam_draft_timeline_dates', JSON.stringify(dates));
       localStorage.setItem('varnam_draft_guests', JSON.stringify(setupGuests));
@@ -3241,6 +3290,7 @@
         document.getElementById('setup-groom-mother').value = localStorage.getItem('varnam_draft_groom_mother') || '';
         document.getElementById('setup-family-notes').value = localStorage.getItem('varnam_draft_family_notes') || '';
 
+        document.querySelectorAll('.custom-event-row').forEach(row => row.remove());
         const timelineDates = localStorage.getItem('varnam_draft_timeline_dates') ? JSON.parse(localStorage.getItem('varnam_draft_timeline_dates')) : null;
         if (timelineDates) {
           document.getElementById('setup-date-engagement').value = timelineDates.engagement || '';
@@ -3249,6 +3299,12 @@
           document.getElementById('setup-date-sangeet').value = timelineDates.sangeet || '';
           document.getElementById('setup-date-wedding').value = timelineDates.wedding || '';
           document.getElementById('setup-date-reception').value = timelineDates.reception || '';
+
+          if (timelineDates.custom && Array.isArray(timelineDates.custom)) {
+            timelineDates.custom.forEach(ev => {
+              addNewCustomEventInput(ev.name, ev.date);
+            });
+          }
         }
 
         const draftGuests = localStorage.getItem('varnam_draft_guests') ? JSON.parse(localStorage.getItem('varnam_draft_guests')) : [];
@@ -3515,6 +3571,9 @@
       document.getElementById('setup-date-wedding').value = '2026-08-25';
       document.getElementById('setup-date-reception').value = '2026-08-24';
 
+      document.querySelectorAll('.custom-event-row').forEach(row => row.remove());
+      addNewCustomEventInput('Cocktail Party', '2026-08-20');
+
       document.getElementById('vendor-photo-name').value = 'Joseph Radhik';
       document.getElementById('vendor-photo-cost').value = '600000';
       document.getElementById('vendor-photo-status').value = 'Booked';
@@ -3586,13 +3645,23 @@
       const famnotes = document.getElementById('setup-family-notes').value.trim();
 
       // Timeline events dates
+      const customEvents = [];
+      document.querySelectorAll('.custom-event-row').forEach(row => {
+        const nameVal = row.querySelector('.custom-event-name').value.trim();
+        const dateVal = row.querySelector('.custom-event-date').value;
+        if (nameVal) {
+          customEvents.push({ name: nameVal, date: dateVal });
+        }
+      });
+
       const dates = {
         engagement: document.getElementById('setup-date-engagement').value || '2025-11-02',
         mehndi: document.getElementById('setup-date-mehndi').value || '2026-08-21',
         haldi: document.getElementById('setup-date-haldi').value || '2026-08-22',
         sangeet: document.getElementById('setup-date-sangeet').value || '2026-08-23',
         wedding: document.getElementById('setup-date-wedding').value || wdate || '2026-08-25',
-        reception: document.getElementById('setup-date-reception').value || '2026-08-24'
+        reception: document.getElementById('setup-date-reception').value || '2026-08-24',
+        custom: customEvents
       };
 
       // Vendor list details
@@ -3745,6 +3814,52 @@
         if (timelineDates.wedding) {
           const wedDateEl = document.getElementById('dash-timeline-wedding-date');
           if (wedDateEl) wedDateEl.textContent = new Date(timelineDates.wedding).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // Render custom events in overview timeline grid
+        const grid = document.getElementById('dash-timeline-grid');
+        if (grid) {
+          document.querySelectorAll('.custom-event-card').forEach(c => c.remove());
+          if (timelineDates.custom && Array.isArray(timelineDates.custom)) {
+            timelineDates.custom.forEach(ev => {
+              const card = document.createElement('div');
+              card.className = 'custom-event-card';
+              card.style.textAlign = 'center';
+              card.style.padding = '1rem';
+              card.style.background = 'rgba(212,168,67,.06)';
+              card.style.border = '1px solid rgba(212,168,67,.2)';
+              card.style.borderRadius = 'var(--r8)';
+              
+              let statusText = 'TBD';
+              let statusColor = 'var(--text3)';
+              if (ev.date) {
+                const days = Math.ceil((new Date(ev.date) - new Date()) / 86400000);
+                if (days >= 0) {
+                  statusText = `${days} days`;
+                  statusColor = 'var(--gold)';
+                } else {
+                  statusText = 'Done ✓';
+                  statusColor = '#5ABA7A';
+                }
+              }
+              
+              const dateStr = ev.date ? new Date(ev.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD';
+              
+              card.innerHTML = `
+                <div style="font-size:1.5rem;margin-bottom:.4rem;">✨</div>
+                <div style="font-family:'Manrope',sans-serif;font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${ev.name}">
+                  ${ev.name}
+                </div>
+                <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold);">
+                  ${dateStr}
+                </div>
+                <div style="font-family:'DM Mono',monospace;font-size:.55rem;color:${statusColor};margin-top:.3rem;">
+                  ${statusText}
+                </div>
+              `;
+              grid.appendChild(card);
+            });
+          }
         }
       }
 
@@ -3938,7 +4053,9 @@
       const rem = budgetTotal - spent;
       const pct = Math.min(100, Math.round((spent / budgetTotal) * 100));
 
-      document.getElementById('budget-total-val').innerHTML = `<span>₹${(budgetTotal / 100000).toFixed(1)}L</span> <span onclick="editTotalBudget()" style="font-size:0.9rem;cursor:pointer;color:var(--text3);margin-left:0.5rem;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text3)'">✏️</span>`;
+      if (!isEditingBudget) {
+        document.getElementById('budget-total-val').innerHTML = `<span>₹${(budgetTotal / 100000).toFixed(1)}L</span>`;
+      }
       document.getElementById('budget-spent-val').textContent = `₹${(spent / 100000).toFixed(1)}L`;
       document.getElementById('budget-rem-val').textContent = `₹${(rem / 100000).toFixed(1)}L`;
       document.getElementById('budget-prog-pct').textContent = `${pct}%`;
@@ -4001,19 +4118,52 @@
       toast('Expense deleted.');
     }
 
-    function editTotalBudget() {
-      const newBudget = prompt('Enter new total budget limit in ₹:', budgetTotal);
-      if (newBudget !== null) {
-        const parsed = parseInt(newBudget);
-        if (!parsed || isNaN(parsed) || parsed <= 0) {
-          toast('Invalid budget limit.');
-          return;
-        }
-        budgetTotal = parsed;
-        localStorage.setItem('varnam_budget_total', budgetTotal);
-        renderBudget();
-        toast('Budget limit updated successfully!');
+    let isEditingBudget = false;
+
+    function startBudgetEdit() {
+      isEditingBudget = true;
+      const valDiv = document.getElementById('budget-total-val');
+      const iconBtn = document.getElementById('budget-edit-icon-btn');
+      if (iconBtn) iconBtn.style.display = 'none';
+      if (valDiv) {
+        valDiv.innerHTML = `
+          <div style="display:flex; flex-direction:column; gap:0.4rem; margin-top: 0.2rem; width:100%;">
+            <input type="number" id="budget-edit-input" class="field" style="padding:0.4rem 0.65rem; font-size:1.1rem; width:100%; max-width:160px; height:36px; background:rgba(255,255,255,0.06); border-color:var(--gold);" value="${budgetTotal}">
+            <div style="display:flex; gap:0.35rem;">
+              <button class="btn btn-gold" style="padding:0.25rem 0.65rem; font-size:0.7rem; border-radius:4px; height:24px; min-height:24px;" onclick="confirmBudgetEdit()">Confirm</button>
+              <button class="btn btn-ghost" style="padding:0.25rem 0.65rem; font-size:0.7rem; border-radius:4px; height:24px; min-height:24px;" onclick="cancelBudgetEdit()">Cancel</button>
+            </div>
+          </div>
+        `;
+        document.getElementById('budget-edit-input').focus();
       }
+    }
+
+    function cancelBudgetEdit() {
+      isEditingBudget = false;
+      const iconBtn = document.getElementById('budget-edit-icon-btn');
+      if (iconBtn) iconBtn.style.display = 'flex';
+      renderBudget();
+    }
+
+    function confirmBudgetEdit() {
+      const input = document.getElementById('budget-edit-input');
+      if (!input) return;
+      const newBudget = input.value.trim();
+      const parsed = parseInt(newBudget);
+      if (!parsed || isNaN(parsed) || parsed <= 0) {
+        toast('Invalid budget limit.');
+        return;
+      }
+      budgetTotal = parsed;
+      localStorage.setItem('varnam_budget_total', budgetTotal);
+      isEditingBudget = false;
+      
+      const iconBtn = document.getElementById('budget-edit-icon-btn');
+      if (iconBtn) iconBtn.style.display = 'flex';
+
+      renderBudget();
+      toast('Budget limit updated successfully!');
     }
 
     function openAddExpenseModal() {
@@ -4310,6 +4460,7 @@
     function addChecklistItem() {
       const desc = document.getElementById('task-in-desc').value.trim();
       const due = document.getElementById('task-in-due').value.trim();
+      const status = document.getElementById('task-in-status').value;
       if (!desc || !due) {
         toast('Please enter valid task details.');
         return;
@@ -4319,17 +4470,25 @@
         const newItem = document.createElement('div');
         newItem.className = 'check-item';
         newItem.onclick = function () { toggleCheck(newItem); };
-        newItem.innerHTML = `<div class="check-box"></div><div class="check-text">${desc}</div><div class="check-due">${due}</div>`;
+        
+        if (status === 'Completed') {
+          newItem.innerHTML = `<div class="check-box done">✓</div><div class="check-text done">${desc}</div><div class="check-due">${due}</div>`;
+        } else {
+          newItem.innerHTML = `<div class="check-box"></div><div class="check-text">${desc}</div><div class="check-due">${due}</div>`;
+        }
         pendingList.appendChild(newItem);
       }
 
-      const badge = document.querySelector('button[onclick*="checklist"] .badge-count');
-      if (badge) {
-        badge.textContent = parseInt(badge.textContent) + 1;
+      if (status === 'Pending') {
+        const badge = document.querySelector('button[onclick*="checklist"] .badge-count');
+        if (badge) {
+          badge.textContent = parseInt(badge.textContent) + 1;
+        }
       }
 
       document.getElementById('task-in-desc').value = '';
       document.getElementById('task-in-due').value = '';
+      document.getElementById('task-in-status').value = 'Pending';
       closeModal('add-task-modal');
       toast('Task added successfully! ✓');
     }
